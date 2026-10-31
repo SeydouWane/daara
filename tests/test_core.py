@@ -32,6 +32,14 @@ def test_home_is_served_in_each_language(client, lang, title):
     assert title in html
 
 
+def test_header_shows_reduced_logo_and_footer_offers_animation_pause(client):
+    html = client.get("/fr/").content.decode()
+    assert 'class="logo-symbol"' in html
+    assert '<span class="logo max-sm:hidden">DAARA</span>' in html
+    assert "data-motion-toggle" in html
+    assert "Mettre en pause les animations" in html
+
+
 def test_pages_declare_reciprocal_hreflang(client):
     html = client.get("/fr/").content.decode()
     assert '<link rel="alternate" hreflang="fr" href="http://testserver/fr/">' in html

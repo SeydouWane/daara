@@ -69,10 +69,36 @@
   }
 }
 
-/* Logotype DAARA (gabarit components/logo.html), variante « Signal » : un trait balaie le mot
-   puis se fixe en point de donnée. La taille suit la police du parent. L'état de repos est
-   l'état final : sans animation, le logo reste complet et lisible. */
+/* Logo DAARA (gabarits components/logo.html et logo_symbol.html), variante « Signal » : un trait
+   balaie le mot puis se fixe en point de donnée, en boucle toutes les 6 s. L'icône reste fixe,
+   comme le favicon. La taille suit la police du parent. L'état de repos est l'état final : sans
+   animation (pause, préférence système, logo--static), le logo reste complet et lisible. */
 @layer components {
+  .logo-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    line-height: 1;
+  }
+
+  .logo-symbol {
+    width: 1.15em;
+    height: 1.15em;
+    flex: none;
+  }
+  .logo-symbol__tile {
+    fill: var(--color-brand-700);
+  }
+  .logo-symbol__d {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 3.2;
+    stroke-linejoin: round;
+  }
+  .logo-symbol__dot {
+    fill: var(--color-ochre-500);
+  }
+
   .logo {
     display: inline-flex;
     position: relative;
@@ -80,7 +106,6 @@
     font-family: var(--font-display);
     font-weight: 700;
     letter-spacing: 0.04em;
-    line-height: 1;
     color: var(--color-brand-700);
   }
   .logo::after {
@@ -92,36 +117,55 @@
     height: 0.2em;
     border-radius: 9999px;
     background: var(--color-ochre-500);
-    animation: logo-signal 1100ms ease-in-out backwards;
-  }
-  /* Changer de nom d'animation au survol la relance. */
-  .logo:hover::after {
-    animation-name: logo-signal-again;
+    animation: logo-signal 6s ease-in-out infinite;
   }
 
-  /* Monochrome : une seule couleur, celle du texte parent (spec §10 : tenir en noir et blanc). */
-  .logo--mono {
+  .logo-name {
+    max-width: 22em;
+    font-size: 0.42em;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--color-stone-600);
+  }
+
+  /* Monochrome (spec §10 : tenir en noir et blanc) : tout prend la couleur du texte parent,
+     l'icône passe en contour pour rester lisible sur n'importe quel fond. */
+  .logo--mono .logo,
+  .logo--mono .logo-name {
     color: inherit;
   }
-  .logo--mono::after {
+  .logo--mono .logo::after,
+  .logo--mono .logo-symbol__dot {
     background: currentColor;
+    fill: currentColor;
+  }
+  .logo--mono .logo-symbol__tile {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  .logo--mono .logo-symbol__d {
+    stroke: currentColor;
   }
 
+  /* Arrêt de l'animation : logo--static, bouton « Mettre en pause » (WCAG 2.2.2, static/js/motion.js)
+     ou préférence système. */
+  .logo--static .logo::after,
+  [data-motion="paused"] .logo::after {
+    animation: none;
+  }
   @media (prefers-reduced-motion: reduce) {
-    .logo::after,
-    .logo:hover::after {
+    .logo::after {
       animation: none;
     }
   }
 }
 
+/* Cycle de 6 s : balayage (0,7 s), contraction en point (0,9 s), puis repos jusqu'à la fin. */
 @keyframes logo-signal {
   0% { left: 0; width: 0; height: 0.1em; border-radius: 0; }
-  55% { left: 0; width: 100%; height: 0.1em; border-radius: 0; }
-  80% { left: calc(100% - 0.2em); width: 0.2em; height: 0.1em; border-radius: 0; }
-}
-@keyframes logo-signal-again {
-  0% { left: 0; width: 0; height: 0.1em; border-radius: 0; }
-  55% { left: 0; width: 100%; height: 0.1em; border-radius: 0; }
-  80% { left: calc(100% - 0.2em); width: 0.2em; height: 0.1em; border-radius: 0; }
+  12% { left: 0; width: 100%; height: 0.1em; border-radius: 0; }
+  20% { left: calc(100% - 0.2em); width: 0.2em; height: 0.1em; border-radius: 0; }
+  26%,
+  100% { left: calc(100% - 0.2em); width: 0.2em; height: 0.2em; border-radius: 9999px; }
 }

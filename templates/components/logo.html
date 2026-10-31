@@ -1,5 +1,7 @@
-{% comment %}
-Logotype DAARA animé, variante « Signal » (styles dans assets/css/main.css).
-  extra : classes supplémentaires, par exemple "logo--mono" pour la version monochrome
-La taille suit la taille de police du parent ; l'animation se coupe si l'utilisateur réduit les animations.
-{% endcomment %}<span class="logo{% if extra %} {{ extra }}{% endif %}">DAARA</span>
+{% load i18n %}{% comment %}
+Logo DAARA, variante « Signal » (styles dans assets/css/main.css). Trois déclinaisons (spec §10.1) :
+  form    : "reduced" (défaut : icône + DAARA), "icon" (icône seule), "complete" (+ intitulé long)
+  compact : masque le mot sous 640 px pour ne garder que l'icône
+  extra   : classes du conteneur, par exemple "logo--mono" (monochrome) ou "logo--static" (sans animation)
+La taille suit la police du parent. Le contenu est décoratif : le lien parent porte le nom accessible.
+{% endcomment %}<span class="logo-lockup{% if extra %} {{ extra }}{% endif %}">{% include "components/logo_symbol.html" %}{% if form == "complete" %}<span class="flex flex-col gap-[0.25em]"><span class="logo">DAARA</span><span class="logo-name">{% translate "Data & AI Research Alliance for Africa" %}</span></span>{% elif form != "icon" %}<span class="logo{% if compact %} max-sm:hidden{% endif %}">DAARA</span>{% endif %}</span>
