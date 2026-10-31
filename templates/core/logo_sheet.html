@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% comment %}
-Page de travail réservée au développement, sans traduction. Elle vérifie les trois contraintes
-de la charte (spec §10) : tenir en noir et blanc, à 32 pixels et sur un fond de projection.
+Page de travail réservée au développement, sans traduction. Elle montre les trois déclinaisons
+(spec §10.1) et vérifie les contraintes de la charte (§10) : noir et blanc, 32 pixels, projection.
 {% endcomment %}
 
 {% block title %}Logo DAARA — planche{% endblock %}
@@ -9,24 +9,33 @@ de la charte (spec §10) : tenir en noir et blanc, à 32 pixels et sur un fond d
 {% block content %}
 <div class="mx-auto max-w-6xl px-4 py-12">
   <h1 class="font-display text-3xl font-bold">Logo DAARA : variante Signal</h1>
-  <p class="mt-2 max-w-2xl text-stone-600">Un trait balaie le mot, puis se fixe en point de donnée. Rechargez la page ou survolez un logo pour rejouer l'animation. Si « réduire les animations » est activé dans le système, le logo reste fixe.</p>
+  <p class="mt-2 max-w-2xl text-stone-600">Le trait balaie le mot puis se fixe en point de donnée, en boucle toutes les 6 secondes ; l'icône reste fixe, comme le favicon. Le bouton « Mettre en pause les animations », en pied de page, arrête la boucle ; la préférence système « réduire les animations » aussi.</p>
 
-  <div class="mt-10 grid gap-6 sm:grid-cols-2">
+  <h2 class="mt-10 text-xl font-semibold">Déclinaisons</h2>
+  <div class="mt-4 grid gap-6 sm:grid-cols-2">
     <figure class="rounded-xl border border-stone-200 p-8">
-      <div class="text-7xl">{% include "components/logo.html" %}</div>
-      <figcaption class="mt-6 text-sm text-stone-600">Grande taille</figcaption>
+      <div class="text-6xl">{% include "components/logo.html" %}</div>
+      <figcaption class="mt-6 text-sm text-stone-600">Réduite (icône + DAARA) : logo par défaut, en-tête du site</figcaption>
     </figure>
     <figure class="rounded-xl border border-stone-200 p-8">
-      <div class="text-3xl">{% include "components/logo.html" %}</div>
-      <figcaption class="mt-6 text-sm text-stone-600">Taille de l'en-tête</figcaption>
+      <div class="flex items-end gap-6"><span class="text-6xl">{% include "components/logo.html" with form="icon" %}</span><span class="text-[32px]">{% include "components/logo.html" with form="icon" %}</span><span class="text-[16px]">{% include "components/logo.html" with form="icon" %}</span></div>
+      <figcaption class="mt-6 text-sm text-stone-600">Icône seule (64, 32 et 16 px) : en-tête sur mobile, menu replié, avatars GitHub et Hugging Face</figcaption>
     </figure>
+    <figure class="rounded-xl border border-stone-200 p-8 sm:col-span-2">
+      <div class="text-5xl">{% include "components/logo.html" with form="complete" %}</div>
+      <figcaption class="mt-6 text-sm text-stone-600">Complète (icône + DAARA + intitulé long) : pied de page, documents</figcaption>
+    </figure>
+  </div>
+
+  <h2 class="mt-10 text-xl font-semibold">Monochrome, 32 px</h2>
+  <div class="mt-4 grid gap-6 sm:grid-cols-2">
     <figure class="rounded-xl bg-stone-900 p-8 text-white">
-      <div class="text-[32px]">{% include "components/logo.html" with extra="logo--mono" %}</div>
-      <figcaption class="mt-6 text-sm text-stone-300">Monochrome blanc, 32 px (fond de projection sombre)</figcaption>
+      <div class="flex items-center gap-6 text-[32px]">{% include "components/logo.html" with extra="logo--mono" %}{% include "components/logo.html" with form="icon" extra="logo--mono" %}</div>
+      <figcaption class="mt-6 text-sm text-stone-300">Blanc sur fond sombre (projection)</figcaption>
     </figure>
     <figure class="rounded-xl border border-stone-200 bg-white p-8 text-black">
-      <div class="text-[32px]">{% include "components/logo.html" with extra="logo--mono" %}</div>
-      <figcaption class="mt-6 text-sm text-stone-600">Monochrome noir, 32 px</figcaption>
+      <div class="flex items-center gap-6 text-[32px]">{% include "components/logo.html" with extra="logo--mono" %}{% include "components/logo.html" with form="icon" extra="logo--mono" %}</div>
+      <figcaption class="mt-6 text-sm text-stone-600">Noir sur fond clair (impression)</figcaption>
     </figure>
   </div>
 </div>

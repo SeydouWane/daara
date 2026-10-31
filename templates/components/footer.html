@@ -1,7 +1,11 @@
 {% load i18n %}
 <footer class="mt-16 border-t border-stone-200 bg-stone-50">
-  <div class="mx-auto max-w-6xl space-y-1 px-4 py-8 text-sm text-stone-600">
-    <p>DAARA — {% translate "Data & AI Research Alliance for Africa" %}</p>
-    <p>{% blocktranslate %}Editorial content licensed under <a href="https://creativecommons.org/licenses/by/4.0/" class="underline underline-offset-4">CC BY 4.0</a>.{% endblocktranslate %}</p>
+  <div class="mx-auto flex max-w-6xl flex-wrap items-end justify-between gap-6 px-4 py-8 text-sm text-stone-600">
+    <div class="space-y-4">
+      <div class="text-3xl">{% include "components/logo.html" with form="complete" extra="logo--static" %}</div>
+      <p>{% blocktranslate %}Editorial content licensed under <a href="https://creativecommons.org/licenses/by/4.0/" class="underline underline-offset-4">CC BY 4.0</a>.{% endblocktranslate %}</p>
+    </div>
+    {# Affiché par static/js/motion.js : sans JavaScript, il n'aurait aucun effet. #}
+    <button type="button" data-motion-toggle aria-pressed="false" hidden class="rounded border border-stone-300 px-3 py-1.5 text-stone-700 hover:bg-white">{% translate "Pause animations" %}</button>
   </div>
 </footer>
