@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Research axes" %} — DAARA{% endblock %}
+
+{% block content %}
+<div class="border-b border-stone-200 bg-brand-50">
+  <div class="mx-auto max-w-6xl px-4 py-12">
+    <h1 class="font-display text-3xl font-bold text-brand-900 sm:text-4xl">{% translate "Research axes" %}</h1>
+    <p class="mt-4 max-w-2xl text-lg text-stone-700">{% translate "Each axis brings members together around a research theme. Its lead validates the contents of the axis." %}</p>
+  </div>
+</div>
+
+<div class="mx-auto max-w-6xl space-y-6 px-4 py-12">
+  {% for axis in axes %}
+    {% with lead=axis.current_lead %}
+      <section id="{{ axis.slug }}" aria-labelledby="axis-{{ axis.slug }}" class="scroll-mt-6 rounded-xl border border-stone-200 p-6">
+        <h2 id="axis-{{ axis.slug }}" class="font-display text-2xl font-bold text-brand-800">{{ axis.name }}</h2>
+        {% if axis.description %}<p class="mt-3 max-w-3xl text-stone-700">{{ axis.description }}</p>{% endif %}
+        <dl class="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-sm">
+          {% if lead %}
+            <div class="flex gap-2">
+              <dt class="text-stone-500">{% translate "Axis lead" %}</dt>
+              <dd>{% if lead.member %}<a href="{{ lead.member.get_absolute_url }}" class="text-brand-700 underline underline-offset-4">{{ lead.get_full_name }}</a>{% else %}{{ lead.get_full_name }}{% endif %}</dd>
+            </div>
+          {% endif %}
+          <div class="flex gap-2">
+            <dt class="text-stone-500">{% translate "Members" %}</dt>
+            <dd><a href="{% url 'directory:list' %}?axis={{ axis.slug }}" class="text-brand-700 underline underline-offset-4">{{ axis.member_count }}</a></dd>
+          </div>
+        </dl>
+      </section>
+    {% endwith %}
+  {% empty %}
+    <p class="text-stone-600">{% translate "The research axes will be published soon." %}</p>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ member }} — DAARA{% endblock %}
+
+{% block content %}
+<div class="border-b border-stone-200 bg-brand-50">
+  <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-6 px-4 py-12">
+    <span class="flex size-20 flex-none items-center justify-center rounded-full bg-brand-100 font-display text-2xl font-bold text-brand-800" aria-hidden="true">{{ member.initials }}</span>
+    <div>
+      <h1 class="font-display text-3xl font-bold text-brand-900 sm:text-4xl">{{ member }}</h1>
+      <p class="mt-2 text-lg text-stone-700">
+        {% if member.grade %}{{ member.grade }}{% endif %}
+        {% with institution=member.primary_institution %}{% if institution %}{% if member.grade %} · {% endif %}{{ institution.name }}{% endif %}{% endwith %}
+      </p>
+      {% if member.status == "alumni" %}
+        <p class="mt-2 inline-block rounded-full bg-white px-3 py-1 text-sm text-stone-700">
+          {% translate "Alumni" %}{% if member.joined_on or member.left_on %} · {{ member.joined_on|date:"Y"|default:"…" }}–{{ member.left_on|date:"Y" }}{% endif %}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-[2fr_1fr]">
+  <div>
+    <h2 class="font-display text-2xl font-bold">{% translate "Biography" %}</h2>
+    {% if member.bio %}
+      {% if fallback %}<p class="mt-4 inline-block rounded border border-ochre-500/40 bg-amber-50 px-3 py-1.5 text-sm text-stone-800">{{ fallback.message }}</p>{% endif %}
+      <p class="mt-4 max-w-prose whitespace-pre-line text-stone-800"{% if fallback %} lang="{{ fallback.lang }}"{% endif %}>{{ member.bio }}</p>
+    {% else %}
+      <p class="mt-4 text-stone-600">{% translate "No biography yet." %}</p>
+    {% endif %}
+  </div>
+
+  <aside class="space-y-6 text-sm">
+    {% if member.axes.all %}
+      <div>
+        <h2 class="font-semibold text-stone-800">{% translate "Research axes" %}</h2>
+        <ul class="mt-2 flex flex-wrap gap-2">
+          {% for axis in member.axes.all %}
+            <li><a href="{% url 'core:axes' %}#{{ axis.slug }}" class="inline-block rounded-full bg-brand-50 px-3 py-1 text-brand-800 hover:bg-brand-100">{{ axis }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    {% if member.affiliations.all %}
+      <div>
+        <h2 class="font-semibold text-stone-800">{% translate "Institutions" %}</h2>
+        <ul class="mt-2 space-y-1 text-stone-700">
+          {% for affiliation in member.affiliations.all %}
+            <li>{{ affiliation.institution.name }}{% if affiliation.is_primary %} <span class="text-stone-500">({% translate "primary" %})</span>{% endif %}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    {% with links=member.external_links %}
+      {% if links %}
+        <div>
+          <h2 class="font-semibold text-stone-800">{% translate "Elsewhere" %}</h2>
+          <ul class="mt-2 space-y-1">
+            {% for label, url in links %}
+              <li><a href="{{ url }}" rel="noopener" class="inline-flex items-center gap-1 text-brand-700 underline underline-offset-4">{{ label }}{% include "components/icon.html" with name="external" class="size-3.5" %}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+  </aside>
+</div>
+{% endblock %}

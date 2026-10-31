@@ -1,0 +1,18 @@
+{% extends "core/page.html" %}
+{% load i18n %}
+
+{% block after_body %}
+{% if axes %}
+  <section aria-labelledby="axes" class="mt-14">
+    <h2 id="axes" class="font-display text-2xl font-bold text-brand-900">{% translate "Our research axes" %}</h2>
+    <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {% for axis in axes %}
+        <li class="rounded-xl border border-stone-200 p-5">
+          <a href="{% url 'core:axes' %}#{{ axis.slug }}" class="font-semibold text-brand-800 underline-offset-4 hover:underline">{{ axis.name }}</a>
+          {% if axis.description %}<p class="mt-2 text-sm text-stone-600">{{ axis.description|truncatewords:30 }}</p>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
+{% endblock %}

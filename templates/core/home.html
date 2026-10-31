@@ -8,6 +8,10 @@
   <div class="mx-auto max-w-6xl px-4 py-16 sm:py-24">
     <h1 class="max-w-3xl font-display text-3xl font-bold text-brand-900 sm:text-5xl">{% translate "Data & AI Research Alliance for Africa" %}</h1>
     <p class="mt-6 max-w-2xl text-lg text-stone-700">{% translate "Publications, datasets, models and training from a team of AI researchers working with partner universities." %}</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="{% url 'core:axes' %}" class="rounded bg-brand-700 px-5 py-2.5 font-semibold text-white hover:bg-brand-800">{% translate "Explore our research axes" %}</a>
+      <a href="{% url 'directory:list' %}" class="rounded border border-brand-700 px-5 py-2.5 font-semibold text-brand-800 hover:bg-white">{% translate "Meet the team" %}</a>
+    </div>
   </div>
 </section>
 
@@ -23,6 +27,25 @@
   </dl>
 </section>
 
+{% if axes %}
+  <section aria-labelledby="axes" class="mx-auto max-w-6xl px-4 pb-12">
+    <div class="flex flex-wrap items-end justify-between gap-2">
+      <h2 id="axes" class="font-display text-2xl font-bold">{% translate "Research axes" %}</h2>
+      <a href="{% url 'core:axes' %}" class="text-sm text-brand-700 underline underline-offset-4">{% translate "All axes" %}</a>
+    </div>
+    <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {% for axis in axes %}
+        <li>
+          <a href="{% url 'core:axes' %}#{{ axis.slug }}" class="block h-full rounded-xl border border-stone-200 p-5 hover:border-brand-600">
+            <span class="font-semibold text-brand-800">{{ axis.name }}</span>
+            <span class="mt-2 block text-sm text-stone-600">{% blocktranslate count counter=axis.member_count %}{{ counter }} member{% plural %}{{ counter }} members{% endblocktranslate %}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
+
 <div class="mx-auto grid max-w-6xl gap-8 px-4 md:grid-cols-2">
   <section aria-labelledby="actualites">
     <h2 id="actualites" class="font-display text-2xl font-bold">{% translate "Latest news" %}</h2>
@@ -33,4 +56,15 @@
     <p class="mt-4 text-stone-600">{% translate "No research outputs yet." %}</p>
   </section>
 </div>
+
+{% if partners %}
+  <section aria-labelledby="partenaires" class="mx-auto mt-14 max-w-6xl px-4">
+    <h2 id="partenaires" class="font-display text-2xl font-bold">{% translate "Partner institutions" %}</h2>
+    <ul class="mt-6 flex flex-wrap gap-3">
+      {% for institution in partners %}
+        <li class="rounded-full border border-stone-200 px-4 py-2 text-sm text-stone-700" title="{{ institution.name }}">{{ institution.acronym|default:institution.name }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
 {% endblock %}

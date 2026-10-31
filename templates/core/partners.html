@@ -1,0 +1,28 @@
+{% extends "core/page.html" %}
+{% load i18n %}
+
+{% block after_body %}
+<section aria-labelledby="institutions" class="mt-14">
+  <h2 id="institutions" class="font-display text-2xl font-bold text-brand-900">{% translate "Partner institutions" %}</h2>
+  {% if institutions %}
+    <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {% for institution in institutions %}
+        <li class="flex flex-col rounded-xl border border-stone-200 p-5">
+          <p class="font-display text-xl font-bold text-brand-800">{{ institution.acronym|default:institution.name }}</p>
+          {% if institution.acronym %}<p class="mt-1 text-sm text-stone-700">{{ institution.name }}</p>{% endif %}
+          <p class="mt-3 text-sm text-stone-500">
+            {{ institution.country }} ·
+            {% blocktranslate count counter=institution.member_count %}{{ counter }} member{% plural %}{{ counter }} members{% endblocktranslate %}
+          </p>
+          <div class="mt-auto flex flex-wrap gap-3 pt-4 text-sm">
+            <a href="{% url 'directory:list' %}?institution={{ institution.slug }}" class="text-brand-700 underline underline-offset-4">{% translate "See the members" %}</a>
+            {% if institution.website %}<a href="{{ institution.website }}" class="inline-flex items-center gap-1 text-stone-600 underline underline-offset-4" rel="noopener">{% translate "Website" %}{% include "components/icon.html" with name="external" class="size-3.5" %}</a>{% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="mt-4 text-stone-600">{% translate "No partner institution yet." %}</p>
+  {% endif %}
+</section>
+{% endblock %}

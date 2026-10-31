@@ -11,6 +11,8 @@ Ce dossier rassemble la documentation technique de DAARA et les notes de passati
 | Logo animé | pas d'animation imposée | boucle continue de 6 s, avec un bouton « Mettre en pause les animations » en pied de page | une animation automatique de plus de 5 s doit pouvoir être arrêtée (WCAG 2.1 critère 2.2.2, niveau A, exigé par §10.4). La préférence système « réduire les animations » coupe aussi la boucle. |
 | Profils | un profil par utilisateur | rôles cumulables, droits = union des rôles actifs ; un seul sidebar qui réunit les sections de tous les rôles | demande du porteur de projet ; règle aussi le cas du responsable d'axe, qui n'a que « V » dans la matrice et cumule en pratique le rôle de chercheur. |
 | Grades | liste fixe (PT, MC, CT…) | table modifiable dans l'administration | les grades diffèrent selon les pays des universités partenaires. |
+| Menus de la vitrine | pages du module M1 | menus complets dès maintenant (à propos, recherche, membres, formation et actualités, contact) ; les modules à venir s'affichent « bientôt », sans lien | montrer l'arborescence finale sans lien cassé ; chaque entrée s'active seule quand son module existe. |
+| Corps des pages éditoriales | non précisé | Markdown, nettoyé à l'affichage | lisible dans l'administration, sans éditeur riche à maintenir. |
 | Périmètre institutionnel | UNCHK et USSEIN | toutes les universités partenaires | correction du porteur de projet : les institutions seront une donnée, pas deux valeurs codées en dur. |
 
 ## Valeurs provisoires

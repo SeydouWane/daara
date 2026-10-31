@@ -1,0 +1,10 @@
+{% load i18n %}
+{% if user.is_authenticated %}
+  <a href="{% url 'dashboard:home' %}" class="rounded px-3 py-2 font-medium text-brand-800 hover:bg-brand-50">{% translate "My space" %}</a>
+  <form method="post" action="{% url 'members:logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="rounded px-3 py-2 text-stone-700 hover:bg-stone-100">{% translate "Sign out" %}</button>
+  </form>
+{% else %}
+  <a href="{% url 'members:login' %}" class="rounded px-3 py-2 font-medium text-brand-800 hover:bg-brand-50">{% translate "Sign in" %}</a>
+{% endif %}

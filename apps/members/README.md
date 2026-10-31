@@ -23,6 +23,11 @@ can(user, "V", Module.PUBLICATIONS, axis=publication.axis)  # valider dans cet a
 
 Un alumni garde la lecture mais perd l'écriture (spec §3.3). Le rôle de collaborateur externe sera limité à un projet quand le module Projets existera (phase 3).
 
+## Annuaire public : `views.py`
+
+- `/{langue}/members/` : membres actifs (ou alumni sur demande), filtres par nom, institution, axe et grade, tri alphabétique ou par grade, 20 par page. Avec HTMX, seule la liste est rechargée (`_directory_results.html`) ; sans JavaScript, le bouton « Filtrer » suffit.
+- `/{langue}/members/<slug>/` : profil public (grade, rattachements, axes, biographie avec bandeau de repli, liens ORCID, Google Scholar, HAL, GitHub, Hugging Face, LinkedIn). Les productions rattachées arriveront avec le module Publications.
+
 ## Démonstration
 
 `python manage.py seed_demo` (développement seulement) crée trois institutions, trois axes, des grades et quatre comptes aux rôles combinés, mot de passe `daara-demo-2026`.

@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models import F, Q
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -75,6 +76,13 @@ class Axis(TimeStampedModel):
     def __str__(self):
         return self.name
 
+    def current_lead(self):
+        """Responsable d'axe actif, ou None. Profite des affectations préchargées."""
+        for assignment in self.role_assignments.all():
+            if assignment.is_active:
+                return assignment.user
+        return None
+
 
 class Grade(models.Model):
     """Grade académique. Une table plutôt qu'une liste fixe : les grades varient d'un pays et
@@ -144,6 +152,37 @@ class Member(TimeStampedModel):
 
     def __str__(self):
         return self.user.get_full_name() or self.user.get_username()
+
+    def get_absolute_url(self):
+        return reverse("directory:detail", args=[self.slug])
+
+    @property
+    def initials(self):
+        parts = [self.user.first_name, self.user.last_name]
+        return "".join(part[0] for part in parts if part).upper() or self.user.username[:2].upper()
+
+    @property
+    def primary_institution(self):
+        for affiliation in self.affiliations.all():
+            if affiliation.is_primary:
+                return affiliation.institution
+        return None
+
+    def external_links(self):
+        """Profils externes renseignés, sous forme (libellé, URL)."""
+        links = [
+            ("ORCID", self.orcid and f"https://orcid.org/{self.orcid}"),
+            (
+                "Google Scholar",
+                self.google_scholar_id
+                and f"https://scholar.google.com/citations?user={self.google_scholar_id}",
+            ),
+            ("HAL", self.hal_id and f"https://cv.hal.science/{self.hal_id}"),
+            ("GitHub", self.github and f"https://github.com/{self.github}"),
+            ("Hugging Face", self.huggingface and f"https://huggingface.co/{self.huggingface}"),
+            ("LinkedIn", self.linkedin),
+        ]
+        return [(label, url) for label, url in links if url]
 
     def clean_fields(self, exclude=None):
         self.orcid = normalize_orcid(self.orcid)

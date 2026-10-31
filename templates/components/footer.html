@@ -1,11 +1,27 @@
 {% load i18n %}
 <footer class="mt-16 border-t border-stone-200 bg-stone-50">
-  <div class="mx-auto flex max-w-6xl flex-wrap items-end justify-between gap-6 px-4 py-8 text-sm text-stone-600">
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm text-stone-600 md:grid-cols-[2fr_1fr_1fr]">
     <div class="space-y-4">
       <div class="text-3xl">{% include "components/logo.html" with form="complete" extra="logo--static" %}</div>
       <p>{% blocktranslate %}Editorial content licensed under <a href="https://creativecommons.org/licenses/by/4.0/" class="underline underline-offset-4">CC BY 4.0</a>.{% endblocktranslate %}</p>
     </div>
-    {# Affiché par static/js/motion.js : sans JavaScript, il n'aurait aucun effet. #}
-    <button type="button" data-motion-toggle aria-pressed="false" hidden class="rounded border border-stone-300 px-3 py-1.5 text-stone-700 hover:bg-white">{% translate "Pause animations" %}</button>
+    <nav aria-label="{% translate 'Explore' %}">
+      <p class="font-semibold text-stone-800">{% translate "Explore" %}</p>
+      <ul class="mt-2 space-y-1">
+        {% for menu in nav.menus %}
+          {% with link=menu.links.0 %}{% if link.url %}<li><a href="{{ link.url }}" class="hover:text-brand-800 hover:underline">{% if menu.single %}{{ menu.label }}{% else %}{{ link.label }}{% endif %}</a></li>{% endif %}{% endwith %}
+        {% endfor %}
+      </ul>
+    </nav>
+    <div>
+      <p class="font-semibold text-stone-800">{% translate "Information" %}</p>
+      <ul class="mt-2 space-y-1">
+        {% for link in nav.footer %}
+          <li><a href="{{ link.url }}" class="hover:text-brand-800 hover:underline">{{ link.label }}</a></li>
+        {% endfor %}
+      </ul>
+      {# Affiché par static/js/motion.js : sans JavaScript, il n'aurait aucun effet. #}
+      <button type="button" data-motion-toggle aria-pressed="false" hidden class="mt-4 rounded border border-stone-300 px-3 py-1.5 text-stone-700 hover:bg-white">{% translate "Pause animations" %}</button>
+    </div>
   </div>
 </footer>

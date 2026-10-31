@@ -1,14 +1,32 @@
 {% load i18n daara %}
 {% get_current_language as current %}
 {% get_available_languages as languages %}
-<ul class="flex gap-1 text-sm">
-  {% for code, name in languages %}
-    <li>
-      {% if code == current %}
-        <span lang="{{ code }}" aria-current="true" class="block rounded px-3 py-1.5 font-semibold text-brand-800 bg-brand-50">{{ name }}</span>
-      {% else %}
-        <a href="{% switch_language_url code %}" lang="{{ code }}" hreflang="{{ code }}" class="block rounded px-3 py-1.5 text-stone-700 underline-offset-4 hover:bg-stone-100 hover:underline">{{ name }}</a>
-      {% endif %}
-    </li>
-  {% endfor %}
-</ul>
+{% comment %}
+Sélecteur de langue compact : globe + code de la langue active. Chaque langue est écrite dans
+sa propre langue (attribut lang), et le choix est mémorisé par cookie (spec §5.3).
+{% endcomment %}
+<details data-menu class="relative">
+  <summary class="flex cursor-pointer list-none items-center gap-1.5 rounded px-2.5 py-2 text-stone-700 hover:bg-stone-100 [&::-webkit-details-marker]:hidden">
+    {% include "components/icon.html" with name="globe" class="size-4" %}
+    <span class="sr-only">{% translate "Language" %} :</span>
+    <span class="font-semibold uppercase">{{ current }}</span>
+    {% include "components/icon.html" with name="chevron" class="size-4" %}
+  </summary>
+  <ul class="absolute right-0 mt-1 w-48 rounded-lg border border-stone-200 bg-white py-1 shadow-lg">
+    {% for code, name in languages %}
+      <li>
+        {% if code == current %}
+          <span lang="{{ code }}" aria-current="true" class="flex items-center justify-between px-3 py-2 font-semibold text-brand-800">
+            {{ name }}
+            {% include "components/icon.html" with name="check" class="size-4" %}
+          </span>
+        {% else %}
+          <a href="{% switch_language_url code %}" lang="{{ code }}" hreflang="{{ code }}" class="flex items-center justify-between px-3 py-2 text-stone-700 hover:bg-stone-100">
+            {{ name }}
+            <span class="text-xs uppercase text-stone-500" aria-hidden="true">{{ code }}</span>
+          </a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</details>

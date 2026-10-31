@@ -2,13 +2,22 @@ from urllib.parse import urlsplit
 
 from django.conf import settings
 from django.db import connection
+from django.db.models import Count, Q
 from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.urls import Resolver404, resolve, reverse, translate_url
 from django.utils import translation
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_GET
 from django.views.generic import TemplateView
+
+from apps.members.models import Axis, Institution, Member
+
+from .i18n import fallback_notice
+from .models import Page
+
+ACTIVE_MEMBERS = Q(members__status=Member.Status.ACTIVE)
 
 
 class HomeView(TemplateView):
@@ -22,6 +31,61 @@ class HomeView(TemplateView):
             (_("Datasets"), 0),
             (_("Training courses"), 0),
         ]
+        context["axes"] = Axis.objects.annotate(
+            member_count=Count("members", filter=ACTIVE_MEMBERS)
+        )
+        context["partners"] = Institution.objects.filter(is_partner=True)
+        context["member_count"] = Member.objects.filter(status=Member.Status.ACTIVE).count()
+        return context
+
+
+class PageView(TemplateView):
+    """Page éditoriale publiée, identifiée par son `slug` (module M1)."""
+
+    template_name = "core/page.html"
+    slug = None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        page = get_object_or_404(Page, slug=self.slug, status=Page.Status.PUBLISHED)
+        context["page"] = page
+        context["fallback"] = fallback_notice(page, "body")
+        return context
+
+
+class AboutView(PageView):
+    template_name = "core/about.html"
+    slug = "about"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["axes"] = Axis.objects.all()
+        return context
+
+
+class PartnersView(PageView):
+    template_name = "core/partners.html"
+    slug = "partners"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["institutions"] = Institution.objects.filter(is_partner=True).annotate(
+            member_count=Count(
+                "affiliations",
+                filter=Q(affiliations__member__status=Member.Status.ACTIVE),
+            )
+        )
+        return context
+
+
+class AxesView(TemplateView):
+    template_name = "core/axes.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["axes"] = Axis.objects.annotate(
+            member_count=Count("members", filter=ACTIVE_MEMBERS)
+        ).prefetch_related("role_assignments__user__member")
         return context
 
 

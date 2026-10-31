@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n daara %}
+
+{% block title %}{{ page.title }} — DAARA{% endblock %}
+{% block meta %}{% if page.summary %}<meta name="description" content="{{ page.summary }}">{% endif %}{% endblock %}
+
+{% block content %}
+<div class="border-b border-stone-200 bg-brand-50">
+  <div class="mx-auto max-w-6xl px-4 py-12">
+    <h1 class="max-w-3xl font-display text-3xl font-bold text-brand-900 sm:text-4xl">{{ page.title }}</h1>
+    {% if page.summary %}<p class="mt-4 max-w-2xl text-lg text-stone-700">{{ page.summary }}</p>{% endif %}
+  </div>
+</div>
+
+<div class="mx-auto max-w-6xl px-4 py-12">
+  {% if fallback %}
+    <p class="mb-6 inline-block rounded border border-ochre-500/40 bg-amber-50 px-3 py-1.5 text-sm text-stone-800">{{ fallback.message }}</p>
+  {% endif %}
+  <div class="prose"{% if fallback %} lang="{{ fallback.lang }}"{% endif %}>{{ page.body|render_markdown }}</div>
+  {% block after_body %}{% endblock %}
+</div>
+{% endblock %}
