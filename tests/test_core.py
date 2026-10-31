@@ -1,3 +1,5 @@
+import re
+
 import pytest
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -82,3 +84,16 @@ def test_logo_sheet_is_dev_only(client):
 
 def test_custom_user_model_is_active():
     assert get_user_model()._meta.label == "members.User"
+
+
+def test_french_interface_is_fully_translated():
+    """Niveau 1 de la spec §5.1 : l'interface est traduite à 100 %."""
+    po = (settings.BASE_DIR / "locale/fr/LC_MESSAGES/django.po").read_text(encoding="utf-8")
+    assert "#, fuzzy" not in po
+    entries = po.split("\n\n")[1:]  # la première entrée est l'en-tête du catalogue
+    untranslated = [
+        entry
+        for entry in entries
+        if re.search(r'^msgstr ""$', entry, re.M) and not re.search(r'^msgstr ""\n"', entry, re.M)
+    ]
+    assert untranslated == []

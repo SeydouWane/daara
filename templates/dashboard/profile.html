@@ -1,0 +1,22 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "My profile" %} — DAARA{% endblock %}
+
+{% block dashboard_content %}
+<h1 class="font-display text-3xl font-bold text-brand-900">{% translate "My profile" %}</h1>
+<p class="mt-2 max-w-2xl text-stone-600">{% translate "Identifiers are stored without their URL prefix: paste them as you like, DAARA normalises them." %}</p>
+
+<form method="post" class="mt-8 max-w-2xl space-y-5" novalidate>
+  {% csrf_token %}
+  {% for field in form %}
+    <div>
+      <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-stone-800">{{ field.label }}</label>
+      {{ field }}
+      {% if field.help_text %}<p class="mt-1 text-sm text-stone-500">{{ field.help_text }}</p>{% endif %}
+      {% if field.errors %}<p class="mt-1 text-sm text-red-700" role="alert">{{ field.errors|join:" " }}</p>{% endif %}
+    </div>
+  {% endfor %}
+  <button type="submit" class="rounded bg-brand-700 px-4 py-2.5 font-semibold text-white hover:bg-brand-800">{% translate "Save" %}</button>
+</form>
+{% endblock %}

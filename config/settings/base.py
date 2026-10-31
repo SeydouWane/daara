@@ -83,6 +83,9 @@ CACHES = {
 }
 
 AUTH_USER_MODEL = "members.User"
+LOGIN_URL = "members:login"
+LOGIN_REDIRECT_URL = "dashboard:home"
+LOGOUT_REDIRECT_URL = "core:home"
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {
@@ -106,6 +109,14 @@ LOCALE_PATHS = [BASE_DIR / "locale"]
 USE_I18N = True
 USE_TZ = True
 TIME_ZONE = "Africa/Dakar"
+
+# Les trois niveaux de contenu ont chacun leur liste de langues (spec §5.1, §5.5) :
+# ajouter le wolof à l'interface n'oblige pas à traduire les contenus éditoriaux.
+DAARA_EDITORIAL_LANGUAGES = tuple(
+    code
+    for code in env.list("DAARA_EDITORIAL_LANGUAGES", default=["fr", "en"])
+    if code in ACTIVE_LANGUAGES
+)
 
 MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
 MODELTRANSLATION_LANGUAGES = tuple(code for code, _ in LANGUAGES)

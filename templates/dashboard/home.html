@@ -1,0 +1,37 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "My space" %} — DAARA{% endblock %}
+
+{% block dashboard_content %}
+<h1 class="font-display text-3xl font-bold text-brand-900">{% blocktranslate with name=user.first_name|default:user.username %}Welcome, {{ name }}{% endblocktranslate %}</h1>
+<p class="mt-2 max-w-2xl text-stone-600">{% translate "Your menu combines the rights of all your active roles." %}</p>
+
+<h2 class="mt-10 text-xl font-semibold">{% translate "Your roles" %}</h2>
+{% if assignments %}
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full text-left text-sm">
+      <thead class="border-b border-stone-200 text-stone-600">
+        <tr>
+          <th scope="col" class="py-2 pr-4 font-medium">{% translate "Role" %}</th>
+          <th scope="col" class="py-2 pr-4 font-medium">{% translate "Scope" %}</th>
+          <th scope="col" class="py-2 pr-4 font-medium">{% translate "Since" %}</th>
+          <th scope="col" class="py-2 font-medium">{% translate "Until" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for assignment in assignments %}
+          <tr class="border-b border-stone-100">
+            <td class="py-2 pr-4">{{ assignment.get_role_display }}</td>
+            <td class="py-2 pr-4">{{ assignment.axis|default:"—" }}</td>
+            <td class="py-2 pr-4">{{ assignment.starts_on|date:"j F Y" }}</td>
+            <td class="py-2">{% if assignment.expires_on %}{{ assignment.expires_on|date:"j F Y" }}{% else %}—{% endif %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <p class="mt-4 text-stone-600">{% translate "You have no active role yet. An administrator or an axis lead will assign one." %}</p>
+{% endif %}
+{% endblock %}

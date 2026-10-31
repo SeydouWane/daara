@@ -12,6 +12,10 @@ extend-exclude = ["**/migrations/*"]
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "DJ"]
 
+[tool.ruff.lint.per-file-ignores]
+# La matrice des droits reste alignée en colonnes, comme le tableau de la spec §3.2.
+"apps/members/permissions.py" = ["E501"]
+
 [tool.ruff.lint.isort]
 known-first-party = ["apps", "config"]
 

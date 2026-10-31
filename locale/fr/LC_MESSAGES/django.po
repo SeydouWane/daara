@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAARA 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-31 21:39+0000\n"
+"POT-Creation-Date: 2026-10-31 21:51+0000\n"
 "PO-Revision-Date: 2026-10-31 21:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: DAARA\n"
@@ -17,6 +17,18 @@ msgstr ""
 #: apps/core/apps.py:7
 msgid "Core"
 msgstr "Socle"
+
+#: apps/core/models.py:9
+msgid "created at"
+msgstr "créé le"
+
+#: apps/core/models.py:10
+msgid "updated at"
+msgstr "modifié le"
+
+#: apps/core/models.py:13
+msgid "created by"
+msgstr "créé par"
 
 #: apps/core/views.py:21
 msgid "Publications"
@@ -34,13 +46,341 @@ msgstr "Formations"
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
+#: apps/dashboard/navigation.py:66 templates/components/header.html:9
+#: templates/dashboard/home.html:4
+msgid "My space"
+msgstr "Mon espace"
+
+#: apps/dashboard/navigation.py:68
+msgid "Overview"
+msgstr "Vue d'ensemble"
+
+#: apps/dashboard/navigation.py:69 templates/dashboard/profile.html:4
+#: templates/dashboard/profile.html:7
+msgid "My profile"
+msgstr "Mon profil"
+
+#: apps/dashboard/navigation.py:72
+msgid "Review"
+msgstr "Validation"
+
+#: apps/dashboard/navigation.py:72 templates/dashboard/validation.html:4
+#: templates/dashboard/validation.html:7
+msgid "Validation queue"
+msgstr "File de validation"
+
+#: apps/dashboard/navigation.py:73
+msgid "Editorial"
+msgstr "Éditorial"
+
+#: apps/dashboard/navigation.py:73 templates/dashboard/translations.html:4
+#: templates/dashboard/translations.html:7
+msgid "Translations"
+msgstr "Traductions"
+
+#: apps/dashboard/navigation.py:74
+msgid "Monitoring"
+msgstr "Suivi"
+
+#: apps/dashboard/navigation.py:74 templates/dashboard/indicators.html:4
+#: templates/dashboard/indicators.html:7
+msgid "Indicators"
+msgstr "Indicateurs"
+
+#: apps/dashboard/navigation.py:76
+msgid "Administration"
+msgstr "Administration"
+
+#: apps/dashboard/navigation.py:79
+msgid "Members and roles"
+msgstr "Membres et rôles"
+
+#: apps/dashboard/navigation.py:83
+msgid "Action log"
+msgstr "Journal des actions"
+
+#: apps/dashboard/views.py:49
+msgid "Your profile has been saved."
+msgstr "Votre profil est enregistré."
+
+#: apps/dashboard/views.py:77
+msgid "Member biography"
+msgstr "Biographie de membre"
+
+#: apps/dashboard/views.py:78
+msgid "Axis description"
+msgstr "Description d'axe"
+
+#: apps/dashboard/views.py:113
+msgid "Active members"
+msgstr "Membres actifs"
+
+#: apps/dashboard/views.py:114 apps/members/models.py:101
+msgid "Alumni"
+msgstr "Alumni"
+
+#: apps/dashboard/views.py:115
+msgid "Partner institutions"
+msgstr "Institutions partenaires"
+
+#: apps/dashboard/views.py:116
+msgid "Research axes"
+msgstr "Axes de recherche"
+
 #: apps/interop/apps.py:7
 msgid "Interoperability"
 msgstr "Interopérabilité"
 
-#: apps/members/apps.py:7
+#: apps/members/admin.py:24
+msgid "active roles"
+msgstr "rôles actifs"
+
+#: apps/members/admin.py:44
+msgid "active"
+msgstr "actif"
+
+#: apps/members/apps.py:7 templates/dashboard/indicators.html:25
 msgid "Members"
 msgstr "Membres"
+
+#: apps/members/identifiers.py:41
+msgid "Enter a valid ORCID iD, e.g. 0000-0002-1825-0097."
+msgstr ""
+"Saisissez un identifiant ORCID valide, par exemple 0000-0002-1825-0097."
+
+#: apps/members/identifiers.py:46
+msgid "Enter a valid ROR identifier, e.g. 05c3q4c27."
+msgstr "Saisissez un identifiant ROR valide, par exemple 05c3q4c27."
+
+#: apps/members/models.py:28 apps/members/models.py:64
+#: apps/members/models.py:82
+msgid "name"
+msgstr "nom"
+
+#: apps/members/models.py:29
+msgid "acronym"
+msgstr "sigle"
+
+#: apps/members/models.py:30 apps/members/models.py:66
+#: apps/members/models.py:109
+msgid "slug"
+msgstr "identifiant d'URL"
+
+#: apps/members/models.py:32
+msgid "country"
+msgstr "pays"
+
+#: apps/members/models.py:35
+msgid "ISO 3166-1 alpha-2 code, e.g. SN."
+msgstr "Code ISO 3166-1 alpha-2, par exemple SN."
+
+#: apps/members/models.py:38
+msgid "ROR identifier"
+msgstr "identifiant ROR"
+
+#: apps/members/models.py:40
+msgid "website"
+msgstr "site web"
+
+#: apps/members/models.py:41
+msgid "partner institution"
+msgstr "institution partenaire"
+
+#: apps/members/models.py:45 apps/members/models.py:161
+msgid "institution"
+msgstr "institution"
+
+#: apps/members/models.py:46 apps/members/models.py:115
+msgid "institutions"
+msgstr "institutions"
+
+#: apps/members/models.py:65
+msgid "description"
+msgstr "description"
+
+#: apps/members/models.py:67 apps/members/models.py:84
+msgid "order"
+msgstr "ordre"
+
+#: apps/members/models.py:71 apps/members/models.py:222
+msgid "research axis"
+msgstr "axe de recherche"
+
+#: apps/members/models.py:72 apps/members/models.py:121
+msgid "research axes"
+msgstr "axes de recherche"
+
+#: apps/members/models.py:84
+msgid "Sort order in the directory, most senior first."
+msgstr "Ordre de tri dans l'annuaire, du grade le plus élevé au moins élevé."
+
+#: apps/members/models.py:89 apps/members/models.py:111
+msgid "grade"
+msgstr "grade"
+
+#: apps/members/models.py:90
+msgid "grades"
+msgstr "grades"
+
+#: apps/members/models.py:100
+msgid "Active"
+msgstr "Actif"
+
+#: apps/members/models.py:105
+msgid "account"
+msgstr "compte"
+
+#: apps/members/models.py:123
+msgid "ORCID iD"
+msgstr "identifiant ORCID"
+
+#: apps/members/models.py:124
+msgid "biography"
+msgstr "biographie"
+
+#: apps/members/models.py:125
+msgid "Google Scholar ID"
+msgstr "identifiant Google Scholar"
+
+#: apps/members/models.py:126
+msgid "HAL identifier"
+msgstr "identifiant HAL"
+
+#: apps/members/models.py:127
+msgid "GitHub username"
+msgstr "nom d'utilisateur GitHub"
+
+#: apps/members/models.py:128
+msgid "Hugging Face username"
+msgstr "nom d'utilisateur Hugging Face"
+
+#: apps/members/models.py:129
+msgid "LinkedIn profile"
+msgstr "profil LinkedIn"
+
+#: apps/members/models.py:130
+msgid "status"
+msgstr "statut"
+
+#: apps/members/models.py:131
+msgid "joined on"
+msgstr "arrivée le"
+
+#: apps/members/models.py:132
+msgid "left on"
+msgstr "départ le"
+
+#: apps/members/models.py:136
+msgid "member"
+msgstr "membre"
+
+#: apps/members/models.py:137
+msgid "members"
+msgstr "membres"
+
+#: apps/members/models.py:154
+msgid "An alumni profile needs a departure date."
+msgstr "Un profil alumni doit indiquer une date de départ."
+
+#: apps/members/models.py:165
+msgid "primary affiliation"
+msgstr "rattachement principal"
+
+#: apps/members/models.py:168
+msgid "affiliation"
+msgstr "rattachement"
+
+#: apps/members/models.py:169
+msgid "affiliations"
+msgstr "rattachements"
+
+#: apps/members/models.py:184
+msgid "Learner"
+msgstr "Apprenant"
+
+#: apps/members/models.py:185
+msgid "PhD student"
+msgstr "Doctorant"
+
+#: apps/members/models.py:186
+msgid "Researcher"
+msgstr "Chercheur"
+
+#: apps/members/models.py:187
+msgid "Axis lead"
+msgstr "Responsable d'axe"
+
+#: apps/members/models.py:188
+msgid "Editor and translator"
+msgstr "Éditeur et traducteur"
+
+#: apps/members/models.py:189
+msgid "External collaborator"
+msgstr "Collaborateur externe"
+
+#: apps/members/models.py:190
+msgid "Observer"
+msgstr "Observateur"
+
+#: apps/members/models.py:191
+msgid "Administrator"
+msgstr "Administrateur"
+
+#: apps/members/models.py:215
+msgid "user"
+msgstr "utilisateur"
+
+#: apps/members/models.py:219
+msgid "role"
+msgstr "rôle"
+
+#: apps/members/models.py:227
+msgid "Required for axis leads, empty for every other role."
+msgstr "Obligatoire pour un responsable d'axe, vide pour tout autre rôle."
+
+#: apps/members/models.py:229
+msgid "starts on"
+msgstr "début"
+
+#: apps/members/models.py:231
+msgid "expires on"
+msgstr "expiration"
+
+#: apps/members/models.py:234
+msgid "Required for observers: 12 months at most, renewable."
+msgstr "Obligatoire pour un observateur : 12 mois au plus, renouvelable."
+
+#: apps/members/models.py:241
+msgid "role assignment"
+msgstr "attribution de rôle"
+
+#: apps/members/models.py:242
+msgid "role assignments"
+msgstr "attributions de rôle"
+
+#: apps/members/models.py:278
+msgid "An axis lead must be assigned to an axis."
+msgstr "Un responsable d'axe doit être rattaché à un axe."
+
+#: apps/members/models.py:280
+msgid "Only axis leads are assigned to an axis."
+msgstr "Seul un responsable d'axe est rattaché à un axe."
+
+#: apps/members/models.py:284
+msgid "An observer access must have an expiry date."
+msgstr "Un accès observateur doit avoir une date d'expiration."
+
+#: apps/members/models.py:286
+msgid "An observer access lasts 12 months at most."
+msgstr "Un accès observateur dure 12 mois au plus."
+
+#: apps/members/models.py:288
+msgid "The expiry date cannot precede the start date."
+msgstr "La date d'expiration ne peut pas précéder la date de début."
+
+#: apps/members/models.py:297
+msgid "This axis already has an active lead."
+msgstr "Cet axe a déjà un responsable actif."
 
 #: apps/news/apps.py:7
 msgid "News"
@@ -64,12 +404,13 @@ msgstr "Aller au contenu"
 
 #: templates/components/footer.html:6
 msgid ""
-"Editorial content licensed under <a href=\"https://creativecommons.org/"
-"licenses/by/4.0/\" class=\"underline underline-offset-4\">CC BY 4.0</a>."
+"Editorial content licensed under <a "
+"href=\"https://creativecommons.org/licenses/by/4.0/\" class=\"underline "
+"underline-offset-4\">CC BY 4.0</a>."
 msgstr ""
-"Contenus éditoriaux sous licence <a href=\"https://creativecommons.org/"
-"licenses/by/4.0/deed.fr\" class=\"underline underline-offset-4\">CC BY 4.0</"
-"a>."
+"Contenus éditoriaux sous licence <a "
+"href=\"https://creativecommons.org/licenses/by/4.0/deed.fr\" "
+"class=\"underline underline-offset-4\">CC BY 4.0</a>."
 
 #: templates/components/footer.html:9
 msgid "Pause animations"
@@ -79,7 +420,16 @@ msgstr "Mettre en pause les animations"
 msgid "DAARA home page"
 msgstr "Page d'accueil de DAARA"
 
-#: templates/components/header.html:7
+#: templates/components/header.html:12
+msgid "Sign out"
+msgstr "Se déconnecter"
+
+#: templates/components/header.html:15 templates/members/login.html:4
+#: templates/members/login.html:8 templates/members/login.html:34
+msgid "Sign in"
+msgstr "Se connecter"
+
+#: templates/components/header.html:17
 msgid "Language"
 msgstr "Langue"
 
@@ -94,7 +444,8 @@ msgid ""
 "working with partner universities."
 msgstr ""
 "Publications, jeux de données, modèles et formations d'une équipe de "
-"chercheurs en intelligence artificielle, en partenariat avec des universités."
+"chercheurs en intelligence artificielle, en partenariat avec des "
+"universités."
 
 #: templates/core/home.html:15
 msgid "Key figures"
@@ -115,3 +466,128 @@ msgstr "Dernières productions"
 #: templates/core/home.html:33
 msgid "No research outputs yet."
 msgstr "Aucune production pour le moment."
+
+#: templates/dashboard/base.html:9
+msgid "Active roles"
+msgstr "Rôles actifs"
+
+#: templates/dashboard/base.html:13
+msgid "No active role"
+msgstr "Aucun rôle actif"
+
+#: templates/dashboard/base.html:17
+msgid "Dashboard menu"
+msgstr "Menu de l'espace"
+
+#: templates/dashboard/home.html:7
+#, python-format
+msgid "Welcome, %(name)s"
+msgstr "Bienvenue, %(name)s"
+
+#: templates/dashboard/home.html:8
+msgid "Your menu combines the rights of all your active roles."
+msgstr "Votre menu réunit les droits de tous vos rôles actifs."
+
+#: templates/dashboard/home.html:10
+msgid "Your roles"
+msgstr "Vos rôles"
+
+#: templates/dashboard/home.html:16
+msgid "Role"
+msgstr "Rôle"
+
+#: templates/dashboard/home.html:17
+msgid "Scope"
+msgstr "Périmètre"
+
+#: templates/dashboard/home.html:18
+msgid "Since"
+msgstr "Depuis le"
+
+#: templates/dashboard/home.html:19
+msgid "Until"
+msgstr "Jusqu'au"
+
+#: templates/dashboard/home.html:35
+msgid ""
+"You have no active role yet. An administrator or an axis lead will assign "
+"one."
+msgstr ""
+"Vous n'avez pas encore de rôle actif. Un administrateur ou un responsable "
+"d'axe vous en attribuera un."
+
+#: templates/dashboard/indicators.html:18
+msgid "Active members by institution"
+msgstr "Membres actifs par institution"
+
+#: templates/dashboard/indicators.html:19
+msgid ""
+"Primary affiliation only. A balance indicator between partner institutions."
+msgstr ""
+"Rattachement principal uniquement. Un indicateur d'équilibre entre "
+"institutions partenaires."
+
+#: templates/dashboard/indicators.html:24
+msgid "Institution"
+msgstr "Institution"
+
+#: templates/dashboard/indicators.html:26
+msgid "Share"
+msgstr "Part"
+
+#: templates/dashboard/indicators.html:37
+msgid "No institution yet."
+msgstr "Aucune institution pour le moment."
+
+#: templates/dashboard/profile.html:8
+msgid ""
+"Identifiers are stored without their URL prefix: paste them as you like, "
+"DAARA normalises them."
+msgstr ""
+"Les identifiants sont enregistrés sans préfixe d'URL : collez-les comme vous"
+" voulez, DAARA les normalise."
+
+#: templates/dashboard/profile.html:20
+msgid "Save"
+msgstr "Enregistrer"
+
+#: templates/dashboard/translations.html:8
+msgid "Contents written in one language only, oldest first."
+msgstr ""
+"Contenus rédigés dans une seule langue, du plus ancien au plus récent."
+
+#: templates/dashboard/translations.html:15
+msgid "Content"
+msgstr "Contenu"
+
+#: templates/dashboard/translations.html:16
+msgid "Type"
+msgstr "Type"
+
+#: templates/dashboard/translations.html:17
+msgid "Missing"
+msgstr "Langues manquantes"
+
+#: templates/dashboard/translations.html:18
+msgid "Last updated"
+msgstr "Dernière modification"
+
+#: templates/dashboard/translations.html:35
+msgid "Every content is available in all languages."
+msgstr "Tous les contenus sont disponibles dans toutes les langues."
+
+#: templates/dashboard/validation.html:8
+msgid ""
+"Contents submitted by PhD students and external collaborators wait here "
+"until a researcher or an axis lead validates them."
+msgstr ""
+"Les contenus déposés par les doctorants et les collaborateurs externes "
+"attendent ici qu'un chercheur ou un responsable d'axe les valide."
+
+#: templates/dashboard/validation.html:10
+msgid "Nothing to review for now."
+msgstr "Rien à valider pour le moment."
+
+#: templates/members/login.html:9
+msgid "Access your DAARA space."
+msgstr "Accédez à votre espace DAARA."

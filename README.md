@@ -32,8 +32,11 @@ docker compose run --rm web pytest                      # tests
 docker compose run --rm --no-deps web ruff check .      # analyse statique
 docker compose run --rm --no-deps web ruff format .     # formatage
 docker compose run --rm web python manage.py createsuperuser
+docker compose run --rm web python manage.py seed_demo  # comptes de démonstration
 docker compose run --rm --no-deps web python manage.py makemessages -l fr -l en --ignore=node_modules --ignore=static --ignore=tests
 ```
+
+Comptes de démonstration (`seed_demo`, mot de passe `daara-demo-2026`) : `awa` (doctorante), `moussa` (chercheur, responsable d'axe et éditeur), `fatou` (observatrice), `admin` (administratrice). Connexion sur http://localhost:8000/fr/account/login/.
 
 Page de travail du logo (développement seulement) : http://localhost:8000/fr/dev/logo/
 

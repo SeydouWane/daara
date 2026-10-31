@@ -9,6 +9,8 @@ Ce dossier rassemble la documentation technique de DAARA et les notes de passati
 | Formatage | ruff **et** black | ruff seul (`ruff format`) | `ruff format` reproduit black ; deux outils feraient doublon. |
 | Bascule de langue | sélecteur par cookie | lien GET `/i18n/<langue>/?next=…` | le formulaire POST de Django impose un jeton CSRF dans chaque page, incompatible avec le cache de 15 minutes des pages publiques (§7.5). |
 | Logo animé | pas d'animation imposée | boucle continue de 6 s, avec un bouton « Mettre en pause les animations » en pied de page | une animation automatique de plus de 5 s doit pouvoir être arrêtée (WCAG 2.1 critère 2.2.2, niveau A, exigé par §10.4). La préférence système « réduire les animations » coupe aussi la boucle. |
+| Profils | un profil par utilisateur | rôles cumulables, droits = union des rôles actifs ; un seul sidebar qui réunit les sections de tous les rôles | demande du porteur de projet ; règle aussi le cas du responsable d'axe, qui n'a que « V » dans la matrice et cumule en pratique le rôle de chercheur. |
+| Grades | liste fixe (PT, MC, CT…) | table modifiable dans l'administration | les grades diffèrent selon les pays des universités partenaires. |
 | Périmètre institutionnel | UNCHK et USSEIN | toutes les universités partenaires | correction du porteur de projet : les institutions seront une donnée, pas deux valeurs codées en dur. |
 
 ## Valeurs provisoires

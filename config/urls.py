@@ -13,5 +13,7 @@ urlpatterns = [
 # Toutes les pages publiques sont préfixées par la langue : /fr/…, /en/… (spec §5.3).
 urlpatterns += i18n_patterns(
     path(settings.ADMIN_URL, admin.site.urls),
+    path("account/", include("apps.members.urls")),
+    path("dashboard/", include("apps.dashboard.urls")),
     path("", include("apps.core.urls")),
 )
