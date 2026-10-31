@@ -1,0 +1,14 @@
+{% load i18n daara %}
+{% get_current_language as current %}
+{% get_available_languages as languages %}
+<ul class="flex gap-1 text-sm">
+  {% for code, name in languages %}
+    <li>
+      {% if code == current %}
+        <span lang="{{ code }}" aria-current="true" class="block rounded px-3 py-1.5 font-semibold text-brand-800 bg-brand-50">{{ name }}</span>
+      {% else %}
+        <a href="{% switch_language_url code %}" lang="{{ code }}" hreflang="{{ code }}" class="block rounded px-3 py-1.5 text-stone-700 underline-offset-4 hover:bg-stone-100 hover:underline">{{ name }}</a>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>

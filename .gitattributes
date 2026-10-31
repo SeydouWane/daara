@@ -1,0 +1,8 @@
+# Fins de ligne LF partout : les scripts tournent dans des conteneurs Linux.
+* text=auto eol=lf
+
+*.woff2 binary
+*.png binary
+*.jpg binary
+*.webp binary
+*.ico binary

@@ -1,0 +1,18 @@
+{
+  "name": "daara-assets",
+  "private": true,
+  "description": "Ressources front-end de DAARA : Tailwind CSS, HTMX et polices auto-hébergées.",
+  "scripts": {
+    "vendor": "node scripts/copy-vendor.mjs",
+    "build:css": "tailwindcss --input assets/css/main.css --output static/dist/css/main.css --minify",
+    "build": "npm run vendor && npm run build:css",
+    "dev": "sh scripts/watch-assets.sh"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.1.0",
+    "@fontsource-variable/space-grotesk": "^5.1.0",
+    "@tailwindcss/cli": "^4.1.0",
+    "htmx.org": "^2.0.4",
+    "tailwindcss": "^4.1.0"
+  }
+}

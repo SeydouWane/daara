@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Django
+/staticfiles/
+/media/
+*.mo
+
+# Front-end : node_modules vit dans un volume Docker, dist est généré
+node_modules/
+/static/dist/
+
+# Environnement et secrets
+.env
+
+# Claude Code : réglages personnels
+.claude/settings.local.json

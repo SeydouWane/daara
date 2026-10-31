@@ -1,0 +1,26 @@
+[project]
+name = "daara"
+version = "0.1.0"
+description = "DAARA — Data & AI Research Alliance for Africa"
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["**/migrations/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "DJ"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["apps", "config"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.test"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "--strict-markers"
+
+[tool.coverage.run]
+source = ["apps", "config"]
+omit = ["**/migrations/*"]

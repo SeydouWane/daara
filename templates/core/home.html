@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}DAARA — {% translate "Data & AI Research Alliance for Africa" %}{% endblock %}
+
+{% block content %}
+<section class="bg-brand-50">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+    <h1 class="max-w-3xl font-display text-3xl font-bold text-brand-900 sm:text-5xl">{% translate "Data & AI Research Alliance for Africa" %}</h1>
+    <p class="mt-6 max-w-2xl text-lg text-stone-700">{% translate "Publications, datasets, models and training from a team of AI researchers working with partner universities." %}</p>
+  </div>
+</section>
+
+<section aria-labelledby="chiffres" class="mx-auto max-w-6xl px-4 py-12">
+  <h2 id="chiffres" class="sr-only">{% translate "Key figures" %}</h2>
+  <dl class="grid gap-4 sm:grid-cols-3">
+    {% for label, value in counters %}
+      <div class="rounded-lg border border-stone-200 p-6">
+        <dt class="text-sm text-stone-600">{{ label }}</dt>
+        <dd class="mt-2 font-display text-4xl font-bold text-brand-700">{{ value }}</dd>
+      </div>
+    {% endfor %}
+  </dl>
+</section>
+
+<div class="mx-auto grid max-w-6xl gap-8 px-4 md:grid-cols-2">
+  <section aria-labelledby="actualites">
+    <h2 id="actualites" class="font-display text-2xl font-bold">{% translate "Latest news" %}</h2>
+    <p class="mt-4 text-stone-600">{% translate "No news yet." %}</p>
+  </section>
+  <section aria-labelledby="productions">
+    <h2 id="productions" class="font-display text-2xl font-bold">{% translate "Latest research outputs" %}</h2>
+    <p class="mt-4 text-stone-600">{% translate "No research outputs yet." %}</p>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% load i18n %}
+<header class="border-b border-stone-200 bg-white">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
+    <a href="{% url 'core:home' %}" class="text-3xl" aria-label="{% translate 'DAARA home page' %}">
+      {% include "components/logo.html" %}
+    </a>
+    <nav aria-label="{% translate 'Language' %}">
+      {% include "components/language_switcher.html" %}
+    </nav>
+  </div>
+</header>

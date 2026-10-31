@@ -1,0 +1,107 @@
+# English interface catalog. Source strings are already English: msgstr stays empty.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: DAARA 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-31 21:25+0000\n"
+"PO-Revision-Date: 2026-10-31 21:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: DAARA\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: apps/core/apps.py:7
+msgid "Core"
+msgstr ""
+
+#: apps/core/views.py:21
+msgid "Publications"
+msgstr ""
+
+#: apps/core/views.py:22
+msgid "Datasets"
+msgstr ""
+
+#: apps/core/views.py:23
+msgid "Training courses"
+msgstr ""
+
+#: apps/dashboard/apps.py:7
+msgid "Dashboard"
+msgstr ""
+
+#: apps/interop/apps.py:7
+msgid "Interoperability"
+msgstr ""
+
+#: apps/members/apps.py:7
+msgid "Members"
+msgstr ""
+
+#: apps/news/apps.py:7
+msgid "News"
+msgstr ""
+
+#: apps/projects/apps.py:7
+msgid "Projects"
+msgstr ""
+
+#: apps/research/apps.py:7
+msgid "Research outputs"
+msgstr ""
+
+#: apps/training/apps.py:7
+msgid "Training"
+msgstr ""
+
+#: templates/base.html:16
+msgid "Skip to content"
+msgstr ""
+
+#: templates/components/footer.html:4 templates/core/home.html:4
+#: templates/core/home.html:9
+msgid "Data & AI Research Alliance for Africa"
+msgstr ""
+
+#: templates/components/footer.html:5
+msgid ""
+"Editorial content licensed under <a href=\"https://creativecommons.org/"
+"licenses/by/4.0/\" class=\"underline underline-offset-4\">CC BY 4.0</a>."
+msgstr ""
+
+#: templates/components/header.html:4
+msgid "DAARA home page"
+msgstr ""
+
+#: templates/components/header.html:7
+msgid "Language"
+msgstr ""
+
+#: templates/core/home.html:10
+msgid ""
+"Publications, datasets, models and training from a team of AI researchers "
+"working with partner universities."
+msgstr ""
+
+#: templates/core/home.html:15
+msgid "Key figures"
+msgstr ""
+
+#: templates/core/home.html:28
+msgid "Latest news"
+msgstr ""
+
+#: templates/core/home.html:29
+msgid "No news yet."
+msgstr ""
+
+#: templates/core/home.html:32
+msgid "Latest research outputs"
+msgstr ""
+
+#: templates/core/home.html:33
+msgid "No research outputs yet."
+msgstr ""

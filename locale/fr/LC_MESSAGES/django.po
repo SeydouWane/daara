@@ -1,0 +1,113 @@
+# Traduction française de l'interface DAARA (niveau 1, spec §5.1 : 100 % traduite).
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: DAARA 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-31 21:25+0000\n"
+"PO-Revision-Date: 2026-10-31 21:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: DAARA\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: apps/core/apps.py:7
+msgid "Core"
+msgstr "Socle"
+
+#: apps/core/views.py:21
+msgid "Publications"
+msgstr "Publications"
+
+#: apps/core/views.py:22
+msgid "Datasets"
+msgstr "Jeux de données"
+
+#: apps/core/views.py:23
+msgid "Training courses"
+msgstr "Formations"
+
+#: apps/dashboard/apps.py:7
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#: apps/interop/apps.py:7
+msgid "Interoperability"
+msgstr "Interopérabilité"
+
+#: apps/members/apps.py:7
+msgid "Members"
+msgstr "Membres"
+
+#: apps/news/apps.py:7
+msgid "News"
+msgstr "Actualités"
+
+#: apps/projects/apps.py:7
+msgid "Projects"
+msgstr "Projets"
+
+#: apps/research/apps.py:7
+msgid "Research outputs"
+msgstr "Productions scientifiques"
+
+#: apps/training/apps.py:7
+msgid "Training"
+msgstr "Formation"
+
+#: templates/base.html:16
+msgid "Skip to content"
+msgstr "Aller au contenu"
+
+#: templates/components/footer.html:4 templates/core/home.html:4
+#: templates/core/home.html:9
+msgid "Data & AI Research Alliance for Africa"
+msgstr "Données, Apprentissage Automatique et Recherche en Afrique"
+
+#: templates/components/footer.html:5
+msgid ""
+"Editorial content licensed under <a href=\"https://creativecommons.org/"
+"licenses/by/4.0/\" class=\"underline underline-offset-4\">CC BY 4.0</a>."
+msgstr ""
+"Contenus éditoriaux sous licence <a href=\"https://creativecommons.org/"
+"licenses/by/4.0/deed.fr\" class=\"underline underline-offset-4\">CC BY 4.0</"
+"a>."
+
+#: templates/components/header.html:4
+msgid "DAARA home page"
+msgstr "Page d'accueil de DAARA"
+
+#: templates/components/header.html:7
+msgid "Language"
+msgstr "Langue"
+
+#: templates/core/home.html:10
+msgid ""
+"Publications, datasets, models and training from a team of AI researchers "
+"working with partner universities."
+msgstr ""
+"Publications, jeux de données, modèles et formations d'une équipe de "
+"chercheurs en intelligence artificielle, en partenariat avec des universités."
+
+#: templates/core/home.html:15
+msgid "Key figures"
+msgstr "Chiffres clés"
+
+#: templates/core/home.html:28
+msgid "Latest news"
+msgstr "Dernières actualités"
+
+#: templates/core/home.html:29
+msgid "No news yet."
+msgstr "Aucune actualité pour le moment."
+
+#: templates/core/home.html:32
+msgid "Latest research outputs"
+msgstr "Dernières productions"
+
+#: templates/core/home.html:33
+msgid "No research outputs yet."
+msgstr "Aucune production pour le moment."

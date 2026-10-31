@@ -1,0 +1,7 @@
+Django>=5.2,<5.3
+django-environ>=0.11,<1
+django-modeltranslation>=0.19,<1
+psycopg[binary]>=3.2,<4
+redis>=5,<7
+whitenoise>=6.7,<7
+gunicorn>=23,<24
