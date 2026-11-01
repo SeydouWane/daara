@@ -173,10 +173,11 @@
   }
 }
 
-/* Logo DAARA (gabarits components/logo.html et logo_symbol.html), variante « Signal » : un trait
-   balaie le mot puis se fixe en point de donnée, en boucle toutes les 6 s. L'icône reste fixe,
-   comme le favicon. La taille suit la police du parent. L'état de repos est l'état final : sans
-   animation (pause, préférence système, logo--static), le logo reste complet et lisible. */
+/* Logo DAARA (gabarits components/logo.html et logo_symbol.html), variante « Signal », en boucle
+   de 12 s : un trait balaie le mot et se fixe en point de donnée ; DAARA monte et laisse la place
+   à sa signification ; puis la signification monte à son tour et DAARA revient. L'icône reste
+   fixe, comme le favicon. La taille suit la police du parent. L'état de repos est « DAARA. » :
+   sans animation (pause, préférence système, logo--static), le logo reste complet et lisible. */
 @layer components {
   .logo-lockup {
     display: inline-flex;
@@ -221,7 +222,40 @@
     height: 0.2em;
     border-radius: 9999px;
     background: var(--color-ochre-500);
-    animation: logo-signal 6s ease-in-out infinite;
+    animation: logo-signal 12s ease-in-out infinite;
+  }
+
+  /* Fenêtre où DAARA et sa signification se relaient. Sa largeur est réservée une fois pour
+     toutes : l'en-tête ne bouge pas pendant l'animation. */
+  .logo-ticker {
+    display: inline-grid;
+    align-items: center;
+    width: 5.4em;
+    height: 1.3em;
+    overflow: hidden;
+  }
+  .logo-ticker > * {
+    grid-area: 1 / 1;
+  }
+  .logo-ticker .logo {
+    justify-self: start;
+    animation: logo-word 12s ease-in-out infinite;
+  }
+  .logo-ticker__meaning {
+    font-family: var(--font-display);
+    font-size: 0.45em;
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: 0;
+    text-wrap: balance;
+    color: var(--color-brand-800);
+    opacity: 0;
+    transform: translateY(115%);
+    animation: logo-meaning 12s ease-in-out infinite;
+  }
+  /* L'intitulé français est plus long : trois lignes au lieu de deux. */
+  .logo-ticker__meaning:lang(fr) {
+    font-size: 0.37em;
   }
 
   .logo-name {
@@ -235,7 +269,8 @@
   /* Monochrome (spec §10 : tenir en noir et blanc) : tout prend la couleur du texte parent,
      l'icône passe en contour pour rester lisible sur n'importe quel fond. */
   .logo--mono .logo,
-  .logo--mono .logo-name {
+  .logo--mono .logo-name,
+  .logo--mono .logo-ticker__meaning {
     color: inherit;
   }
   .logo--mono .logo::after,
@@ -254,22 +289,57 @@
 
   /* Arrêt de l'animation : logo--static, bouton « Mettre en pause » (WCAG 2.2.2, static/js/motion.js)
      ou préférence système. */
+  .logo--static .logo,
   .logo--static .logo::after,
-  [data-motion="paused"] .logo::after {
+  .logo--static .logo-ticker__meaning,
+  [data-motion="paused"] .logo,
+  [data-motion="paused"] .logo::after,
+  [data-motion="paused"] .logo-ticker__meaning {
     animation: none;
   }
   @media (prefers-reduced-motion: reduce) {
-    .logo::after {
+    .logo-ticker .logo,
+    .logo::after,
+    .logo-ticker__meaning {
       animation: none;
     }
   }
+
+  /* Planche du logo : image fixe de l'étape « signification », pour la relecture. */
+  .logo--frame-meaning .logo-ticker .logo {
+    animation: none;
+    opacity: 0;
+    transform: translateY(-115%);
+  }
+  .logo--frame-meaning .logo-ticker__meaning {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
-/* Cycle de 6 s : balayage (0,7 s), contraction en point (0,9 s), puis repos jusqu'à la fin. */
+/* Cycle de 12 s, les trois animations partagent la même horloge :
+   0–1,6 s    le trait balaie DAARA et se fixe en point ;
+   1,6–3,6 s  « DAARA. » au repos ;
+   3,6–4,3 s  DAARA monte, la signification monte à sa place ;
+   4,3–9,4 s  la signification reste affichée ;
+   9,4–10 s   elle monte à son tour, DAARA revient par le bas ;
+   10–12 s    « DAARA. » au repos, puis tout recommence. */
 @keyframes logo-signal {
   0% { left: 0; width: 0; height: 0.1em; border-radius: 0; }
-  12% { left: 0; width: 100%; height: 0.1em; border-radius: 0; }
-  20% { left: calc(100% - 0.2em); width: 0.2em; height: 0.1em; border-radius: 0; }
-  26%,
+  6% { left: 0; width: 100%; height: 0.1em; border-radius: 0; }
+  10% { left: calc(100% - 0.2em); width: 0.2em; height: 0.1em; border-radius: 0; }
+  13%,
   100% { left: calc(100% - 0.2em); width: 0.2em; height: 0.2em; border-radius: 9999px; }
+}
+@keyframes logo-word {
+  0%, 30% { opacity: 1; transform: translateY(0); }
+  36%, 78% { opacity: 0; transform: translateY(-115%); }
+  78.1% { opacity: 0; transform: translateY(115%); }
+  84%, 100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes logo-meaning {
+  0%, 30% { opacity: 0; transform: translateY(115%); }
+  36%, 78% { opacity: 1; transform: translateY(0); }
+  84%, 100% { opacity: 0; transform: translateY(-115%); }
 }

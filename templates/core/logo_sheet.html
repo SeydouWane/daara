@@ -9,7 +9,19 @@ Page de travail réservée au développement, sans traduction. Elle montre les t
 {% block content %}
 <div class="mx-auto max-w-6xl px-4 py-12">
   <h1 class="font-display text-3xl font-bold">Logo DAARA : variante Signal</h1>
-  <p class="mt-2 max-w-2xl text-stone-600">Le trait balaie le mot puis se fixe en point de donnée, en boucle toutes les 6 secondes ; l'icône reste fixe, comme le favicon. Le bouton « Mettre en pause les animations », en pied de page, arrête la boucle ; la préférence système « réduire les animations » aussi.</p>
+  <p class="mt-2 max-w-2xl text-stone-600">Boucle de 12 secondes : le trait balaie le mot et se fixe en point de donnée ; DAARA monte et laisse la place à sa signification, dans la langue de la page ; puis la signification monte à son tour et DAARA revient. L'icône reste fixe, comme le favicon. Le bouton « Mettre en pause les animations », en pied de page, arrête la boucle ; la préférence système « réduire les animations » aussi.</p>
+
+  <h2 class="mt-10 text-xl font-semibold">Les deux temps de l'animation</h2>
+  <div class="mt-4 grid gap-6 sm:grid-cols-2">
+    <figure class="rounded-xl border border-stone-200 p-8">
+      <div class="text-[30px]">{% include "components/logo.html" with extra="logo--static" %}</div>
+      <figcaption class="mt-6 text-sm text-stone-600">Temps 1 : « DAARA. », après le passage du trait (taille de l'en-tête)</figcaption>
+    </figure>
+    <figure class="rounded-xl border border-stone-200 p-8">
+      <div class="text-[30px]">{% include "components/logo.html" with extra="logo--frame-meaning" %}</div>
+      <figcaption class="mt-6 text-sm text-stone-600">Temps 2 : la signification a pris la place du mot (taille de l'en-tête)</figcaption>
+    </figure>
+  </div>
 
   <h2 class="mt-10 text-xl font-semibold">Déclinaisons</h2>
   <div class="mt-4 grid gap-6 sm:grid-cols-2">

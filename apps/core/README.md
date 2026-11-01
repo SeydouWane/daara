@@ -28,4 +28,4 @@ Les menus déroulants et le menu mobile sont des éléments `<details>` : ils ma
 - `views.py` : accueil, pages, axes de recherche, partenaires, planche du logo (développement), `healthz`, `switch_language`.
 - `templatetags/daara.py` : `hreflang_links`, `switch_language_url`, `public_navigation`, `render_markdown`.
 - `fields.py` : `HttpsURLField`, qui complète une adresse sans schéma en `https://`.
-- Logo : variante « Signal » en boucle (gabarits `components/logo.html` et `components/logo_symbol.html`, pause dans `static/js/motion.js`).
+- Logo : variante « Signal » en boucle de 12 s : le trait se fixe en point, puis DAARA monte et laisse la place à sa signification, qui monte à son tour avant le retour de DAARA (gabarits `components/logo.html` et `components/logo_symbol.html`, styles `.logo-ticker`, pause dans `static/js/motion.js`). La planche `/fr/dev/logo/` montre les deux temps en image fixe.

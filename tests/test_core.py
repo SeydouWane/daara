@@ -37,7 +37,12 @@ def test_home_is_served_in_each_language(client, lang, title):
 def test_header_shows_reduced_logo_and_footer_offers_animation_pause(client):
     html = client.get("/fr/").content.decode()
     assert 'class="logo-symbol"' in html
-    assert '<span class="logo max-sm:hidden">DAARA</span>' in html
+    assert '<span class="logo-ticker max-sm:hidden"><span class="logo">DAARA</span>' in html
+    # La signification défile dans le logo, dans la langue de la page.
+    assert (
+        '<span class="logo-ticker__meaning" aria-hidden="true">'
+        "Données, Apprentissage Automatique et Recherche en Afrique</span>"
+    ) in html
     assert "data-motion-toggle" in html
     assert "Mettre en pause les animations" in html
 
