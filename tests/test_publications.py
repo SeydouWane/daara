@@ -95,6 +95,19 @@ def test_shared_publication_stays_linked_to_every_member_coauthor(make_user, pub
     assert [a.member for a in updated.authorships.all()] == [coauthor, author]
 
 
+def test_a_member_split_into_several_openalex_authors_is_linked_everywhere(make_user):
+    """OpenAlex coupe parfois une même personne en plusieurs auteurs (cas Okalas Ossami)."""
+    user = make_user("dd", Role.RESEARCHER, first_name="Dieu-Donné", last_name="Okalas Ossami")
+    member = Member.objects.create(user=user, slug="dd", openalex_id="A7 A42")
+    first, _created = import_work(WORK)
+    second_work = {**copy.deepcopy(WORK), "id": "https://openalex.org/W200", "doi": None}
+    second_work["authorships"][1]["author"]["id"] = "https://openalex.org/A7"
+    second, _created = import_work(second_work)
+    assert first.authorships.get(position=2).member == member
+    assert second.authorships.get(position=2).member == member
+    assert member.external_links()[0] == ("OpenAlex", "https://openalex.org/authors/A7")
+
+
 def test_manual_author_links_survive_a_reimport(make_user, publication):
     user = make_user("jean", Role.RESEARCHER, first_name="Jean", last_name="Dupont")
     jean = Member.objects.create(user=user, slug="jean-dupont")

@@ -184,10 +184,13 @@ class Member(TimeStampedModel):
     orcid = models.CharField(_("ORCID iD"), max_length=19, blank=True, validators=[validate_orcid])
     openalex_id = models.CharField(
         _("OpenAlex author ID"),
-        max_length=20,
+        max_length=100,
         blank=True,
-        validators=[RegexValidator(r"^A\d+$")],
-        help_text=_("E.g. A5011347992. Links imported publications to this profile."),
+        validators=[RegexValidator(r"^A\d+( A\d+)*$")],
+        help_text=_(
+            "E.g. A5011347992. Several IDs separated by spaces when OpenAlex splits the same "
+            "person into several authors. Links imported publications to this profile."
+        ),
     )
     bio = models.TextField(_("biography"), blank=True, help_text=_("Markdown."))
     google_scholar_id = models.CharField(_("Google Scholar ID"), max_length=40, blank=True)
@@ -230,6 +233,10 @@ class Member(TimeStampedModel):
         return "".join(part[0] for part in parts if part).upper() or self.user.username[:2].upper()
 
     @property
+    def openalex_ids(self):
+        return self.openalex_id.split()
+
+    @property
     def primary_institution(self):
         for affiliation in self.affiliations.all():
             if affiliation.is_primary:
@@ -246,7 +253,10 @@ class Member(TimeStampedModel):
                 and f"https://scholar.google.com/citations?user={self.google_scholar_id}",
             ),
             ("HAL", self.hal_id and f"https://cv.hal.science/{self.hal_id}"),
-            ("OpenAlex", self.openalex_id and f"https://openalex.org/{self.openalex_id}"),
+            (
+                "OpenAlex",
+                self.openalex_ids and f"https://openalex.org/authors/{self.openalex_ids[0]}",
+            ),
             ("GitHub", self.github and f"https://github.com/{self.github}"),
             ("Hugging Face", self.huggingface and f"https://huggingface.co/{self.huggingface}"),
             ("LinkedIn", self.linkedin),

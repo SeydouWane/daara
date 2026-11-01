@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAARA 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-01 02:36+0000\n"
+"POT-Creation-Date: 2026-11-01 02:50+0000\n"
 "PO-Revision-Date: 2026-10-31 21:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: DAARA\n"
@@ -75,11 +75,11 @@ msgstr "Une ou deux phrases."
 msgid "body"
 msgstr "corps"
 
-#: apps/core/models.py:44 apps/members/models.py:192
+#: apps/core/models.py:44 apps/members/models.py:195
 msgid "Markdown."
 msgstr "Markdown."
 
-#: apps/core/models.py:45 apps/members/models.py:198
+#: apps/core/models.py:45 apps/members/models.py:201
 #: apps/research/models.py:43
 msgid "status"
 msgstr "statut"
@@ -374,7 +374,7 @@ msgstr ""
 "Fichier officiel fourni par l'institution, en PNG ou JPEG sur fond "
 "transparent ou blanc. Converti automatiquement en WebP."
 
-#: apps/members/models.py:65 apps/members/models.py:270
+#: apps/members/models.py:65 apps/members/models.py:280
 msgid "institution"
 msgstr "institution"
 
@@ -426,7 +426,7 @@ msgstr "ordre"
 msgid "icon"
 msgstr "icône"
 
-#: apps/members/models.py:108 apps/members/models.py:331
+#: apps/members/models.py:108 apps/members/models.py:341
 #: apps/research/models.py:35
 msgid "research axis"
 msgstr "axe de recherche"
@@ -480,152 +480,157 @@ msgstr "identifiant ORCID"
 msgid "OpenAlex author ID"
 msgstr "identifiant d'auteur OpenAlex"
 
-#: apps/members/models.py:190
-msgid "E.g. A5011347992. Links imported publications to this profile."
+#: apps/members/models.py:191
+msgid ""
+"E.g. A5011347992. Several IDs separated by spaces when OpenAlex splits the "
+"same person into several authors. Links imported publications to this "
+"profile."
 msgstr ""
-"Par exemple A5011347992. Relie les publications importées à ce profil."
+"Par exemple A5011347992. Plusieurs identifiants séparés par des espaces "
+"quand OpenAlex coupe une même personne en plusieurs auteurs. Relie les "
+"publications importées à ce profil."
 
-#: apps/members/models.py:192
+#: apps/members/models.py:195
 msgid "biography"
 msgstr "biographie"
 
-#: apps/members/models.py:193
+#: apps/members/models.py:196
 msgid "Google Scholar ID"
 msgstr "identifiant Google Scholar"
 
-#: apps/members/models.py:194 apps/research/models.py:128
+#: apps/members/models.py:197 apps/research/models.py:128
 msgid "HAL identifier"
 msgstr "identifiant HAL"
 
-#: apps/members/models.py:195
+#: apps/members/models.py:198
 msgid "GitHub username"
 msgstr "nom d'utilisateur GitHub"
 
-#: apps/members/models.py:196
+#: apps/members/models.py:199
 msgid "Hugging Face username"
 msgstr "nom d'utilisateur Hugging Face"
 
-#: apps/members/models.py:197
+#: apps/members/models.py:200
 msgid "LinkedIn profile"
 msgstr "profil LinkedIn"
 
-#: apps/members/models.py:199
+#: apps/members/models.py:202
 msgid "joined on"
 msgstr "arrivée le"
 
-#: apps/members/models.py:200
+#: apps/members/models.py:203
 msgid "left on"
 msgstr "départ le"
 
-#: apps/members/models.py:206 apps/research/models.py:83
+#: apps/members/models.py:209 apps/research/models.py:83
 msgid "member"
 msgstr "membre"
 
-#: apps/members/models.py:207
+#: apps/members/models.py:210
 msgid "members"
 msgstr "membres"
 
-#: apps/members/models.py:263
+#: apps/members/models.py:273
 msgid "An alumni profile needs a departure date."
 msgstr "Un profil alumni doit indiquer une date de départ."
 
-#: apps/members/models.py:274
+#: apps/members/models.py:284
 msgid "primary affiliation"
 msgstr "rattachement principal"
 
-#: apps/members/models.py:277
+#: apps/members/models.py:287
 msgid "affiliation"
 msgstr "rattachement"
 
-#: apps/members/models.py:278
+#: apps/members/models.py:288
 msgid "affiliations"
 msgstr "rattachements"
 
-#: apps/members/models.py:293
+#: apps/members/models.py:303
 msgid "Learner"
 msgstr "Apprenant"
 
-#: apps/members/models.py:294
+#: apps/members/models.py:304
 msgid "PhD student"
 msgstr "Doctorant"
 
-#: apps/members/models.py:295
+#: apps/members/models.py:305
 msgid "Researcher"
 msgstr "Chercheur"
 
-#: apps/members/models.py:296 templates/core/axes.html:23
+#: apps/members/models.py:306 templates/core/axes.html:23
 msgid "Axis lead"
 msgstr "Responsable d'axe"
 
-#: apps/members/models.py:297
+#: apps/members/models.py:307
 msgid "Editor and translator"
 msgstr "Éditeur et traducteur"
 
-#: apps/members/models.py:298
+#: apps/members/models.py:308
 msgid "External collaborator"
 msgstr "Collaborateur externe"
 
-#: apps/members/models.py:299
+#: apps/members/models.py:309
 msgid "Observer"
 msgstr "Observateur"
 
-#: apps/members/models.py:300
+#: apps/members/models.py:310
 msgid "Administrator"
 msgstr "Administrateur"
 
-#: apps/members/models.py:324
+#: apps/members/models.py:334
 msgid "user"
 msgstr "utilisateur"
 
-#: apps/members/models.py:328
+#: apps/members/models.py:338
 msgid "role"
 msgstr "rôle"
 
-#: apps/members/models.py:336
+#: apps/members/models.py:346
 msgid "Required for axis leads, empty for every other role."
 msgstr "Obligatoire pour un responsable d'axe, vide pour tout autre rôle."
 
-#: apps/members/models.py:338
+#: apps/members/models.py:348
 msgid "starts on"
 msgstr "début"
 
-#: apps/members/models.py:340
+#: apps/members/models.py:350
 msgid "expires on"
 msgstr "expiration"
 
-#: apps/members/models.py:343
+#: apps/members/models.py:353
 msgid "Required for observers: 12 months at most, renewable."
 msgstr "Obligatoire pour un observateur : 12 mois au plus, renouvelable."
 
-#: apps/members/models.py:350
+#: apps/members/models.py:360
 msgid "role assignment"
 msgstr "attribution de rôle"
 
-#: apps/members/models.py:351
+#: apps/members/models.py:361
 msgid "role assignments"
 msgstr "attributions de rôle"
 
-#: apps/members/models.py:387
+#: apps/members/models.py:397
 msgid "An axis lead must be assigned to an axis."
 msgstr "Un responsable d'axe doit être rattaché à un axe."
 
-#: apps/members/models.py:389
+#: apps/members/models.py:399
 msgid "Only axis leads are assigned to an axis."
 msgstr "Seul un responsable d'axe est rattaché à un axe."
 
-#: apps/members/models.py:393
+#: apps/members/models.py:403
 msgid "An observer access must have an expiry date."
 msgstr "Un accès observateur doit avoir une date d'expiration."
 
-#: apps/members/models.py:395
+#: apps/members/models.py:405
 msgid "An observer access lasts 12 months at most."
 msgstr "Un accès observateur dure 12 mois au plus."
 
-#: apps/members/models.py:397
+#: apps/members/models.py:407
 msgid "The expiry date cannot precede the start date."
 msgstr "La date d'expiration ne peut pas précéder la date de début."
 
-#: apps/members/models.py:406
+#: apps/members/models.py:416
 msgid "This axis already has an active lead."
 msgstr "Cet axe a déjà un responsable actif."
 
@@ -1279,6 +1284,10 @@ msgstr "Titre, auteur ou revue"
 #: templates/research/publication_list.html:36
 msgid "Author"
 msgstr "Auteur"
+
+#~ msgid "E.g. A5011347992. Links imported publications to this profile."
+#~ msgstr ""
+#~ "Par exemple A5011347992. Relie les publications importées à ce profil."
 
 #~ msgid "See the members"
 #~ msgstr "Voir les membres"

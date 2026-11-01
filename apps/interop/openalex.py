@@ -121,7 +121,11 @@ def import_work(work, status=Publication.Status.PUBLISHED):
         setattr(publication, f"abstract_{language}", abstract)
     publication.save()
 
-    known = dict(Member.objects.exclude(openalex_id="").values_list("openalex_id", "pk"))
+    known = {
+        author_id: pk
+        for ids, pk in Member.objects.exclude(openalex_id="").values_list("openalex_id", "pk")
+        for author_id in ids.split()
+    }
     # Liens posés à la main dans l'administration, retrouvés par le nom de l'auteur.
     linked_by_hand = {
         authorship.name: authorship.member_id
