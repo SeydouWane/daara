@@ -29,6 +29,15 @@ class Command(BaseCommand):
         except Member.DoesNotExist as error:
             raise CommandError(f"Aucun membre avec le slug « {member} ».") from error
         author = short_id(author)
+        if profile.openalex_id and profile.openalex_id != author:
+            raise CommandError(
+                f"{profile} est déjà relié à l'auteur OpenAlex {profile.openalex_id}, pas {author}."
+            )
+        if not dry_run and not profile.openalex_id:
+            # Le lien membre ↔ auteur sert ensuite à chaque import, y compris celui d'un
+            # co-auteur : les publications partagées restent reliées à tous leurs membres.
+            profile.openalex_id = author
+            profile.save(update_fields=["openalex_id"])
         excluded = set(exclude)
         counts = {"created": 0, "updated": 0, "skipped": 0}
 
@@ -43,7 +52,7 @@ class Command(BaseCommand):
             if dry_run:
                 self.stdout.write(f"  + {work_id} {fields['year']} {fields['title'][:80]}")
                 continue
-            _publication, created = import_work(work, profile, author)
+            _publication, created = import_work(work)
             counts["created" if created else "updated"] += 1
 
         self.stdout.write(

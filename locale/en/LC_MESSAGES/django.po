@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAARA 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-01 02:25+0000\n"
+"POT-Creation-Date: 2026-11-01 02:36+0000\n"
 "PO-Revision-Date: 2026-10-31 21:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: DAARA\n"
@@ -75,11 +75,11 @@ msgstr ""
 msgid "body"
 msgstr ""
 
-#: apps/core/models.py:44 apps/members/models.py:185
+#: apps/core/models.py:44 apps/members/models.py:192
 msgid "Markdown."
 msgstr ""
 
-#: apps/core/models.py:45 apps/members/models.py:191
+#: apps/core/models.py:45 apps/members/models.py:198
 #: apps/research/models.py:43
 msgid "status"
 msgstr ""
@@ -365,7 +365,7 @@ msgid ""
 " white background. Converted to WebP automatically."
 msgstr ""
 
-#: apps/members/models.py:65 apps/members/models.py:259
+#: apps/members/models.py:65 apps/members/models.py:270
 msgid "institution"
 msgstr ""
 
@@ -417,7 +417,7 @@ msgstr ""
 msgid "icon"
 msgstr ""
 
-#: apps/members/models.py:108 apps/members/models.py:320
+#: apps/members/models.py:108 apps/members/models.py:331
 #: apps/research/models.py:35
 msgid "research axis"
 msgstr ""
@@ -466,147 +466,155 @@ msgstr ""
 msgid "ORCID iD"
 msgstr ""
 
-#: apps/members/models.py:185
-msgid "biography"
-msgstr ""
-
 #: apps/members/models.py:186
-msgid "Google Scholar ID"
-msgstr ""
-
-#: apps/members/models.py:187 apps/research/models.py:128
-msgid "HAL identifier"
-msgstr ""
-
-#: apps/members/models.py:188
-msgid "GitHub username"
-msgstr ""
-
-#: apps/members/models.py:189
-msgid "Hugging Face username"
+msgid "OpenAlex author ID"
 msgstr ""
 
 #: apps/members/models.py:190
-msgid "LinkedIn profile"
+msgid "E.g. A5011347992. Links imported publications to this profile."
 msgstr ""
 
 #: apps/members/models.py:192
-msgid "joined on"
+msgid "biography"
 msgstr ""
 
 #: apps/members/models.py:193
-msgid "left on"
+msgid "Google Scholar ID"
 msgstr ""
 
-#: apps/members/models.py:199 apps/research/models.py:83
-msgid "member"
+#: apps/members/models.py:194 apps/research/models.py:128
+msgid "HAL identifier"
+msgstr ""
+
+#: apps/members/models.py:195
+msgid "GitHub username"
+msgstr ""
+
+#: apps/members/models.py:196
+msgid "Hugging Face username"
+msgstr ""
+
+#: apps/members/models.py:197
+msgid "LinkedIn profile"
+msgstr ""
+
+#: apps/members/models.py:199
+msgid "joined on"
 msgstr ""
 
 #: apps/members/models.py:200
+msgid "left on"
+msgstr ""
+
+#: apps/members/models.py:206 apps/research/models.py:83
+msgid "member"
+msgstr ""
+
+#: apps/members/models.py:207
 msgid "members"
 msgstr ""
 
-#: apps/members/models.py:252
+#: apps/members/models.py:263
 msgid "An alumni profile needs a departure date."
 msgstr ""
 
-#: apps/members/models.py:263
+#: apps/members/models.py:274
 msgid "primary affiliation"
 msgstr ""
 
-#: apps/members/models.py:266
+#: apps/members/models.py:277
 msgid "affiliation"
 msgstr ""
 
-#: apps/members/models.py:267
+#: apps/members/models.py:278
 msgid "affiliations"
 msgstr ""
 
-#: apps/members/models.py:282
+#: apps/members/models.py:293
 msgid "Learner"
 msgstr ""
 
-#: apps/members/models.py:283
+#: apps/members/models.py:294
 msgid "PhD student"
 msgstr ""
 
-#: apps/members/models.py:284
+#: apps/members/models.py:295
 msgid "Researcher"
 msgstr ""
 
-#: apps/members/models.py:285 templates/core/axes.html:23
+#: apps/members/models.py:296 templates/core/axes.html:23
 msgid "Axis lead"
 msgstr ""
 
-#: apps/members/models.py:286
+#: apps/members/models.py:297
 msgid "Editor and translator"
 msgstr ""
 
-#: apps/members/models.py:287
+#: apps/members/models.py:298
 msgid "External collaborator"
 msgstr ""
 
-#: apps/members/models.py:288
+#: apps/members/models.py:299
 msgid "Observer"
 msgstr ""
 
-#: apps/members/models.py:289
+#: apps/members/models.py:300
 msgid "Administrator"
 msgstr ""
 
-#: apps/members/models.py:313
+#: apps/members/models.py:324
 msgid "user"
 msgstr ""
 
-#: apps/members/models.py:317
+#: apps/members/models.py:328
 msgid "role"
 msgstr ""
 
-#: apps/members/models.py:325
+#: apps/members/models.py:336
 msgid "Required for axis leads, empty for every other role."
 msgstr ""
 
-#: apps/members/models.py:327
+#: apps/members/models.py:338
 msgid "starts on"
 msgstr ""
 
-#: apps/members/models.py:329
+#: apps/members/models.py:340
 msgid "expires on"
 msgstr ""
 
-#: apps/members/models.py:332
+#: apps/members/models.py:343
 msgid "Required for observers: 12 months at most, renewable."
 msgstr ""
 
-#: apps/members/models.py:339
+#: apps/members/models.py:350
 msgid "role assignment"
 msgstr ""
 
-#: apps/members/models.py:340
+#: apps/members/models.py:351
 msgid "role assignments"
 msgstr ""
 
-#: apps/members/models.py:376
+#: apps/members/models.py:387
 msgid "An axis lead must be assigned to an axis."
 msgstr ""
 
-#: apps/members/models.py:378
+#: apps/members/models.py:389
 msgid "Only axis leads are assigned to an axis."
 msgstr ""
 
-#: apps/members/models.py:382
+#: apps/members/models.py:393
 msgid "An observer access must have an expiry date."
 msgstr ""
 
-#: apps/members/models.py:384
+#: apps/members/models.py:395
 msgid "An observer access lasts 12 months at most."
 msgstr ""
 
-#: apps/members/models.py:386
+#: apps/members/models.py:397
 msgid "The expiry date cannot precede the start date."
 msgstr ""
 
-#: apps/members/models.py:395
+#: apps/members/models.py:406
 msgid "This axis already has an active lead."
 msgstr ""
 

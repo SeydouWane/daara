@@ -182,6 +182,13 @@ class Member(TimeStampedModel):
     photo_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
     photo_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
     orcid = models.CharField(_("ORCID iD"), max_length=19, blank=True, validators=[validate_orcid])
+    openalex_id = models.CharField(
+        _("OpenAlex author ID"),
+        max_length=20,
+        blank=True,
+        validators=[RegexValidator(r"^A\d+$")],
+        help_text=_("E.g. A5011347992. Links imported publications to this profile."),
+    )
     bio = models.TextField(_("biography"), blank=True, help_text=_("Markdown."))
     google_scholar_id = models.CharField(_("Google Scholar ID"), max_length=40, blank=True)
     hal_id = models.CharField(_("HAL identifier"), max_length=60, blank=True)
@@ -201,7 +208,10 @@ class Member(TimeStampedModel):
         constraints = [
             models.UniqueConstraint(
                 fields=["orcid"], condition=~Q(orcid=""), name="unique_member_orcid"
-            )
+            ),
+            models.UniqueConstraint(
+                fields=["openalex_id"], condition=~Q(openalex_id=""), name="unique_member_openalex"
+            ),
         ]
 
     def __str__(self):
@@ -236,6 +246,7 @@ class Member(TimeStampedModel):
                 and f"https://scholar.google.com/citations?user={self.google_scholar_id}",
             ),
             ("HAL", self.hal_id and f"https://cv.hal.science/{self.hal_id}"),
+            ("OpenAlex", self.openalex_id and f"https://openalex.org/{self.openalex_id}"),
             ("GitHub", self.github and f"https://github.com/{self.github}"),
             ("Hugging Face", self.huggingface and f"https://huggingface.co/{self.huggingface}"),
             ("LinkedIn", self.linkedin),

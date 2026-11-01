@@ -11,6 +11,7 @@ import urllib.request
 from django.conf import settings
 from django.db import transaction
 
+from apps.members.models import Member
 from apps.research.models import Authorship, Publication, normalize_doi
 
 API = "https://api.openalex.org"
@@ -94,9 +95,13 @@ def publication_fields(work):
 
 
 @transaction.atomic
-def import_work(work, member, author_id, status=Publication.Status.PUBLISHED):
+def import_work(work, status=Publication.Status.PUBLISHED):
     """Crée ou met à jour une publication. Le statut et l'axe choisis ensuite par l'équipe
-    sont conservés lors d'un nouvel import. Renvoie (publication, créée) ou (None, False)."""
+    sont conservés lors d'un nouvel import. Renvoie (publication, créée) ou (None, False).
+
+    Chaque co-auteur est relié au membre qui porte son identifiant OpenAlex : une publication
+    partagée par plusieurs membres reste liée à tous, quel que soit celui qu'on importe.
+    """
     fields = publication_fields(work)
     if fields is None:
         return None, False
@@ -116,14 +121,20 @@ def import_work(work, member, author_id, status=Publication.Status.PUBLISHED):
         setattr(publication, f"abstract_{language}", abstract)
     publication.save()
 
+    known = dict(Member.objects.exclude(openalex_id="").values_list("openalex_id", "pk"))
+    # Liens posés à la main dans l'administration, retrouvés par le nom de l'auteur.
+    linked_by_hand = {
+        authorship.name: authorship.member_id
+        for authorship in publication.authorships.all()
+        if authorship.member_id
+    }
     publication.authorships.all().delete()
-    Authorship.objects.bulk_create(
-        Authorship(
-            production=publication,
-            position=position,
-            name=authorship["author"]["display_name"][:200],
-            member=member if short_id(authorship["author"].get("id")) == author_id else None,
+    authorships = []
+    for position, authorship in enumerate(work.get("authorships") or [], start=1):
+        name = authorship["author"]["display_name"][:200]
+        member_id = known.get(short_id(authorship["author"].get("id"))) or linked_by_hand.get(name)
+        authorships.append(
+            Authorship(production=publication, position=position, name=name, member_id=member_id)
         )
-        for position, authorship in enumerate(work.get("authorships") or [], start=1)
-    )
+    Authorship.objects.bulk_create(authorships)
     return publication, created

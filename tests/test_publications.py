@@ -42,12 +42,12 @@ WORK = {
 @pytest.fixture
 def author(make_user):
     user = make_user("awa", Role.RESEARCHER, first_name="Awa", last_name="Sarr")
-    return Member.objects.create(user=user, slug="awa-sarr")
+    return Member.objects.create(user=user, slug="awa-sarr", openalex_id="A42")
 
 
 @pytest.fixture
 def publication(author):
-    return import_work(WORK, author, "A42")[0]
+    return import_work(WORK)[0]
 
 
 def test_openalex_work_is_mapped_to_publication_fields():
@@ -80,11 +80,27 @@ def test_reimport_updates_without_duplicating_and_keeps_editorial_choices(public
     Publication.objects.filter(pk=publication.pk).update(status=Publication.Status.ARCHIVED)
     changed = copy.deepcopy(WORK)
     changed["title"] = "Fact-checking Senegalese news, revised"
-    updated, created = import_work(changed, author, "A42")
+    updated, created = import_work(changed)
     assert not created
     assert Publication.objects.count() == 1
     assert updated.title == "Fact-checking Senegalese news, revised"
     assert updated.status == Publication.Status.ARCHIVED
+
+
+def test_shared_publication_stays_linked_to_every_member_coauthor(make_user, publication, author):
+    """Importer un co-auteur ne doit pas délier les membres déjà reliés (cas Sall et Sarr)."""
+    user = make_user("jean", Role.RESEARCHER, first_name="Jean", last_name="Dupont")
+    coauthor = Member.objects.create(user=user, slug="jean-dupont", openalex_id="A1")
+    updated, _created = import_work(WORK)
+    assert [a.member for a in updated.authorships.all()] == [coauthor, author]
+
+
+def test_manual_author_links_survive_a_reimport(make_user, publication):
+    user = make_user("jean", Role.RESEARCHER, first_name="Jean", last_name="Dupont")
+    jean = Member.objects.create(user=user, slug="jean-dupont")
+    publication.authorships.filter(position=1).update(member=jean)
+    updated, _created = import_work(WORK)
+    assert updated.authorships.get(position=1).member == jean
 
 
 def test_bibtex_and_reference(publication):
