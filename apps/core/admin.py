@@ -105,8 +105,7 @@ class PartnershipStepAdmin(OrderedItemAdmin):
 
 @admin.register(Page)
 class PageAdmin(LongTextMixin, CreatedByAdminMixin, TranslationAdmin):
-    """Pages éditoriales : l'éditeur les modifie et les publie, l'administrateur seul en crée
-    ou en supprime (voir apps/members/backends.py)."""
+    """Pages éditoriales, côté administration technique (l'équipe les gère dans l'espace)."""
 
     list_display = ["title", "slug", "placement", "status", "updated_at"]
     list_filter = ["status"]

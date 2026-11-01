@@ -2,6 +2,8 @@
 
 import unicodedata
 
+from django.utils.translation import gettext as _
+
 from .models import Publication
 
 Kind = Publication.Kind
@@ -91,3 +93,21 @@ def reference(publication):
     if publication.doi:
         text += f" {publication.doi_url}"
     return text
+
+
+def dataset_reference(dataset):
+    """Référence d'un jeu de données, à la manière de DataCite :
+    Auteurs (Année). Titre (version) [Jeu de données]. DOI ou adresse de l'entrepôt."""
+    names = authors(dataset)
+    if len(names) > 6:
+        names = [*names[:6], "et al."]
+    head = ", ".join(names)
+    if dataset.year:
+        head += f" ({dataset.year})"
+    title = dataset.title.rstrip(".")
+    if dataset.version:
+        title += f" ({_('version')} {dataset.version})"
+    title += f" [{_('Data set')}]"
+    text = ". ".join(part for part in (head, title) if part) + "."
+    link = dataset.doi_url or dataset.url
+    return f"{text} {link}" if link else text

@@ -1,8 +1,8 @@
-"""Site d'administration de DAARA : les modèles y sont rangés comme sur la vitrine publique.
+"""Administration Django : recours technique réservé aux super-utilisateurs.
 
-Plutôt que par application technique (core, members, research), l'accueil et le menu latéral
-de l'administration suivent les rubriques que voit le visiteur : on retrouve ce qu'on veut
-modifier là où on l'a vu.
+L'équipe gère le site dans son espace (/dashboard/, pages « Gérer ») : l'administration
+Django n'est liée nulle part et refuse tout autre compte. Ses rubriques suivent quand même
+la vitrine publique, pour s'y retrouver.
 """
 
 from django.contrib import admin
@@ -15,7 +15,12 @@ SECTIONS = (
         _("Pages: About, Partners, Contact…"),
         ("core.page", "core.standard", "core.partnershipstep"),
     ),
-    ("research", _("Research"), ("members.axis", "research.publication")),
+    (
+        "research",
+        _("Research"),
+        ("members.axis", "research.publication", "research.dataset", "research.aimodel"),
+    ),
+    ("projects", _("Projects"), ("projects.project",)),
     ("members", _("Members"), ("members.member", "members.grade")),
     ("partners", _("Partner institutions"), ("members.institution",)),
     ("accounts", _("Accounts and roles"), ("members.user", "members.roleassignment")),
@@ -27,6 +32,9 @@ class DaaraAdminSite(admin.AdminSite):
     site_header = _("DAARA administration")
     site_title = _("DAARA administration")
     index_title = _("Everything shown on the public site")
+
+    def has_permission(self, request):
+        return request.user.is_active and request.user.is_superuser
 
     def get_app_list(self, request, app_label=None):
         app_list = super().get_app_list(request, app_label)

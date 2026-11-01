@@ -1,0 +1,20 @@
+{% load i18n %}
+<p class="text-sm text-stone-600">{% blocktranslate count counter=paginator.count %}{{ counter }} result{% plural %}{{ counter }} results{% endblocktranslate %}</p>
+
+{% if object_list %}
+  <ul class="mt-4 grid gap-4 lg:grid-cols-2">
+    {% for item in object_list %}
+      <li>{% include item_template %}</li>
+    {% endfor %}
+  </ul>
+  {% include "components/pagination.html" %}
+{% elif filters.q or filters.year or filters.axis or filters.member or current_choice %}
+  <p class="mt-4 rounded-xl border border-dashed border-stone-300 p-8 text-center text-stone-600">{{ empty_text }}</p>
+{% else %}
+  {# Catalogue encore vide : on dit ce qui viendra plutôt qu'une liste blanche. #}
+  <div class="mt-4 flex flex-col items-center gap-4 rounded-2xl border border-dashed border-stone-300 px-6 py-14 text-center">
+    <span class="flex size-16 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">{% include "components/icon.html" with name=empty_icon|default:"database" class="size-8" stroke="1.5" %}</span>
+    <p class="max-w-md font-semibold text-stone-900">{% translate "The first entries are being prepared." %}</p>
+    <p class="max-w-md text-sm text-stone-600">{% translate "DAARA members describe their work here as soon as it is deposited, with its DOI and its licence." %}</p>
+  </div>
+{% endif %}

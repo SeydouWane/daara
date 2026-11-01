@@ -12,7 +12,7 @@ from django.utils.translation import gettext as _
 
 from apps.core import navigation
 from apps.core.images import rendition_name, rendition_widths
-from apps.members.backends import is_back_office
+from apps.members.permissions import is_back_office, may
 
 register = template.Library()
 
@@ -77,37 +77,40 @@ def responsive_image(field_file, widths, sizes, alt="", css_class="", eager=Fals
 
 @register.inclusion_tag("components/admin_bar.html", takes_context=True)
 def admin_bar(context):
-    """Raccourcis vers l'administration, pour les éditeurs et les administrateurs.
+    """Raccourcis « Modifier » vers les pages de gestion de l'espace, pour les éditeurs et
+    les administrateurs.
 
     Les vues listent dans `edit_targets` ce que montre la page : un objet mène à son
     formulaire, un modèle à sa liste. Seuls les éléments que l'utilisateur peut modifier
     apparaissent.
     """
+    from apps.dashboard import manage  # le registre importe tous les modèles
+
     user = context.get("user")
     if user is None or not is_back_office(user):
         return {"links": None}
     links = []
     for target in context.get("edit_targets", ()):
-        opts = target._meta
-        if not user.has_perm(f"{opts.app_label}.change_{opts.model_name}"):
+        model = target if isinstance(target, type) else type(target)
+        managed = manage.for_model(model)
+        if managed is None or not may(user, "change", model):
             continue
         if isinstance(target, type):
-            label = capfirst(opts.verbose_name_plural)
-            url = reverse(f"admin:{opts.app_label}_{opts.model_name}_changelist")
+            label, url = managed.title, managed.list_url()
         else:
-            kind, name = capfirst(opts.verbose_name), str(target)
-            label = (
-                kind
-                if name.lower() == kind.lower()
-                else _("%(kind)s “%(name)s”")
-                % {
-                    "kind": kind,
-                    "name": name,
-                }
-            )
-            url = reverse(f"admin:{opts.app_label}_{opts.model_name}_change", args=[target.pk])
+            kind, name = capfirst(model._meta.verbose_name), str(target)
+            label = kind
+            if name.lower() != kind.lower():
+                label = _("%(kind)s “%(name)s”") % {"kind": kind, "name": name}
+            url = managed.edit_url(target)
         links.append((label, url))
     return {"links": links}
+
+
+@register.filter
+def verbose_name(obj):
+    """Nom du type d'un objet : « Publication », « Jeu de données »…"""
+    return capfirst(obj._meta.verbose_name)
 
 
 @register.filter

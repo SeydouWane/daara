@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% comment %}
+Fiche commune aux jeux de données et aux modèles : en-tête (badges, titre, auteurs),
+description, projets liés ; chaque type remplit les blocs badges, main et aside.
+{% endcomment %}
+
+{% block title %}{{ object.title|truncatechars:70 }} — DAARA{% endblock %}
+
+{% block content %}
+<div class="hero-glow relative overflow-hidden text-white">
+  <div class="pattern-dots absolute inset-0" aria-hidden="true"></div>
+  <div class="relative mx-auto max-w-6xl px-4 py-14">
+    <nav aria-label="{% translate 'Breadcrumb' %}" class="text-sm text-white/70">
+      <ol class="flex flex-wrap gap-2">
+        <li><a href="{% url 'core:home' %}" class="hover:text-white hover:underline">{% translate "Home" %}</a></li>
+        <li aria-hidden="true">/</li>
+        <li>{% block list_link %}{% endblock %}</li>
+      </ol>
+    </nav>
+    <div class="mt-5 flex flex-wrap items-center gap-2 text-xs">{% block badges %}{% endblock %}</div>
+    <h1 class="mt-4 max-w-4xl font-display text-2xl font-bold leading-tight sm:text-4xl"{% if object.language %} lang="{{ object.language }}"{% endif %}>{{ object.title }}</h1>
+    {% with authorships=object.authorships.all %}
+      {% if authorships %}
+        <p class="mt-4 max-w-4xl text-white/85">
+          {% for authorship in authorships %}{% if authorship.member %}<a href="{{ authorship.member.get_absolute_url }}" class="font-semibold text-white underline underline-offset-4">{{ authorship.name }}</a>{% else %}{{ authorship.name }}{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}
+        </p>
+      {% endif %}
+    {% endwith %}
+  </div>
+</div>
+
+<div class="mx-auto grid max-w-6xl gap-12 px-4 py-14 lg:grid-cols-[1fr_18rem]">
+  <div class="min-w-0 space-y-12">
+    <section aria-labelledby="description">
+      <h2 id="description" class="font-display text-2xl font-bold text-brand-900">{% translate "Description" %}</h2>
+      {% if object.abstract %}
+        {% if fallback %}<p class="mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-sm text-stone-800 ring-1 ring-ochre-500/40">{% include "components/icon.html" with name="globe" class="size-4" %}{{ fallback.message }}</p>{% endif %}
+        <p class="mt-4 max-w-prose whitespace-pre-line text-stone-800"{% if fallback %} lang="{{ fallback.lang }}"{% endif %}>{{ object.abstract }}</p>
+      {% else %}
+        <p class="mt-4 text-stone-600">{% translate "The description is not available yet." %}</p>
+      {% endif %}
+    </section>
+
+    {% block main %}{% endblock %}
+
+    {% if projects %}
+      <section aria-labelledby="projets">
+        <h2 id="projets" class="font-display text-2xl font-bold text-brand-900">{% translate "Projects" %}</h2>
+        <ul class="mt-4 space-y-2">
+          {% for project in projects %}<li><a href="{{ project.get_absolute_url }}" class="font-medium text-brand-700 hover:underline">{% if project.acronym %}{{ project.acronym }} — {% endif %}{{ project.title }}</a></li>{% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+  </div>
+
+  <aside class="space-y-6 lg:sticky lg:top-6 lg:self-start">
+    {% block aside %}{% endblock %}
+  </aside>
+</div>
+{% endblock %}

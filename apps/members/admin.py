@@ -13,7 +13,7 @@ from apps.core.admin import CreatedByAdminMixin
 
 from .models import Affiliation, Axis, Grade, Institution, Member, RoleAssignment, User
 
-# Les rôles de DAARA remplacent les groupes Django (voir backends.py).
+# Les rôles de DAARA remplacent les groupes Django (voir permissions.py).
 admin.site.unregister(Group)
 
 

@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load i18n daara %}
+
+{% block title %}{% if project.acronym %}{{ project.acronym }} — {% endif %}{{ project.title|truncatechars:60 }} — DAARA{% endblock %}
+{% block meta %}<meta name="description" content="{{ project.summary }}">{% endblock %}
+
+{% block content %}
+<div class="hero-glow relative overflow-hidden text-white">
+  <div class="pattern-dots absolute inset-0" aria-hidden="true"></div>
+  <div class="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:py-16 {% if project.image %}md:grid-cols-[3fr_2fr]{% endif %}">
+    <div>
+      <nav aria-label="{% translate 'Breadcrumb' %}" class="text-sm text-white/70">
+        <ol class="flex flex-wrap gap-2">
+          <li><a href="{% url 'core:home' %}" class="hover:text-white hover:underline">{% translate "Home" %}</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href="{% url 'projects:list' %}" class="hover:text-white hover:underline">{% translate "Projects" %}</a></li>
+        </ol>
+      </nav>
+      <div class="mt-5 flex flex-wrap items-center gap-2 text-xs">
+        <span class="rounded-full bg-white/15 px-2.5 py-1 font-medium ring-1 ring-white/25">{{ project.get_status_display }}</span>
+        {% if project.starts_on %}<span class="font-medium text-white/80">{{ project.starts_on|date:"F Y" }}{% if project.ends_on %} – {{ project.ends_on|date:"F Y" }}{% endif %}</span>{% endif %}
+      </div>
+      {% if project.acronym %}<p class="mt-4 font-display text-lg font-bold tracking-wide text-ochre-500">{{ project.acronym }}</p>{% endif %}
+      <h1 class="mt-2 max-w-3xl font-display text-3xl font-bold leading-tight sm:text-4xl">{{ project.title }}</h1>
+      <p class="mt-5 max-w-2xl text-lg text-white/85">{{ project.summary }}</p>
+    </div>
+    {% if project.image %}
+      <div class="overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/20">
+        {% responsive_image project.image project.IMAGE_WIDTHS "(min-width: 768px) 40vw, 100vw" alt=project.image_alt css_class="aspect-[4/3] w-full object-cover" eager=True %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="mx-auto grid max-w-6xl gap-12 px-4 py-14 lg:grid-cols-[1fr_18rem]">
+  <div class="min-w-0 space-y-12">
+    {% if project.description %}
+      <section aria-labelledby="presentation">
+        <h2 id="presentation" class="font-display text-2xl font-bold text-brand-900">{% translate "About the project" %}</h2>
+        {% if fallback %}<p class="mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-sm text-stone-800 ring-1 ring-ochre-500/40">{% include "components/icon.html" with name="globe" class="size-4" %}{{ fallback.message }}</p>{% endif %}
+        <div class="prose mt-4"{% if fallback %} lang="{{ fallback.lang }}"{% endif %}>{{ project.description|render_markdown }}</div>
+      </section>
+    {% endif %}
+
+    {% with team=project.members.all %}
+      {% if team %}
+        <section aria-labelledby="equipe">
+          <h2 id="equipe" class="font-display text-2xl font-bold text-brand-900">{% translate "Team" %}</h2>
+          <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+            {% for member in team %}
+              <li>
+                <a href="{{ member.get_absolute_url }}" class="flex items-center gap-4 rounded-2xl border border-stone-200 p-4 transition hover:border-brand-600 hover:shadow-md">
+                  {% include "components/member_avatar.html" with size="sm" %}
+                  <span>
+                    <span class="block font-semibold text-stone-900">{{ member }}</span>
+                    {% if member == project.lead %}<span class="text-sm text-ochre-700">{% translate "Project lead" %}</span>{% endif %}
+                  </span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endif %}
+    {% endwith %}
+
+    {% if outputs %}
+      <section aria-labelledby="productions">
+        <h2 id="productions" class="font-display text-2xl font-bold text-brand-900">{% translate "Research outputs" %}</h2>
+        <ul class="mt-6 space-y-3">
+          {% for output in outputs %}
+            <li class="rounded-xl border border-stone-200 p-4">
+              <span class="text-xs font-medium uppercase tracking-wide text-brand-700">{{ output|verbose_name }}{% if output.year %} · {{ output.year }}{% endif %}</span>
+              <a href="{{ output.get_absolute_url }}" class="mt-1 block font-medium text-stone-900 hover:text-brand-800 hover:underline">{{ output.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+  </div>
+
+  <aside class="space-y-6 lg:sticky lg:top-6 lg:self-start">
+    {% if project.website %}
+      <a href="{{ project.website }}" rel="noopener" class="flex items-center justify-center gap-2 rounded-xl bg-brand-700 px-4 py-3 font-semibold text-white hover:bg-brand-800">{% translate "Project website" %}{% include "components/icon.html" with name="external" class="size-4" %}</a>
+    {% endif %}
+    <dl class="space-y-4 rounded-2xl border border-stone-200 p-5 text-sm">
+      <div><dt class="text-stone-500">{% translate "Status" %}</dt><dd class="mt-0.5 font-medium">{{ project.get_status_display }}</dd></div>
+      {% if project.lead %}<div><dt class="text-stone-500">{% translate "Project lead" %}</dt><dd class="mt-0.5 font-medium"><a href="{{ project.lead.get_absolute_url }}" class="text-brand-700 hover:underline">{{ project.lead }}</a></dd></div>{% endif %}
+      {% if project.funding %}<div><dt class="text-stone-500">{% translate "Funding" %}</dt><dd class="mt-0.5 font-medium">{{ project.funding }}</dd></div>{% endif %}
+      {% if project.axis %}<div><dt class="text-stone-500">{% translate "Research axis" %}</dt><dd class="mt-0.5 font-medium"><a href="{{ project.axis.get_absolute_url }}" class="text-brand-700 hover:underline">{{ project.axis }}</a></dd></div>{% endif %}
+    </dl>
+    {% with partners=project.partners.all %}
+      {% if partners %}
+        <div class="rounded-2xl border border-stone-200 p-5">
+          <p class="text-sm font-semibold text-stone-500">{% translate "Partner institutions" %}</p>
+          <ul class="mt-4 grid grid-cols-2 gap-3">
+            {% for institution in partners %}
+              <li class="flex h-16 items-center justify-center rounded-lg bg-white px-2 ring-1 ring-stone-200" title="{{ institution.name }}">{% include "components/institution_logo.html" with size="sm" %}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endwith %}
+    <a href="{% url 'projects:list' %}" class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700 hover:underline">{% translate "All projects" %}</a>
+  </aside>
+</div>
+{% endblock %}

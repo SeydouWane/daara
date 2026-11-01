@@ -1,0 +1,76 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block title %}{% if object %}{{ object }}{% else %}{{ managed.title }}{% endif %} — DAARA{% endblock %}
+
+{% block dashboard_content %}
+<nav aria-label="{% translate 'Breadcrumb' %}" class="text-sm text-stone-500">
+  {% if managed.singleton %}{% translate "Manage" %}{% else %}<a href="{% url 'dashboard:manage_list' managed.key %}" class="hover:text-brand-800 hover:underline">{{ managed.title }}</a>{% endif %}
+</nav>
+<div class="mt-2 flex flex-wrap items-start justify-between gap-4">
+  <h1 class="font-display text-3xl font-bold text-brand-900">{% if object %}{{ object }}{% else %}{% blocktranslate with kind=managed.verbose_name %}Add: {{ kind }}{% endblocktranslate %}{% endif %}</h1>
+  {% if object.get_absolute_url %}
+    <a href="{{ object.get_absolute_url }}" class="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-brand-800 ring-1 ring-brand-100 hover:bg-brand-50">{% translate "View on the site" %}{% include "components/icon.html" with name="external" class="size-4" %}</a>
+  {% endif %}
+</div>
+
+<form method="post" enctype="multipart/form-data" class="mt-8 space-y-8" novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+    <div role="alert" class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{{ form.non_field_errors|join:" " }}</div>
+  {% endif %}
+  {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+
+  {% for section in form.layout %}
+    <fieldset class="rounded-2xl border border-stone-200 p-5 sm:p-6">
+      {% if section.title %}<legend class="px-2 font-display text-lg font-bold text-brand-900">{{ section.title }}</legend>{% endif %}
+      <div class="space-y-6">
+        {% for row in section.rows %}{% include "dashboard/manage/_row.html" %}{% endfor %}
+      </div>
+    </fieldset>
+  {% endfor %}
+
+  {% if formset %}
+    <fieldset class="rounded-2xl border border-stone-200 p-5 sm:p-6">
+      <legend class="px-2 font-display text-lg font-bold text-brand-900">{% translate "Authors" %}</legend>
+      <p class="text-sm text-stone-600">{% translate "In the order of the publication. Link an author to their profile when they are a DAARA member." %}</p>
+      {{ formset.management_form }}
+      {% if formset.non_form_errors %}<p class="mt-3 text-sm text-red-700" role="alert">{{ formset.non_form_errors|join:" " }}</p>{% endif %}
+      <div class="mt-4 overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="text-stone-600">
+            <tr>
+              <th scope="col" class="w-20 pb-2 pr-3 font-medium">{% translate "Position" %}</th>
+              <th scope="col" class="pb-2 pr-3 font-medium">{% translate "Name" %}</th>
+              <th scope="col" class="pb-2 pr-3 font-medium">{% translate "DAARA member" %}</th>
+              <th scope="col" class="pb-2 font-medium">{% translate "Remove" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for author in formset %}
+              <tr class="align-top">
+                <td class="py-1.5 pr-3">{% for hidden in author.hidden_fields %}{{ hidden }}{% endfor %}<label class="sr-only" for="{{ author.position.id_for_label }}">{% translate "Position" %}</label>{{ author.position }}</td>
+                <td class="py-1.5 pr-3"><label class="sr-only" for="{{ author.name.id_for_label }}">{% translate "Name" %}</label>{{ author.name }}{% if author.errors %}<p class="mt-1 text-xs text-red-700" role="alert">{% for errors in author.errors.values %}{{ errors|join:" " }} {% endfor %}</p>{% endif %}</td>
+                <td class="py-1.5 pr-3"><label class="sr-only" for="{{ author.member.id_for_label }}">{% translate "DAARA member" %}</label>{{ author.member }}</td>
+                <td class="py-1.5 text-center">{% if author.instance.pk %}<label class="sr-only" for="{{ author.DELETE.id_for_label }}">{% translate "Remove" %}</label>{{ author.DELETE }}{% endif %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-2 text-xs text-stone-500">{% translate "Save to get more empty lines." %}</p>
+    </fieldset>
+  {% endif %}
+
+  <div class="sticky bottom-0 -mx-4 flex flex-wrap items-center gap-3 border-t border-stone-200 bg-white/95 px-4 py-4 backdrop-blur">
+    <button type="submit" class="rounded-lg bg-brand-700 px-5 py-2.5 font-semibold text-white hover:bg-brand-800">{% translate "Save" %}</button>
+    {% if not managed.singleton %}
+      <button type="submit" name="continue" value="1" class="rounded-lg px-4 py-2.5 font-semibold text-brand-800 ring-1 ring-brand-100 hover:bg-brand-50">{% translate "Save and keep editing" %}</button>
+      <a href="{% url 'dashboard:manage_list' managed.key %}" class="px-2 py-2.5 text-sm text-stone-600 underline underline-offset-4">{% translate "Cancel" %}</a>
+    {% endif %}
+    {% if object and can_delete %}
+      <a href="{% url 'dashboard:manage_delete' managed.key object.pk %}" class="ml-auto rounded-lg px-4 py-2.5 text-sm font-semibold text-red-700 ring-1 ring-red-200 hover:bg-red-50">{% translate "Delete" %}</a>
+    {% endif %}
+  </div>
+</form>
+{% endblock %}

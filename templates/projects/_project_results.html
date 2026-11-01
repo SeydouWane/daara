@@ -1,0 +1,17 @@
+{% load i18n %}
+<p class="text-sm text-stone-600">{% blocktranslate count counter=paginator.count %}{{ counter }} project{% plural %}{{ counter }} projects{% endblocktranslate %}</p>
+
+{% if projects %}
+  <ul class="mt-4 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+    {% for project in projects %}<li>{% include "components/project_card.html" %}</li>{% endfor %}
+  </ul>
+  {% include "components/pagination.html" %}
+{% elif filters.q or filters.status or filters.axis %}
+  <p class="mt-4 rounded-xl border border-dashed border-stone-300 p-8 text-center text-stone-600">{% translate "No project matches these filters." %}</p>
+{% else %}
+  <div class="mt-4 flex flex-col items-center gap-4 rounded-2xl border border-dashed border-stone-300 px-6 py-14 text-center">
+    <span class="flex size-16 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">{% include "components/icon.html" with name="handshake" class="size-8" stroke="1.5" %}</span>
+    <p class="max-w-md font-semibold text-stone-900">{% translate "The first projects are being described." %}</p>
+    <p class="max-w-md text-sm text-stone-600">{% translate "Each project will present its team, its partner universities, its funding and its outputs." %}</p>
+  </div>
+{% endif %}

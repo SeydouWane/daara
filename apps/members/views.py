@@ -72,18 +72,25 @@ class ProfileView(DetailView):
         return _members()
 
     def get_context_data(self, **kwargs):
-        # Import local : le module research dépend déjà de members.
-        from apps.research.views import published_publications
+        # Imports locaux : les modules research et projects dépendent déjà de members.
+        from apps.projects.views import visible_projects
+        from apps.research.models import AIModel, Dataset, Publication
+        from apps.research.views import published
 
+        member = self.object
         context = super().get_context_data(**kwargs)
-        context["fallback"] = fallback_notice(self.object, "bio") if self.object.bio else None
-        publications = (
-            published_publications()
-            .filter(authorships__member=self.object)
-            .distinct()
-            .order_by("-year", "title")
-        )
+        context["fallback"] = fallback_notice(member, "bio") if member.bio else None
+
+        def authored(model):
+            return published(model).filter(authorships__member=member).distinct()
+
+        publications = authored(Publication).order_by("-year", "title")
         context["publication_count"] = publications.count()
         context["publications"] = publications[:10]
-        context["edit_targets"] = [self.object]
+        context["datasets"] = authored(Dataset).order_by("-year")
+        context["models"] = authored(AIModel).order_by("-year")
+        context["projects"] = (
+            visible_projects().filter(Q(members=member) | Q(lead=member)).distinct()
+        )
+        context["edit_targets"] = [member]
         return context

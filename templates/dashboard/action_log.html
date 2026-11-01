@@ -1,0 +1,42 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Action log" %} — DAARA{% endblock %}
+
+{% block dashboard_content %}
+<h1 class="font-display text-3xl font-bold text-brand-900">{% translate "Action log" %}</h1>
+<p class="mt-2 max-w-2xl text-stone-600">{% translate "Every addition, change and deletion, most recent first." %}</p>
+
+{% if object_list %}
+  <div class="mt-8 overflow-x-auto rounded-2xl border border-stone-200">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-stone-50 text-stone-600">
+        <tr>
+          <th scope="col" class="px-4 py-3 font-medium">{% translate "Date" %}</th>
+          <th scope="col" class="px-4 py-3 font-medium">{% translate "Person" %}</th>
+          <th scope="col" class="px-4 py-3 font-medium">{% translate "Action" %}</th>
+          <th scope="col" class="px-4 py-3 font-medium">{% translate "Content" %}</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-stone-100">
+        {% for entry in object_list %}
+          <tr>
+            <td class="whitespace-nowrap px-4 py-3 text-stone-600">{{ entry.action_time|date:"j M Y, H:i" }}</td>
+            <td class="px-4 py-3">{{ entry.user.get_full_name|default:entry.user.username }}</td>
+            <td class="px-4 py-3">
+              {% if entry.is_addition %}<span class="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-800">{% translate "Added" %}</span>{% elif entry.is_change %}<span class="rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-ochre-700">{% translate "Changed" %}</span>{% else %}<span class="rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700">{% translate "Deleted" %}</span>{% endif %}
+            </td>
+            <td class="px-4 py-3">
+              <span class="text-stone-500">{{ entry.content_type.name|capfirst }} :</span> {{ entry.object_repr }}
+              {% with message=entry.get_change_message %}{% if message %}<p class="mt-0.5 text-xs text-stone-500">{{ message }}</p>{% endif %}{% endwith %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "components/pagination.html" %}
+{% else %}
+  <div class="mt-8 rounded-2xl border border-dashed border-stone-300 p-10 text-center text-stone-600">{% translate "No action recorded yet." %}</div>
+{% endif %}
+{% endblock %}

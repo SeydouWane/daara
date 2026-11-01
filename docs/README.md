@@ -16,8 +16,8 @@ Ce dossier rassemble la documentation technique de DAARA et les notes de passati
 | Logos des universités | non précisé | téléversés dans l'administration depuis les fichiers officiels, monogramme en attendant | un logo est une marque : il se récupère auprès du service communication de chaque université, avec son accord, plutôt que copié d'un site web. |
 | Illustrations | images WebP (§7.5) | illustrations SVG dessinées pour DAARA ; photos de couverture facultatives, converties en WebP | quelques Ko au lieu de centaines, aucune question de droits, cohérence avec la charte. |
 | Périmètre institutionnel | UNCHK et USSEIN | toutes les universités partenaires | correction du porteur de projet : les institutions seront une donnée, pas deux valeurs codées en dur. |
-| Droits dans l'administration | permissions Django | tirés de la matrice des rôles (`apps/members/backends.py`), statut « équipe » en plus | un rôle suffit : aucune case de permission à tenir à jour à la main, et l'administration ne peut pas diverger de la matrice §3.2. |
-| Contenus de la vitrine | textes des gabarits | accroche, appel, coordonnées, objectifs, cartes de l'accueil, standards et étapes de partenariat modifiables dans l'administration | demande du porteur de projet : l'administration agit sur tout ce que montre le site public. |
+| Back-office | administration Django | pages « Gérer » dans l'espace, au design de DAARA ; droits tirés de la matrice des rôles (`MANAGE_RULES`) ; l'administration Django reste un recours technique réservé aux super-utilisateurs, liée nulle part | demande du porteur de projet : l'équipe ne voit pas l'administration Django. Un rôle suffit, sans case de permission à tenir à jour. |
+| Contenus de la vitrine | textes des gabarits | accroche, appel, coordonnées, objectifs, cartes de l'accueil, standards et étapes de partenariat modifiables dans l'espace | demande du porteur de projet : le back-office agit sur tout ce que montre le site public. |
 
 ## Valeurs provisoires
 

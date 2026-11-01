@@ -1,10 +1,10 @@
 {% load i18n %}{% comment %}
-Barre d'administration, au-dessus de l'en-tête, pour les éditeurs et les administrateurs :
-chaque élément visible sur la page mène à son formulaire (templatetag admin_bar).
+Barre de gestion, au-dessus de l'en-tête, pour les éditeurs et les administrateurs : chaque
+élément visible sur la page mène à son formulaire dans l'espace (templatetag admin_bar).
 {% endcomment %}{% if links is not None %}
-<nav aria-label="{% translate 'Administration shortcuts' %}" class="bg-stone-900 text-sm text-white">
+<nav aria-label="{% translate 'Editing shortcuts' %}" class="bg-stone-900 text-sm text-white">
   <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-1 px-4 py-2">
-    <a href="{% url 'admin:index' %}" class="inline-flex items-center gap-1.5 font-semibold hover:underline">{% include "components/icon.html" with name="pencil" class="size-4" %}{% translate "Administration" %}</a>
+    <a href="{% url 'dashboard:home' %}" class="inline-flex items-center gap-1.5 font-semibold hover:underline">{% include "components/icon.html" with name="pencil" class="size-4" %}{% translate "Manage the site" %}</a>
     {% if links %}
       <span class="text-white/60">{% translate "Edit on this page:" %}</span>
       <ul class="flex flex-wrap gap-x-4 gap-y-1">

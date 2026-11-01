@@ -1,6 +1,6 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from .models import Production, Publication
+from .models import AIModel, Dataset, Production, Publication
 
 
 @register(Production)
@@ -11,4 +11,14 @@ class ProductionTranslationOptions(TranslationOptions):
 
 @register(Publication)
 class PublicationTranslationOptions(TranslationOptions):
+    fields = ()
+
+
+@register(Dataset)
+class DatasetTranslationOptions(TranslationOptions):
+    fields = ()
+
+
+@register(AIModel)
+class AIModelTranslationOptions(TranslationOptions):
     fields = ()

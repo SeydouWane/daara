@@ -22,12 +22,11 @@ Rien de ce que voit le visiteur n'est écrit en dur, hors libellés d'interface 
 
 La migration `0005_seed_site_content` reprend à l'identique les textes FR / EN qui étaient dans les gabarits.
 
-## Administration
+## Gestion du site
 
-- `admin_site.py` : l'accueil et le menu latéral de l'administration suivent les rubriques de la vitrine (accueil et pied de page, pages, recherche, membres, partenaires), plus les comptes et le journal. Chaque fiche a son bouton « Voir sur le site ».
-- Les droits viennent des rôles (`apps/members/backends.py`) : un administrateur gère tout sans être super-utilisateur, un éditeur rédige les textes ; dans les deux cas, le statut « équipe » est requis.
-- Sur le site public, une barre « Administration » mène ces utilisateurs au formulaire de chaque élément affiché (`components/admin_bar.html`, les vues listent ce qu'elles montrent dans `edit_targets`).
-- `templates/admin/base_site.html` et `static/css/admin.css` : l'administration aux couleurs de DAARA, avec un lien vers l'espace.
+L'équipe gère tous ces contenus dans son espace, pages « Gérer » (voir `apps/dashboard/README.md`). Sur le site public, une barre « Gérer le site » mène les éditeurs et les administrateurs au formulaire de chaque élément affiché (`components/admin_bar.html` ; les vues listent ce qu'elles montrent dans `edit_targets`).
+
+L'administration Django (`admin_site.py`) n'est liée nulle part et n'accepte que les super-utilisateurs : c'est un recours technique, pas l'outil de l'équipe.
 
 ## Menus : `navigation.py`
 

@@ -13,8 +13,8 @@ from django.views.decorators.http import require_GET
 from django.views.generic import TemplateView
 
 from apps.members.models import Axis, Institution, Member
-from apps.research.models import Publication
-from apps.research.views import published_publications
+from apps.research.models import AIModel, Dataset, Publication
+from apps.research.views import published, published_publications
 
 from .i18n import fallback_notice
 from .models import HomeFeature, Page, PartnershipStep, SiteSettings, Standard
@@ -28,11 +28,10 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         publications = published_publications()
-        # Données et formations restent à 0 jusqu'aux modules M4 et M7.
         context["counters"] = [
             (_("Publications"), publications.count(), "document"),
-            (_("Datasets"), 0, "database"),
-            (_("Training courses"), 0, "cap"),
+            (_("Datasets"), published(Dataset).count(), "database"),
+            (_("Models and code"), published(AIModel).count(), "chip"),
             (
                 _("Active members"),
                 Member.objects.filter(status=Member.Status.ACTIVE).count(),
@@ -130,7 +129,11 @@ class AboutView(PageView):
             for label, value, target in [
                 (_("Referenced publications"), publication_count, goals.goal_publications),
                 (_("Complete member profiles"), complete_profiles.count(), goals.goal_profiles),
-                (_("Datasets published with a DOI"), 0, goals.goal_datasets),
+                (
+                    _("Datasets published with a DOI"),
+                    published(Dataset).exclude(doi="").count(),
+                    goals.goal_datasets,
+                ),
                 (_("Webinars archived with a DOI"), 0, goals.goal_webinars),
             ]
             if target

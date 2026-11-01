@@ -1,0 +1,41 @@
+{% extends "research/production_detail.html" %}
+{% load i18n %}
+
+{% block meta %}{% if model.abstract %}<meta name="description" content="{{ model.abstract|truncatechars:160 }}">{% endif %}{% endblock %}
+
+{% block list_link %}<a href="{% url 'research:models' %}" class="hover:text-white hover:underline">{% translate "Models and code" %}</a>{% endblock %}
+
+{% block badges %}
+<span class="inline-flex items-center gap-1 rounded-full bg-white/15 px-2.5 py-1 font-medium ring-1 ring-white/25">{% include "components/icon.html" with name="chip" class="size-3.5" %}{{ model.get_kind_display }}</span>
+{% if model.year %}<span class="font-medium text-white/80">{{ model.year }}</span>{% endif %}
+{% if model.task %}<span class="rounded-full bg-ochre-500 px-2.5 py-1 font-semibold text-brand-900">{{ model.task }}</span>{% endif %}
+{% endblock %}
+
+{% block main %}
+{% if datasets %}
+  <section aria-labelledby="donnees">
+    <h2 id="donnees" class="font-display text-2xl font-bold text-brand-900">{% translate "Training datasets" %}</h2>
+    <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+      {% for item in datasets %}<li>{% include "components/dataset_item.html" %}</li>{% endfor %}
+    </ul>
+  </section>
+{% endif %}
+{% endblock %}
+
+{% block aside %}
+<div class="space-y-2">
+  {% if model.huggingface_url %}<a href="{{ model.huggingface_url }}" rel="noopener" class="flex items-center justify-center gap-2 rounded-xl bg-brand-700 px-4 py-3 font-semibold text-white hover:bg-brand-800">{% translate "Open on Hugging Face" %}{% include "components/icon.html" with name="external" class="size-4" %}</a>{% endif %}
+  {% if model.github_url %}<a href="{{ model.github_url }}" rel="noopener" class="flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold text-brand-800 ring-1 ring-brand-100 hover:bg-brand-50">{% translate "Source code" %}{% include "components/icon.html" with name="external" class="size-4" %}</a>{% endif %}
+  {% if model.demo_url %}<a href="{{ model.demo_url }}" rel="noopener" class="flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold text-brand-800 ring-1 ring-brand-100 hover:bg-brand-50">{% translate "Try the demonstrator" %}{% include "components/icon.html" with name="external" class="size-4" %}</a>{% endif %}
+</div>
+<dl class="space-y-4 rounded-2xl border border-stone-200 p-5 text-sm">
+  <div><dt class="text-stone-500">{% translate "Type" %}</dt><dd class="mt-0.5 font-medium">{{ model.get_kind_display }}</dd></div>
+  {% if model.task %}<div><dt class="text-stone-500">{% translate "Task" %}</dt><dd class="mt-0.5 font-medium">{{ model.task }}</dd></div>{% endif %}
+  {% if model.framework %}<div><dt class="text-stone-500">{% translate "Framework" %}</dt><dd class="mt-0.5 font-medium">{{ model.framework }}</dd></div>{% endif %}
+  {% if model.covered_languages %}<div><dt class="text-stone-500">{% translate "Languages covered" %}</dt><dd class="mt-0.5 font-medium">{{ model.covered_languages }}</dd></div>{% endif %}
+  {% if model.license %}<div><dt class="text-stone-500">{% translate "Licence" %}</dt><dd class="mt-0.5 font-medium">{{ model.license }}</dd></div>{% endif %}
+  {% if model.doi %}<div><dt class="text-stone-500">DOI</dt><dd class="mt-0.5 break-all font-medium"><a href="{{ model.doi_url }}" rel="noopener" class="text-brand-700 hover:underline">{{ model.doi }}</a></dd></div>{% endif %}
+  {% if model.axis %}<div><dt class="text-stone-500">{% translate "Research axis" %}</dt><dd class="mt-0.5 font-medium"><a href="{{ model.axis.get_absolute_url }}" class="text-brand-700 hover:underline">{{ model.axis }}</a></dd></div>{% endif %}
+</dl>
+<a href="{% url 'research:models' %}" class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700 hover:underline">{% translate "All models and code" %}</a>
+{% endblock %}

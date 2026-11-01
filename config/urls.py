@@ -17,6 +17,7 @@ urlpatterns += i18n_patterns(
     path("account/", include("apps.members.urls")),
     path("members/", include("apps.members.directory_urls")),
     path("", include("apps.research.urls")),
+    path("projects/", include("apps.projects.urls")),
     path("dashboard/", include("apps.dashboard.urls")),
     path("", include("apps.core.urls")),
 )

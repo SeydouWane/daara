@@ -98,3 +98,42 @@ def can(user, letter, module, *, axis=None):
 
 def can_any(user, letter, *modules):
     return any(can(user, letter, module) for module in modules)
+
+
+# Pages « Gérer » de l'espace : le back-office des éditeurs et des administrateurs. Chaque
+# contenu relève d'un module de la matrice ; le voir ou le modifier demande M, en ajouter C,
+# en supprimer A, sauf exception ci-dessous.
+MANAGE_LETTERS = {"view": "M", "add": "C", "change": "M", "delete": "A"}
+MANAGE_RULES = {
+    # Vitrine : l'éditeur en rédige les textes ; seul l'administrateur crée ou retire une page.
+    "core.sitesettings": (Module.EDITORIAL_PAGES, {}),
+    "core.homefeature": (Module.EDITORIAL_PAGES, {"delete": "P"}),
+    "core.standard": (Module.EDITORIAL_PAGES, {"delete": "P"}),
+    "core.partnershipstep": (Module.EDITORIAL_PAGES, {"delete": "P"}),
+    "core.page": (Module.EDITORIAL_PAGES, {"add": "A"}),
+    # Les axes sont créés par l'administrateur, leurs textes traduits par l'éditeur.
+    "members.axis": (Module.EDITORIAL_PAGES, {"add": "A"}),
+    "members.member": (Module.PROFILES, {"add": "A"}),
+    "research.publication": (Module.PUBLICATIONS, {}),
+    "research.dataset": (Module.DATASETS, {}),
+    "research.aimodel": (Module.MODELS, {}),
+    "projects.project": (Module.PROJECTS, {}),
+    "members.institution": (Module.ADMINISTRATION, {}),
+    "members.grade": (Module.ADMINISTRATION, {}),
+    "members.user": (Module.ADMINISTRATION, {}),
+    "members.roleassignment": (Module.ADMINISTRATION, {}),
+    "admin.logentry": (Module.ADMINISTRATION, {}),
+}
+
+
+def is_back_office(user):
+    """Éditeur ou administrateur : les seuls à gérer les contenus des autres."""
+    return user.is_authenticated and can(user, "P", Module.EDITORIAL_PAGES)
+
+
+def may(user, action, model):
+    """`action` (view, add, change, delete) permise à `user` sur `model` dans l'espace."""
+    if not is_back_office(user):
+        return False
+    module, exceptions = MANAGE_RULES[model._meta.label_lower]
+    return can(user, exceptions.get(action, MANAGE_LETTERS[action]), module)

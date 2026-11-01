@@ -1,0 +1,17 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Delete" %} — DAARA{% endblock %}
+
+{% block dashboard_content %}
+<nav aria-label="{% translate 'Breadcrumb' %}" class="text-sm text-stone-500">
+  <a href="{% url 'dashboard:manage_list' managed.key %}" class="hover:text-brand-800 hover:underline">{{ managed.title }}</a>
+</nav>
+<h1 class="mt-2 font-display text-3xl font-bold text-brand-900">{% translate "Delete" %} « {{ object }} » ?</h1>
+<p class="mt-4 max-w-2xl text-stone-700">{% translate "This removes it from the site for good. The action is recorded in the action log." %}</p>
+<form method="post" class="mt-8 flex flex-wrap items-center gap-3">
+  {% csrf_token %}
+  <button type="submit" class="rounded-lg bg-red-700 px-5 py-2.5 font-semibold text-white hover:bg-red-800">{% translate "Yes, delete" %}</button>
+  <a href="{% url 'dashboard:manage_edit' managed.key object.pk %}" class="px-2 py-2.5 text-sm text-stone-600 underline underline-offset-4">{% translate "Cancel" %}</a>
+</form>
+{% endblock %}

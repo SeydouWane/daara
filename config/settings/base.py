@@ -84,11 +84,6 @@ CACHES = {
 }
 
 AUTH_USER_MODEL = "members.User"
-# Les droits dans l'administration découlent des rôles (apps/members/backends.py).
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "apps.members.backends.RolePermissionBackend",
-]
 LOGIN_URL = "members:login"
 LOGIN_REDIRECT_URL = "dashboard:home"
 LOGOUT_REDIRECT_URL = "core:home"

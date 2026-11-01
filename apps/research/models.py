@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models import Q
 from django.urls import reverse
@@ -69,6 +71,15 @@ class Production(TimeStampedModel):
         while Production.objects.filter(slug=f"{base}-{number}").exists():
             number += 1
         return f"{base}-{number}"
+
+    def specific(self):
+        """La production sous son vrai type : publication, jeu de données ou modèle."""
+        for name in ("publication", "dataset", "aimodel"):
+            try:
+                return getattr(self, name)
+            except ObjectDoesNotExist:
+                continue
+        return self
 
 
 class Authorship(models.Model):
@@ -153,6 +164,124 @@ class Publication(Production):
     @property
     def link(self):
         return self.doi_url or self.url
+
+
+class Dataset(Production):
+    """Jeu de données (module M4). DAARA en tient la fiche ; les données elles-mêmes sont
+    déposées sur Zenodo, Hugging Face ou un entrepôt institutionnel (spec §6)."""
+
+    class Access(models.TextChoices):
+        OPEN = "open", _("Open access")
+        ON_REQUEST = "on_request", _("On request")
+        RESTRICTED = "restricted", _("Restricted")
+
+    doi = models.CharField(
+        _("DOI"),
+        max_length=255,
+        blank=True,
+        help_text=_("Without URL prefix, e.g. 10.5281/zenodo.123."),
+    )
+    url = HttpsURLField(
+        _("repository page"),
+        max_length=500,
+        blank=True,
+        help_text=_("Zenodo record, Hugging Face dataset or institutional repository."),
+    )
+    access = models.CharField(_("access"), max_length=12, choices=Access, default=Access.OPEN)
+    version = models.CharField(_("version"), max_length=30, blank=True)
+    data_format = models.CharField(
+        _("format"), max_length=100, blank=True, help_text=_("E.g. CSV, WAV audio, GeoTIFF.")
+    )
+    size = models.CharField(
+        _("size"), max_length=60, blank=True, help_text=_("E.g. 12 GB, 40,000 sentences.")
+    )
+    covered_languages = models.CharField(
+        _("languages covered"),
+        max_length=200,
+        blank=True,
+        help_text=_("For corpora, e.g. Wolof, Pulaar, Serer."),
+    )
+    coverage = models.CharField(
+        _("geographic coverage"), max_length=200, blank=True, help_text=_("E.g. Senegal, Sahel.")
+    )
+
+    class Meta:
+        verbose_name = _("dataset")
+        verbose_name_plural = _("datasets")
+        constraints = [
+            models.UniqueConstraint(fields=["doi"], condition=~Q(doi=""), name="unique_dataset_doi")
+        ]
+
+    def get_absolute_url(self):
+        return reverse("research:dataset", args=[self.slug])
+
+    def clean_fields(self, exclude=None):
+        self.doi = normalize_doi(self.doi)
+        super().clean_fields(exclude)
+
+    @property
+    def doi_url(self):
+        return f"https://doi.org/{self.doi}" if self.doi else ""
+
+    @property
+    def link(self):
+        return self.url or self.doi_url
+
+
+class AIModel(Production):
+    """Modèle d'IA, code ou démonstrateur (module M5), publié sur Hugging Face ou GitHub."""
+
+    class Kind(models.TextChoices):
+        MODEL = "model", _("Trained model")
+        CODE = "code", _("Code or library")
+        DEMO = "demo", _("Demonstrator")
+
+    kind = models.CharField(_("type"), max_length=10, choices=Kind, default=Kind.MODEL)
+    task = models.CharField(
+        _("task"),
+        max_length=120,
+        blank=True,
+        help_text=_("E.g. speech recognition, translation, crop disease detection."),
+    )
+    framework = models.CharField(
+        _("framework"), max_length=60, blank=True, help_text=_("E.g. PyTorch, Transformers.")
+    )
+    huggingface_id = models.CharField(
+        _("Hugging Face repository"),
+        max_length=200,
+        blank=True,
+        validators=[RegexValidator(r"^[\w.-]+/[\w.-]+$")],
+        help_text=_("owner/name, e.g. daara/wolof-asr."),
+    )
+    github_url = HttpsURLField(_("source code"), max_length=300, blank=True)
+    demo_url = HttpsURLField(_("demonstrator"), max_length=300, blank=True)
+    doi = models.CharField(_("DOI"), max_length=255, blank=True)
+    covered_languages = models.CharField(_("languages covered"), max_length=200, blank=True)
+    datasets = models.ManyToManyField(
+        Dataset,
+        verbose_name=_("training datasets"),
+        related_name="trained_models",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = _("model or code")
+        verbose_name_plural = _("models and code")
+
+    def get_absolute_url(self):
+        return reverse("research:model", args=[self.slug])
+
+    def clean_fields(self, exclude=None):
+        self.doi = normalize_doi(self.doi)
+        super().clean_fields(exclude)
+
+    @property
+    def huggingface_url(self):
+        return f"https://huggingface.co/{self.huggingface_id}" if self.huggingface_id else ""
+
+    @property
+    def doi_url(self):
+        return f"https://doi.org/{self.doi}" if self.doi else ""
 
 
 def normalize_doi(value):

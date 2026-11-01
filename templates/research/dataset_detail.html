@@ -1,0 +1,53 @@
+{% extends "research/production_detail.html" %}
+{% load i18n %}
+
+{% block meta %}
+{% if dataset.abstract %}<meta name="description" content="{{ dataset.abstract|truncatechars:160 }}">{% endif %}
+{# Données structurées pour Google Dataset Search (spec §8). #}
+<script type="application/ld+json">{{ jsonld }}</script>
+{% endblock %}
+
+{% block list_link %}<a href="{% url 'research:datasets' %}" class="hover:text-white hover:underline">{% translate "Datasets" %}</a>{% endblock %}
+
+{% block badges %}
+<span class="inline-flex items-center gap-1 rounded-full bg-white/15 px-2.5 py-1 font-medium ring-1 ring-white/25">{% include "components/icon.html" with name="database" class="size-3.5" %}{% translate "Dataset" %}</span>
+{% if dataset.year %}<span class="font-medium text-white/80">{{ dataset.year }}</span>{% endif %}
+<span class="rounded-full px-2.5 py-1 font-semibold {% if dataset.access == 'open' %}bg-ochre-500 text-brand-900{% else %}bg-white/15 ring-1 ring-white/25{% endif %}">{{ dataset.get_access_display }}</span>
+{% endblock %}
+
+{% block main %}
+<section aria-labelledby="citer">
+  <h2 id="citer" class="font-display text-2xl font-bold text-brand-900">{% translate "Cite this dataset" %}</h2>
+  <p class="mt-4 rounded-xl bg-stone-50 p-4 text-sm text-stone-800 ring-1 ring-stone-200" id="reference">{{ reference }}</p>
+  <button type="button" data-copy="#reference" data-copied="{% translate 'Copied' %}" hidden class="mt-3 rounded-lg px-3 py-1.5 text-sm font-medium text-brand-800 ring-1 ring-brand-100 hover:bg-brand-50">{% translate "Copy the reference" %}</button>
+</section>
+
+{% if models %}
+  <section aria-labelledby="modeles">
+    <h2 id="modeles" class="font-display text-2xl font-bold text-brand-900">{% translate "Models trained on this dataset" %}</h2>
+    <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+      {% for item in models %}<li>{% include "components/model_item.html" %}</li>{% endfor %}
+    </ul>
+  </section>
+{% endif %}
+{% endblock %}
+
+{% block aside %}
+{% if dataset.link %}
+  <a href="{{ dataset.link }}" rel="noopener" class="flex items-center justify-center gap-2 rounded-xl bg-brand-700 px-4 py-3 font-semibold text-white hover:bg-brand-800">
+    {% translate "Access the data" %}{% include "components/icon.html" with name="external" class="size-4" %}
+  </a>
+{% endif %}
+<dl class="space-y-4 rounded-2xl border border-stone-200 p-5 text-sm">
+  <div><dt class="text-stone-500">{% translate "Access" %}</dt><dd class="mt-0.5 font-medium">{{ dataset.get_access_display }}</dd></div>
+  {% if dataset.license %}<div><dt class="text-stone-500">{% translate "Licence" %}</dt><dd class="mt-0.5 font-medium">{{ dataset.license }}</dd></div>{% endif %}
+  {% if dataset.doi %}<div><dt class="text-stone-500">DOI</dt><dd class="mt-0.5 break-all font-medium"><a href="{{ dataset.doi_url }}" rel="noopener" class="text-brand-700 hover:underline">{{ dataset.doi }}</a></dd></div>{% endif %}
+  {% if dataset.version %}<div><dt class="text-stone-500">{% translate "Version" %}</dt><dd class="mt-0.5 font-medium">{{ dataset.version }}</dd></div>{% endif %}
+  {% if dataset.data_format %}<div><dt class="text-stone-500">{% translate "Format" %}</dt><dd class="mt-0.5 font-medium">{{ dataset.data_format }}</dd></div>{% endif %}
+  {% if dataset.size %}<div><dt class="text-stone-500">{% translate "Size" %}</dt><dd class="mt-0.5 font-medium">{{ dataset.size }}</dd></div>{% endif %}
+  {% if dataset.covered_languages %}<div><dt class="text-stone-500">{% translate "Languages covered" %}</dt><dd class="mt-0.5 font-medium">{{ dataset.covered_languages }}</dd></div>{% endif %}
+  {% if dataset.coverage %}<div><dt class="text-stone-500">{% translate "Geographic coverage" %}</dt><dd class="mt-0.5 font-medium">{{ dataset.coverage }}</dd></div>{% endif %}
+  {% if dataset.axis %}<div><dt class="text-stone-500">{% translate "Research axis" %}</dt><dd class="mt-0.5 font-medium"><a href="{{ dataset.axis.get_absolute_url }}" class="text-brand-700 hover:underline">{{ dataset.axis }}</a></dd></div>{% endif %}
+</dl>
+<a href="{% url 'research:datasets' %}" class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-700 hover:underline">{% translate "All datasets" %}</a>
+{% endblock %}

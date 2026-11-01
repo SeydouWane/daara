@@ -32,10 +32,20 @@ def test_failed_login_does_not_echo_the_password(client, make_user):
 
 
 def test_sidebar_merges_every_role(client, make_user, axis):
-    user = make_user("moussa", Role.RESEARCHER, Role.AXIS_LEAD, Role.EDITOR, axis=axis, member=True)
+    user = make_user(
+        "moussa", Role.RESEARCHER, Role.AXIS_LEAD, Role.PHD_STUDENT, axis=axis, member=True
+    )
     client.force_login(user)
     labels = sidebar_labels(client.get("/en/dashboard/"))
-    assert labels == {"Overview", "My profile", "Validation queue", "Translations", "Indicators"}
+    assert labels == {"Overview", "My profile", "Validation queue", "Indicators"}
+
+
+def test_editor_sidebar_adds_the_public_site(client, make_user):
+    client.force_login(make_user("editeur", Role.EDITOR))
+    labels = sidebar_labels(client.get("/en/dashboard/"))
+    assert {"Translations", "Home page and footer", "Pages", "Members", "Datasets"} <= labels
+    # Structure du site et comptes : réservés à l'administrateur ; modèles : lecture seule.
+    assert not {"Institutions", "Accounts", "Roles", "Models and code"} & labels
 
 
 def test_phd_student_cannot_open_the_validation_queue(client, make_user):
@@ -52,10 +62,10 @@ def test_observer_sees_indicators_only(client, make_user):
     assert client.get("/en/dashboard/indicators/").status_code == 200
 
 
-def test_staff_administrator_reaches_role_management(client, make_user):
-    client.force_login(make_user("admin", Role.ADMIN, is_staff=True))
+def test_administrator_reaches_accounts_roles_and_log(client, make_user):
+    client.force_login(make_user("admin", Role.ADMIN))
     labels = sidebar_labels(client.get("/en/dashboard/"))
-    assert {"Members and roles", "Action log"} <= labels
+    assert {"Accounts", "Roles", "Grades", "Action log", "Institutions"} <= labels
 
 
 def test_member_edits_their_own_profile(client, make_user):
