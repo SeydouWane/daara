@@ -20,5 +20,6 @@ urlpatterns = [
     path("contact/", views.PageView.as_view(slug="contact"), name="contact"),
     path("legal-notice/", views.PageView.as_view(slug="legal-notice"), name="legal_notice"),
     path("privacy/", views.PageView.as_view(slug="privacy"), name="privacy"),
+    path("pages/<slug:slug>/", views.PageView.as_view(), name="page"),
     path("dev/logo/", views.LogoSheetView.as_view(), name="logo_sheet"),
 ]

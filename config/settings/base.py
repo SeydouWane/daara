@@ -18,7 +18,7 @@ ADMIN_URL = env("ADMIN_URL", default="admin/")
 INSTALLED_APPS = [
     # modeltranslation doit précéder l'admin pour en surcharger les formulaires.
     "modeltranslation",
-    "django.contrib.admin",
+    "apps.core.admin_config.DaaraAdminConfig",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -61,6 +61,7 @@ TEMPLATES = [
                 "django.template.context_processors.i18n",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "apps.core.context_processors.site_settings",
             ],
         },
     },
@@ -83,6 +84,11 @@ CACHES = {
 }
 
 AUTH_USER_MODEL = "members.User"
+# Les droits dans l'administration découlent des rôles (apps/members/backends.py).
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "apps.members.backends.RolePermissionBackend",
+]
 LOGIN_URL = "members:login"
 LOGIN_REDIRECT_URL = "dashboard:home"
 LOGOUT_REDIRECT_URL = "core:home"

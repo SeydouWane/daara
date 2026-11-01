@@ -95,6 +95,10 @@ class Command(BaseCommand):
                 )
             for username, first_name, last_name, _description, roles in ACCOUNTS:
                 user = self._user(username, first_name, last_name, superuser=username == "admin")
+                if Role.EDITOR in roles and not user.is_staff:
+                    # L'éditeur travaille dans l'administration (apps/members/backends.py).
+                    user.is_staff = True
+                    user.save(update_fields=["is_staff"])
                 self._roles(user, roles, axes)
 
         self.stdout.write(self.style.SUCCESS("Environnement de démonstration prêt."))

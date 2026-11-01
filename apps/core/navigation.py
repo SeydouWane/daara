@@ -2,7 +2,8 @@
 
 Un lien vers un module pas encore construit s'affiche « bientôt » sans être cliquable : il
 devient un vrai lien dès que son URL existe, sans retoucher ce fichier. Un lien vers une page
-éditoriale n'apparaît que si la page est publiée.
+éditoriale n'apparaît que si la page est publiée. Les pages ajoutées dans l'administration
+s'ajoutent au menu choisi dans leur champ `menu`.
 """
 
 from dataclasses import dataclass
@@ -24,6 +25,7 @@ class Link:
 class Menu:
     label: str
     links: tuple[Link, ...]
+    page_menu: str = ""  # valeur de Page.menu des pages ajoutées à ce menu
 
 
 MAIN_MENU = (
@@ -34,6 +36,7 @@ MAIN_MENU = (
             Link(_("Governance"), "core:governance", "governance"),
             Link(_("Partners"), "core:partners", "partners"),
         ),
+        Page.Menu.ABOUT,
     ),
     Menu(
         _("Research"),
@@ -83,25 +86,35 @@ def _resolve(links, published, current_path):
     return resolved
 
 
+def _added_pages(pages, page_menu, current_path):
+    links = []
+    for page in pages:
+        if page_menu and page.menu == page_menu and not page.is_built_in:
+            url = page.get_absolute_url()
+            links.append({"label": page.title, "url": url, "current": current_path == url})
+    return links
+
+
 def build(current_path):
     """Menus prêts à afficher. Un menu d'un seul lien devient un lien direct."""
-    published = set(
-        Page.objects.filter(status=Page.Status.PUBLISHED).values_list("slug", flat=True)
-    )
+    pages = list(Page.objects.filter(status=Page.Status.PUBLISHED))
+    published = {page.slug for page in pages}
     menus = []
     for menu in MAIN_MENU:
         links = _resolve(menu.links, published, current_path)
+        links += _added_pages(pages, menu.page_menu, current_path)
         if links:
             menus.append(
                 {
                     "label": menu.label,
                     "links": links,
-                    "single": links[0] if len(menu.links) == 1 else None,
+                    "single": links[0] if len(links) == 1 and len(menu.links) == 1 else None,
                     "current": any(link["current"] for link in links),
                 }
             )
+    footer = _resolve(FOOTER_LINKS, published, current_path)
     return {
         "menus": menus,
-        "footer": _resolve(FOOTER_LINKS, published, current_path),
+        "footer": footer + _added_pages(pages, Page.Menu.FOOTER, current_path),
         "contact": reverse("core:contact") if "contact" in published else None,
     }

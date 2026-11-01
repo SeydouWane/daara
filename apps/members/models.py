@@ -73,6 +73,11 @@ class Institution(TimeStampedModel):
     def __str__(self):
         return self.acronym or self.name
 
+    def get_absolute_url(self):
+        if self.is_partner:
+            return reverse("core:partners")
+        return f"{reverse('directory:list')}?institution={self.slug}"
+
     def clean_fields(self, exclude=None):
         self.ror_id = normalize_ror(self.ror_id)
         super().clean_fields(exclude)
@@ -110,6 +115,9 @@ class Axis(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return f"{reverse('core:axes')}#{self.slug}"
 
     def current_lead(self):
         """Responsable d'axe actif, ou None. Profite des affectations préchargées."""

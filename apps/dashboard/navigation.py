@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from apps.members.backends import is_back_office
 from apps.members.permissions import Module, can, can_any
 
 REVIEWED_MODULES = (
@@ -43,9 +44,14 @@ def _monitoring(user):
     return can(user, "L", Module.DASHBOARD)
 
 
-def _administrator(user):
-    # L'administration Django exige en plus le statut « équipe ».
-    return user.is_staff and can(user, "A", Module.ADMINISTRATION)
+def _may_change(perm):
+    """Lien vers l'administration : droits tirés des rôles (apps/members/backends.py), qui
+    exigent en plus le statut « équipe »."""
+
+    def allowed(user):
+        return user.has_perm(perm)
+
+    return allowed
 
 
 @dataclass(frozen=True)
@@ -72,15 +78,52 @@ SECTIONS = (
     Section(_("Review"), (Link(_("Validation queue"), "dashboard:validation", _reviewer),)),
     Section(_("Editorial"), (Link(_("Translations"), "dashboard:translations", _editor),)),
     Section(_("Monitoring"), (Link(_("Indicators"), "dashboard:indicators", _monitoring),)),
+    # Tout ce que montre la vitrine, dans l'ordre de ses menus.
+    Section(
+        _("Public site"),
+        (
+            Link(
+                _("Home page and footer"),
+                "admin:core_sitesettings_changelist",
+                _may_change("core.change_sitesettings"),
+            ),
+            Link(_("Pages"), "admin:core_page_changelist", _may_change("core.change_page")),
+            Link(
+                _("Research axes"),
+                "admin:members_axis_changelist",
+                _may_change("members.change_axis"),
+            ),
+            Link(
+                _("Publications"),
+                "admin:research_publication_changelist",
+                _may_change("research.change_publication"),
+            ),
+            Link(
+                _("Members"),
+                "admin:members_member_changelist",
+                _may_change("members.change_member"),
+            ),
+            Link(
+                _("Partner institutions"),
+                "admin:members_institution_changelist",
+                _may_change("members.change_institution"),
+            ),
+        ),
+    ),
     Section(
         _("Administration"),
         (
             Link(
                 _("Members and roles"),
                 "admin:members_roleassignment_changelist",
-                _administrator,
+                _may_change("members.change_roleassignment"),
             ),
-            Link(_("Action log"), "admin:admin_logentry_changelist", _administrator),
+            Link(
+                _("Action log"),
+                "admin:admin_logentry_changelist",
+                _may_change("admin.view_logentry"),
+            ),
+            Link(_("All the administration"), "admin:index", is_back_office),
         ),
     ),
 )

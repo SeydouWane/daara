@@ -18,7 +18,7 @@ sans JavaScript ; static/js/ui.js ajoute la fermeture au clic extérieur et avec
               {% include "components/nav_link.html" with link=menu.single %}
             {% else %}
               <details data-menu class="group">
-                <summary class="flex cursor-pointer list-none items-center gap-1 rounded px-3 py-2 hover:bg-stone-100 [&::-webkit-details-marker]:hidden {% if menu.current %}font-semibold text-brand-800{% else %}text-stone-700{% endif %}">
+                <summary class="flex cursor-pointer list-none items-center gap-1 whitespace-nowrap rounded px-3 py-2 hover:bg-stone-100 [&::-webkit-details-marker]:hidden {% if menu.current %}font-semibold text-brand-800{% else %}text-stone-700{% endif %}">
                   {{ menu.label }}
                   {% include "components/icon.html" with name="chevron" class="size-4 transition-transform group-open:rotate-180" %}
                 </summary>

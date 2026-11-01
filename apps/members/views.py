@@ -60,6 +60,7 @@ class DirectoryView(ListView):
         query = self.request.GET.copy()
         query.pop("page", None)
         context["query_string"] = query.urlencode()
+        context["edit_targets"] = [Member, Institution, Grade]
         return context
 
 
@@ -84,4 +85,5 @@ class ProfileView(DetailView):
         )
         context["publication_count"] = publications.count()
         context["publications"] = publications[:10]
+        context["edit_targets"] = [self.object]
         return context

@@ -66,6 +66,7 @@ class PublicationListView(ListView):
         query = self.request.GET.copy()
         query.pop("page", None)
         context["query_string"] = query.urlencode()
+        context["edit_targets"] = [Publication]
         return context
 
 
@@ -84,6 +85,7 @@ class PublicationDetailView(DetailView):
         )
         context["reference"] = citation.reference(publication)
         context["bibtex"] = citation.bibtex(publication)
+        context["edit_targets"] = [publication]
         return context
 
 

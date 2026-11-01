@@ -1,0 +1,99 @@
+/* Administration Django aux couleurs de DAARA (assets/css/main.css : brand, ochre). */
+
+:root {
+  --primary: #157a62;
+  --secondary: #0f5c4a;
+  --accent: #d97706;
+  --primary-fg: #fff;
+  --header-color: #d3ede3;
+  --header-branding-color: #fff;
+  --header-bg: #08362b;
+  --header-link-color: #fff;
+  --breadcrumbs-fg: #d3ede3;
+  --breadcrumbs-link-fg: #fff;
+  --breadcrumbs-bg: #0f5c4a;
+  --link-fg: #0f5c4a;
+  --link-hover-color: #08362b;
+  --link-selected-fg: #157a62;
+  --button-bg: #0f5c4a;
+  --button-hover-bg: #08362b;
+  --default-button-bg: #157a62;
+  --default-button-hover-bg: #0b4a3b;
+  --selected-bg: #eef8f4;
+  --selected-row: #fdf3e1;
+  --object-tools-bg: #57534e;
+  --object-tools-hover-bg: #0f5c4a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --primary: #157a62;
+    --secondary: #0f5c4a;
+    --header-bg: #08362b;
+    --breadcrumbs-bg: #0b4a3b;
+    --link-fg: #7fd1b5;
+    --link-hover-color: #b7ead9;
+    --link-selected-fg: #7fd1b5;
+    --selected-bg: #0b4a3b;
+    --selected-row: #134e3f;
+  }
+}
+
+html[data-theme="dark"] {
+  --primary: #157a62;
+  --secondary: #0f5c4a;
+  --header-bg: #08362b;
+  --breadcrumbs-bg: #0b4a3b;
+  --link-fg: #7fd1b5;
+  --link-hover-color: #b7ead9;
+  --link-selected-fg: #7fd1b5;
+  --selected-bg: #0b4a3b;
+  --selected-row: #134e3f;
+}
+
+.daara-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.daara-brand img {
+  border-radius: 6px;
+}
+
+#site-name .daara-brand__name {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+#site-name .daara-brand__sub {
+  color: #d3ede3;
+  font-weight: 400;
+}
+
+/* Les textes de la vitrine sont longs : champs à la largeur du formulaire. */
+.form-row .vTextField,
+.form-row .vURLField,
+.form-row .vLargeTextField {
+  width: 100%;
+  max-width: 44rem;
+  box-sizing: border-box;
+}
+
+.form-row .vLargeTextField {
+  min-height: 0;
+}
+
+/* Rubriques de l'accueil : titres plus lisibles que les intitulés d'application. */
+#content-main .module caption,
+#nav-sidebar .module caption {
+  background: var(--secondary);
+}
+
+#content-main .module caption a.section,
+#nav-sidebar .module caption a.section {
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}

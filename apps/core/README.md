@@ -11,6 +11,24 @@ Socle transverse et vitrine publique (module M1) : accueil, pages éditoriales, 
 - Le Markdown est rendu par le filtre `render_markdown`, puis nettoyé (`nh3`) : seules les balises de mise en forme passent.
 - Si une traduction manque, la page s'affiche dans la langue disponible avec un bandeau « Disponible en français uniquement » (`i18n.py`, spec §5.3).
 
+Les six pages ci-dessus sont des pages fixes (`Page.ROUTES`) : leur adresse et leur place dans les menus sont dans le code. L'administrateur peut ajouter d'autres pages : elles sont servies sous `/pages/<slug>/` et rejoignent, une fois publiées, le menu « À propos » ou la colonne « Informations » du pied de page selon leur champ `menu`.
+
+## Contenus de la vitrine modifiables
+
+Rien de ce que voit le visiteur n'est écrit en dur, hors libellés d'interface (traduits par les `.po`) :
+
+- `SiteSettings` (une seule fiche) : accroche, titre et description de l'accueil, photo facultative à la place de l'illustration, appel « Rejoindre DAARA », coordonnées et réseaux du pied de page, cibles des objectifs à douze mois.
+- `HomeFeature` : cartes « Ce que vous trouverez » de l'accueil ; `Standard` : standards ouverts de la page « À propos » ; `PartnershipStep` : étapes pour devenir partenaire. Chaque élément s'ordonne et se masque.
+
+La migration `0005_seed_site_content` reprend à l'identique les textes FR / EN qui étaient dans les gabarits.
+
+## Administration
+
+- `admin_site.py` : l'accueil et le menu latéral de l'administration suivent les rubriques de la vitrine (accueil et pied de page, pages, recherche, membres, partenaires), plus les comptes et le journal. Chaque fiche a son bouton « Voir sur le site ».
+- Les droits viennent des rôles (`apps/members/backends.py`) : un administrateur gère tout sans être super-utilisateur, un éditeur rédige les textes ; dans les deux cas, le statut « équipe » est requis.
+- Sur le site public, une barre « Administration » mène ces utilisateurs au formulaire de chaque élément affiché (`components/admin_bar.html`, les vues listent ce qu'elles montrent dans `edit_targets`).
+- `templates/admin/base_site.html` et `static/css/admin.css` : l'administration aux couleurs de DAARA, avec un lien vers l'espace.
+
 ## Menus : `navigation.py`
 
 Registre des menus de l'en-tête et du pied de page. Un lien vers un module pas encore construit (publications, formations…) s'affiche « bientôt », sans être cliquable ; il devient un vrai lien dès que son URL existe. Un lien vers une page éditoriale n'apparaît que si la page est publiée.
@@ -26,6 +44,7 @@ Les menus déroulants et le menu mobile sont des éléments `<details>` : ils ma
 ## Autres fichiers
 
 - `views.py` : accueil, pages, axes de recherche, partenaires, planche du logo (développement), `healthz`, `switch_language`.
-- `templatetags/daara.py` : `hreflang_links`, `switch_language_url`, `public_navigation`, `render_markdown`.
+- `templatetags/daara.py` : `hreflang_links`, `switch_language_url`, `public_navigation`, `responsive_image`, `admin_bar`, `render_markdown`.
+- `context_processors.py` : `site_settings`, chargé seulement si un gabarit s'en sert.
 - `fields.py` : `HttpsURLField`, qui complète une adresse sans schéma en `https://`.
 - Logo : variante « Signal » en boucle de 12 s : le trait se fixe en point, puis DAARA monte et laisse la place à sa signification, qui monte à son tour avant le retour de DAARA (gabarits `components/logo.html` et `components/logo_symbol.html`, styles `.logo-ticker`, pause dans `static/js/motion.js`). La planche `/fr/dev/logo/` montre les deux temps en image fixe.

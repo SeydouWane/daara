@@ -1,10 +1,13 @@
 {% load i18n %}
 {% if user.is_authenticated %}
-  <a href="{% url 'dashboard:home' %}" class="rounded px-3 py-2 font-medium text-brand-800 hover:bg-brand-50">{% translate "My space" %}</a>
+  <a href="{% url 'dashboard:home' %}" class="whitespace-nowrap rounded px-3 py-2 font-medium text-brand-800 hover:bg-brand-50">{% translate "My space" %}</a>
+  {# Bouton icône : l'en-tête garde sa place sur une ligne quand on est connecté. #}
   <form method="post" action="{% url 'members:logout' %}">
     {% csrf_token %}
-    <button type="submit" class="rounded px-3 py-2 text-stone-700 hover:bg-stone-100">{% translate "Sign out" %}</button>
+    <button type="submit" title="{% translate 'Sign out' %}" class="flex items-center rounded p-2 text-stone-600 hover:bg-stone-100 hover:text-stone-900">
+      {% include "components/icon.html" with name="logout" class="size-5" %}<span class="sr-only">{% translate "Sign out" %}</span>
+    </button>
   </form>
 {% else %}
-  <a href="{% url 'members:login' %}" class="rounded px-3 py-2 font-medium text-brand-800 hover:bg-brand-50">{% translate "Sign in" %}</a>
+  <a href="{% url 'members:login' %}" class="whitespace-nowrap rounded px-3 py-2 font-medium text-brand-800 hover:bg-brand-50">{% translate "Sign in" %}</a>
 {% endif %}

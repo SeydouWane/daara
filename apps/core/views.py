@@ -5,7 +5,7 @@ from django.db import connection
 from django.db.models import Count, F, Q
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.urls import NoReverseMatch, Resolver404, resolve, reverse, translate_url
+from django.urls import Resolver404, resolve, reverse, translate_url
 from django.utils import translation
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext_lazy as _
@@ -13,20 +13,13 @@ from django.views.decorators.http import require_GET
 from django.views.generic import TemplateView
 
 from apps.members.models import Axis, Institution, Member
+from apps.research.models import Publication
 from apps.research.views import published_publications
 
 from .i18n import fallback_notice
-from .models import Page
+from .models import HomeFeature, Page, PartnershipStep, SiteSettings, Standard
 
 ACTIVE_MEMBERS = Q(members__status=Member.Status.ACTIVE)
-
-
-def _url_or_none(url_name):
-    """URL d'un module, ou None tant qu'il n'est pas construit."""
-    try:
-        return reverse(url_name)
-    except NoReverseMatch:
-        return None
 
 
 class HomeView(TemplateView):
@@ -46,61 +39,49 @@ class HomeView(TemplateView):
                 "users",
             ),
         ]
-        context["offer"] = [
-            {
-                "icon": icon,
-                "title": title,
-                "text": text,
-                "url": _url_or_none(url_name),
-            }
-            for icon, title, text, url_name in [
-                (
-                    "document",
-                    _("Publications"),
-                    _("Articles, papers and theses, imported by DOI and exported to BibTeX."),
-                    "research:publications",
-                ),
-                (
-                    "database",
-                    _("Datasets"),
-                    _("African corpora and data deposited on Zenodo, with a DOI and a citation."),
-                    "research:datasets",
-                ),
-                (
-                    "chip",
-                    _("Models and code"),
-                    _("Models and demonstrators synchronised from Hugging Face and GitHub."),
-                    "research:models",
-                ),
-                (
-                    "cap",
-                    _("Training"),
-                    _("Courses, archived webinars and teaching materials with a DOI."),
-                    "training:list",
-                ),
-            ]
-        ]
+        context["features"] = HomeFeature.objects.filter(is_visible=True)
         context["latest_publications"] = publications.order_by("-year", "-created_at")[:3]
         context["axes"] = Axis.objects.annotate(
             member_count=Count("members", filter=ACTIVE_MEMBERS)
         )
         context["partners"] = Institution.objects.filter(is_partner=True)
+        # Raccourcis « Modifier » de la barre d'administration (components/admin_bar.html).
+        context["edit_targets"] = [
+            SiteSettings.load(),
+            HomeFeature,
+            Axis,
+            Publication,
+            Institution,
+        ]
         return context
 
 
 class PageView(TemplateView):
-    """Page éditoriale publiée, identifiée par son `slug` (module M1)."""
+    """Page éditoriale publiée (module M1). Les pages fixes ont leur adresse, les pages
+    ajoutées dans l'administration sont servies sous /pages/<slug>/."""
 
     template_name = "core/page.html"
     slug = None
     section = None  # rubrique du menu, affichée dans le fil d'Ariane
+    edit_models = ()  # listes de la page modifiables dans l'administration
+
+    def get_page(self):
+        slug = self.kwargs.get("slug")
+        if slug is None:
+            slug = self.slug
+        elif slug in Page.ROUTES:
+            raise Http404  # une page fixe n'a qu'une adresse
+        return get_object_or_404(Page, slug=slug, status=Page.Status.PUBLISHED)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        page = get_object_or_404(Page, slug=self.slug, status=Page.Status.PUBLISHED)
+        page = self.get_page()
         context["page"] = page
         context["section"] = self.section
+        if self.section is None and page.menu == Page.Menu.ABOUT:
+            context["section"] = _("About")
         context["fallback"] = fallback_notice(page, "body")
+        context["edit_targets"] = [page, *self.edit_models]
         return context
 
 
@@ -108,12 +89,13 @@ class AboutView(PageView):
     template_name = "core/about.html"
     slug = "about"
     section = _("About")
-
-    # Objectifs à 12 mois de la spec §1.4.
-    TARGETS = {"publications": 100, "profiles": 20, "datasets": 10, "webinars": 6}
+    edit_models = (Standard, Member)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Objectifs à 12 mois de la spec §1.4, cibles réglées dans l'administration.
+        goals = SiteSettings.load()
+        context["edit_targets"].append(goals)
         members = Member.objects.filter(status=Member.Status.ACTIVE)
         publication_count = published_publications().count()
         # Profil complet : photo et biographie dans chaque langue éditoriale.
@@ -146,24 +128,14 @@ class AboutView(PageView):
                 "percent": min(100, round(100 * value / target)),
             }
             for label, value, target in [
-                (_("Referenced publications"), publication_count, self.TARGETS["publications"]),
-                (
-                    _("Complete member profiles"),
-                    complete_profiles.count(),
-                    self.TARGETS["profiles"],
-                ),
-                (_("Datasets published with a DOI"), 0, self.TARGETS["datasets"]),
-                (_("Webinars archived with a DOI"), 0, self.TARGETS["webinars"]),
+                (_("Referenced publications"), publication_count, goals.goal_publications),
+                (_("Complete member profiles"), complete_profiles.count(), goals.goal_profiles),
+                (_("Datasets published with a DOI"), 0, goals.goal_datasets),
+                (_("Webinars archived with a DOI"), 0, goals.goal_webinars),
             ]
+            if target
         ]
-        context["standards"] = [
-            ("DOI", _("Persistent identifier of every publication and dataset.")),
-            ("ORCID", _("Unique, lasting identifier of every researcher.")),
-            ("OpenAlex", _("Open bibliographic database used to import publications.")),
-            ("OAI-PMH", _("Protocol through which OpenAIRE and BASE will harvest the catalogue.")),
-            ("JSON-LD", _("Structured data read by Google Dataset Search.")),
-            ("Zenodo · Hugging Face", _("Where datasets and models are deposited.")),
-        ]
+        context["standards"] = Standard.objects.filter(is_visible=True)
         return context
 
 
@@ -171,6 +143,7 @@ class PartnersView(PageView):
     template_name = "core/partners.html"
     slug = "partners"
     section = _("About")
+    edit_models = (Institution, PartnershipStep)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -181,23 +154,7 @@ class PartnersView(PageView):
             )
         )
         # Procédure d'adhésion de la gouvernance (spec §2.2).
-        context["steps"] = [
-            (
-                _("A member researcher proposes it"),
-                _("A DAARA researcher presents your university or laboratory and its research."),
-            ),
-            (
-                _("An axis lead approves it"),
-                _("The lead of the axis concerned checks the fit with DAARA's research themes."),
-            ),
-            (
-                _("Your institution joins DAARA"),
-                _(
-                    "It is represented on the steering committee and its researchers publish "
-                    "their work on the platform."
-                ),
-            ),
-        ]
+        context["steps"] = PartnershipStep.objects.filter(is_visible=True)
         return context
 
 
@@ -209,6 +166,7 @@ class AxesView(TemplateView):
         context["axes"] = Axis.objects.annotate(
             member_count=Count("members", filter=ACTIVE_MEMBERS)
         ).prefetch_related("role_assignments__user__member")
+        context["edit_targets"] = [Axis]
         return context
 
 

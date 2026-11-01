@@ -59,7 +59,8 @@
   </section>
 {% endif %}
 
-{# Objectifs à douze mois (spec §1.4), avec l'avancement réel #}
+{# Objectifs à douze mois (spec §1.4), avec l'avancement réel ; cibles réglées dans l'administration #}
+{% if objectives %}
 <section aria-labelledby="objectifs" class="mt-16">
   <p class="eyebrow text-brand-700">{% translate "Roadmap" %}</p>
   <h2 id="objectifs" class="mt-3 font-display text-3xl font-bold text-brand-900">{% translate "Our twelve-month goals" %}</h2>
@@ -77,22 +78,25 @@
       </li>
     {% endfor %}
   </ul>
-  <p class="mt-5 text-sm text-stone-600">{% translate "And two further goals: open DAARA's communities in DICAMES, and have the platform harvested by OpenAIRE and BASE." %}</p>
+  {% if site_settings.goals_note %}<p class="mt-5 text-sm text-stone-600">{{ site_settings.goals_note }}</p>{% endif %}
 </section>
+{% endif %}
 
 {# Standards ouverts #}
+{% if standards %}
 <section aria-labelledby="standards" class="mt-16">
   <p class="eyebrow text-brand-700">{% translate "Interoperability" %}</p>
   <h2 id="standards" class="mt-3 font-display text-3xl font-bold text-brand-900">{% translate "Built on open standards" %}</h2>
   <dl class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    {% for name, description in standards %}
+    {% for standard in standards %}
       <div class="rounded-2xl border border-stone-200 p-5">
-        <dt class="font-display text-lg font-bold text-brand-800">{{ name }}</dt>
-        <dd class="mt-1 text-sm text-stone-600">{{ description }}</dd>
+        <dt class="font-display text-lg font-bold text-brand-800">{{ standard.name }}</dt>
+        <dd class="mt-1 text-sm text-stone-600">{{ standard.description }}</dd>
       </div>
     {% endfor %}
   </dl>
 </section>
+{% endif %}
 
 {% include "core/_join_cta.html" %}
 {% endblock %}

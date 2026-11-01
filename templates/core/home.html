@@ -1,18 +1,18 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n daara %}
 
-{% block title %}DAARA — {% translate "Data & AI Research Alliance for Africa" %}{% endblock %}
-{% block meta %}<meta name="description" content="{% translate 'Publications, datasets, models and training from a team of AI researchers working with partner universities.' %}">{% endblock %}
+{% block title %}DAARA — {{ site_settings.hero_title }}{% endblock %}
+{% block meta %}<meta name="description" content="{{ site_settings.description }}">{% endblock %}
 
 {% block content %}
-{# Accroche #}
+{# Accroche : textes et photo réglés dans l'administration (Page d'accueil et pied de page) #}
 <section class="hero-glow relative overflow-hidden text-white">
   <div class="pattern-dots absolute inset-0" aria-hidden="true"></div>
   <div class="relative mx-auto grid max-w-6xl items-center gap-12 px-4 pb-24 pt-16 sm:pt-20 lg:grid-cols-[1.1fr_1fr]">
     <div>
-      <p class="eyebrow text-ochre-500">{% translate "AI research alliance" %}</p>
-      <h1 class="mt-5 hyphens-auto font-display text-4xl font-bold leading-[1.1] sm:text-5xl">{% translate "Data & AI Research Alliance for Africa" %}</h1>
-      <p class="mt-6 max-w-xl text-lg text-white/85">{% translate "Publications, datasets, models and training from a team of AI researchers working with partner universities." %}</p>
+      {% if site_settings.tagline %}<p class="eyebrow text-ochre-500">{{ site_settings.tagline }}</p>{% endif %}
+      <h1 class="mt-5 hyphens-auto font-display text-4xl font-bold leading-[1.1] sm:text-5xl">{{ site_settings.hero_title }}</h1>
+      <p class="mt-6 max-w-xl text-lg text-white/85">{{ site_settings.description }}</p>
       <div class="mt-9 flex flex-wrap gap-3">
         <a href="{% url 'core:axes' %}" class="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 font-semibold text-brand-900 shadow-sm hover:bg-brand-50">
           {% translate "Explore our research axes" %}
@@ -31,9 +31,15 @@
         </ul>
       {% endif %}
     </div>
-    <div class="hidden text-white/90 lg:block">
-      {% include "components/illustration_network.html" %}
-    </div>
+    {% if site_settings.hero_image %}
+      <div class="hidden lg:block">
+        {% responsive_image site_settings.hero_image site_settings.IMAGE_WIDTHS "(min-width: 1024px) 32rem, 0px" alt=site_settings.hero_image_alt css_class="aspect-[4/3] w-full rounded-3xl object-cover shadow-2xl ring-1 ring-white/20" eager=True %}
+      </div>
+    {% else %}
+      <div class="hidden text-white/90 lg:block">
+        {% include "components/illustration_network.html" %}
+      </div>
+    {% endif %}
   </div>
 </section>
 
@@ -53,12 +59,13 @@
   </dl>
 </section>
 
-{# Ce que propose la plateforme #}
+{# Ce que propose la plateforme : cartes gérées dans l'administration #}
+{% if features %}
 <section aria-labelledby="offre" class="mx-auto max-w-6xl px-4 py-20">
   <p class="eyebrow text-brand-700">{% translate "What you will find" %}</p>
   <h2 id="offre" class="mt-3 max-w-2xl font-display text-3xl font-bold text-brand-900 sm:text-4xl">{% translate "The research of the team, open and citable" %}</h2>
   <ul class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-    {% for item in offer %}
+    {% for item in features %}
       <li class="group flex flex-col rounded-2xl border border-stone-200 p-6 transition hover:-translate-y-0.5 hover:border-brand-600 hover:shadow-lg">
         <span class="flex size-12 items-center justify-center rounded-xl bg-brand-700 text-white">{% include "components/icon.html" with name=item.icon class="size-6" %}</span>
         <h3 class="mt-5 text-lg font-semibold text-stone-900">{{ item.title }}</h3>
@@ -74,6 +81,7 @@
     {% endfor %}
   </ul>
 </section>
+{% endif %}
 
 {# Axes de recherche #}
 {% if axes %}
@@ -153,8 +161,8 @@
     <div class="pattern-dots absolute inset-0" aria-hidden="true"></div>
     <div class="relative flex flex-wrap items-center justify-between gap-8">
       <div class="max-w-xl">
-        <h2 class="font-display text-3xl font-bold">{% translate "Join DAARA" %}</h2>
-        <p class="mt-3 text-white/85">{% translate "Researcher, PhD student or institution: help build the catalogue of African AI research." %}</p>
+        <h2 class="font-display text-3xl font-bold">{{ site_settings.cta_title }}</h2>
+        <p class="mt-3 text-white/85">{{ site_settings.cta_text }}</p>
       </div>
       <div class="flex flex-wrap gap-3">
         {% if nav.contact %}<a href="{{ nav.contact }}" class="rounded-lg bg-white px-5 py-3 font-semibold text-brand-900 hover:bg-brand-50">{% translate "Contact us" %}</a>{% endif %}

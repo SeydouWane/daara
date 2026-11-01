@@ -17,10 +17,22 @@ class AuthorshipInline(admin.TabularInline):
 @admin.register(Publication)
 class PublicationAdmin(CreatedByAdminMixin, TranslationAdmin):
     list_display = ["title", "kind", "year", "venue", "status", "open_access"]
-    list_filter = ["status", "kind", "year", "axis", "open_access"]
+    list_filter = ["status", "kind", "year", "axis", "open_access", "members"]
     search_fields = ["title", "doi", "venue", "authorships__name"]
     inlines = [AuthorshipInline]
     readonly_fields = ["openalex_id"]
+    actions = ["publish", "archive"]
+
+    @admin.action(description=_("Publish the selected publications"), permissions=["change"])
+    def publish(self, request, queryset):
+        count = queryset.update(status=Publication.Status.PUBLISHED)
+        self.message_user(request, _("%d publication(s) published.") % count)
+
+    @admin.action(description=_("Withdraw the selected publications"), permissions=["change"])
+    def archive(self, request, queryset):
+        count = queryset.update(status=Publication.Status.ARCHIVED)
+        self.message_user(request, _("%d publication(s) withdrawn from the site.") % count)
+
     fieldsets = [
         (None, {"fields": ["title", "slug", "kind", "status", "axis", "year", "language"]}),
         (

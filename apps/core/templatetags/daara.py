@@ -7,9 +7,12 @@ from django.conf import settings
 from django.urls import reverse, translate_url
 from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
+from django.utils.text import capfirst
+from django.utils.translation import gettext as _
 
 from apps.core import navigation
 from apps.core.images import rendition_name, rendition_widths
+from apps.members.backends import is_back_office
 
 register = template.Library()
 
@@ -70,6 +73,41 @@ def responsive_image(field_file, widths, sizes, alt="", css_class="", eager=Fals
         css_class,
         "eager" if eager else "lazy",
     )
+
+
+@register.inclusion_tag("components/admin_bar.html", takes_context=True)
+def admin_bar(context):
+    """Raccourcis vers l'administration, pour les éditeurs et les administrateurs.
+
+    Les vues listent dans `edit_targets` ce que montre la page : un objet mène à son
+    formulaire, un modèle à sa liste. Seuls les éléments que l'utilisateur peut modifier
+    apparaissent.
+    """
+    user = context.get("user")
+    if user is None or not is_back_office(user):
+        return {"links": None}
+    links = []
+    for target in context.get("edit_targets", ()):
+        opts = target._meta
+        if not user.has_perm(f"{opts.app_label}.change_{opts.model_name}"):
+            continue
+        if isinstance(target, type):
+            label = capfirst(opts.verbose_name_plural)
+            url = reverse(f"admin:{opts.app_label}_{opts.model_name}_changelist")
+        else:
+            kind, name = capfirst(opts.verbose_name), str(target)
+            label = (
+                kind
+                if name.lower() == kind.lower()
+                else _("%(kind)s “%(name)s”")
+                % {
+                    "kind": kind,
+                    "name": name,
+                }
+            )
+            url = reverse(f"admin:{opts.app_label}_{opts.model_name}_change", args=[target.pk])
+        links.append((label, url))
+    return {"links": links}
 
 
 @register.filter

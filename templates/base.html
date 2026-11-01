@@ -18,6 +18,7 @@
 <body class="flex min-h-screen flex-col bg-white text-stone-900">
   <a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2">{% translate "Skip to content" %}</a>
   {% public_navigation as nav %}
+  {% admin_bar %}
   {% include "components/header.html" %}
   <main id="contenu" class="flex-1">
     {% block content %}{% endblock %}
