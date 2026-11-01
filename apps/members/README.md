@@ -5,7 +5,7 @@ Comptes, institutions partenaires, axes thématiques, profils de membres et rôl
 ## Modèles
 
 - `User` : modèle d'utilisateur personnalisé (`AUTH_USER_MODEL = "members.User"`).
-- `Institution` : université ou organisme partenaire (nom traduit, sigle, pays ISO, identifiant ROR normalisé). Aucune institution n'est codée en dur.
+- `Institution` : université ou organisme partenaire (nom traduit, sigle, ville, pays ISO, identifiant ROR normalisé, logo). Aucune institution n'est codée en dur. La migration `0004_senegalese_universities` ajoute les huit universités publiques du Sénégal. Le logo se téléverse dans l'administration à partir du fichier officiel fourni par l'université ; sans logo, le sigle s'affiche en monogramme.
 - `Axis` : axe thématique ; nom obligatoire dans chaque langue éditoriale (`DAARA_EDITORIAL_LANGUAGES`).
 - `Grade` : table de grades, ordonnée du plus élevé au moins élevé (les grades varient selon les pays).
 - `Member` : profil public, relié à un `User` ; rattachements multiples via `Affiliation` (un seul principal), ORCID normalisé et vérifié (clé ISO 7064), statut actif ou alumni.

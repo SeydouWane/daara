@@ -13,6 +13,8 @@ Ce dossier rassemble la documentation technique de DAARA et les notes de passati
 | Grades | liste fixe (PT, MC, CT…) | table modifiable dans l'administration | les grades diffèrent selon les pays des universités partenaires. |
 | Menus de la vitrine | pages du module M1 | menus complets dès maintenant (à propos, recherche, membres, formation et actualités, contact) ; les modules à venir s'affichent « bientôt », sans lien | montrer l'arborescence finale sans lien cassé ; chaque entrée s'active seule quand son module existe. |
 | Corps des pages éditoriales | non précisé | Markdown, nettoyé à l'affichage | lisible dans l'administration, sans éditeur riche à maintenir. |
+| Logos des universités | non précisé | téléversés dans l'administration depuis les fichiers officiels, monogramme en attendant | un logo est une marque : il se récupère auprès du service communication de chaque université, avec son accord, plutôt que copié d'un site web. |
+| Illustrations | images WebP (§7.5) | illustrations SVG dessinées pour DAARA ; photos de couverture facultatives, converties en WebP | quelques Ko au lieu de centaines, aucune question de droits, cohérence avec la charte. |
 | Périmètre institutionnel | UNCHK et USSEIN | toutes les universités partenaires | correction du porteur de projet : les institutions seront une donnée, pas deux valeurs codées en dur. |
 
 ## Valeurs provisoires

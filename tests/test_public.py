@@ -1,8 +1,12 @@
 import datetime
+from io import BytesIO
 
 import pytest
 from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import SimpleUploadedFile
+from PIL import Image
 
+from apps.core.images import rendition_name, rendition_widths
 from apps.core.models import Page
 from apps.core.templatetags.daara import render_markdown
 from apps.members.models import Affiliation, Axis, Institution, Member, Role
@@ -12,11 +16,8 @@ pytestmark = pytest.mark.django_db
 
 @pytest.fixture
 def team(make_user, axis):
-    """Deux membres actifs et un alumni, rattachés à une même institution."""
-    unchk = Institution.objects.create(
-        name_fr="Université numérique", name_en="Digital university", acronym="UNCHK",
-        slug="unchk", country="SN",
-    )  # fmt: skip
+    """Deux membres actifs et un alumni, rattachés à l'UNCHK (créée par la migration)."""
+    unchk = Institution.objects.get(slug="unchk")
     health = Axis.objects.create(name_fr="Santé", name_en="Health", slug="sante")
 
     def add(username, first_name, last_name, member_axis, alumni=False):
@@ -129,6 +130,47 @@ def test_profile_page_shows_axes_and_external_links(client, team):
     assert "Awa Sarr" in html
     assert "Languages" in html
     assert "https://orcid.org/0000-0002-1825-0097" in html
+
+
+def test_senegalese_public_universities_are_partners():
+    acronyms = set(
+        Institution.objects.filter(country="SN", is_partner=True).values_list("acronym", flat=True)
+    )
+    assert {"UCAD", "UGB", "UASZ", "UIDT", "UADB", "USSEIN", "UNCHK", "UAM"} <= acronyms
+
+
+def test_home_announces_the_partner_universities(client):
+    html = client.get("/fr/").content.decode()
+    assert "En partenariat avec 8 universités" in html
+    assert "UCAD" in html
+
+
+def test_institution_logo_gets_webp_renditions(client):
+    buffer = BytesIO()
+    Image.new("RGBA", (600, 300), (15, 92, 74, 255)).save(buffer, "PNG")
+    ucad = Institution.objects.get(slug="ucad")
+    ucad.logo = SimpleUploadedFile("ucad.png", buffer.getvalue(), content_type="image/png")
+    ucad.save()
+    for width in (160, 320):
+        assert ucad.logo.storage.exists(rendition_name(ucad.logo.name, width))
+
+    html = client.get("/en/partners/").content.decode()
+    assert "160w" in html and "320w" in html
+    assert 'alt="Université Cheikh Anta Diop de Dakar"' in html
+    # Sans logo, le sigle sert de monogramme.
+    assert ">UGB</span>" in html
+
+
+def test_renditions_never_upscale():
+    assert rendition_widths(200, (160, 320)) == [160, 200]
+    assert rendition_widths(1000, (160, 320)) == [160, 320]
+    assert rendition_widths(None, (160, 320)) == []
+
+
+def test_axis_icon_is_drawn_on_the_axes_page(client, axis):
+    Axis.objects.filter(pk=axis.pk).update(icon=Axis.Icon.LANGUAGE)
+    html = client.get("/en/axes/").content.decode()
+    assert 'viewBox="0 0 48 48"' in html
 
 
 def test_alumni_profile_shows_the_period(client, team):

@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from .images import generate_renditions, validate_image_size
+
 
 class TimeStampedModel(models.Model):
     """Horodatage et auteur, portés par chaque entité (spec §6.2)."""
@@ -41,6 +43,25 @@ class Page(TimeStampedModel):
     )
     body = models.TextField(_("body"), blank=True, help_text=_("Markdown."))
     status = models.CharField(_("status"), max_length=10, choices=Status, default=Status.DRAFT)
+    image = models.ImageField(
+        _("cover image"),
+        upload_to="pages/",
+        blank=True,
+        width_field="image_width",
+        height_field="image_height",
+        validators=[validate_image_size],
+        help_text=_("Optional photo shown at the top of the page. Converted to WebP."),
+    )
+    image_alt = models.CharField(
+        _("image description"),
+        max_length=200,
+        blank=True,
+        help_text=_("Describe the photo for people who cannot see it."),
+    )
+    image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
+
+    IMAGE_WIDTHS = (480, 960, 1440)
 
     class Meta:
         ordering = ["slug"]
@@ -49,6 +70,10 @@ class Page(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        generate_renditions(self.image, self.IMAGE_WIDTHS)
 
     def clean(self):
         if self.status != self.Status.PUBLISHED:

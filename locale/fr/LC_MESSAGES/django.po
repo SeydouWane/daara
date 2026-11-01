@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAARA 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-31 22:12+0000\n"
+"POT-Creation-Date: 2026-10-31 22:35+0000\n"
 "PO-Revision-Date: 2026-10-31 21:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: DAARA\n"
@@ -30,64 +30,84 @@ msgstr "Disponible en anglais uniquement"
 msgid "Available in Wolof only"
 msgstr "Disponible en wolof uniquement"
 
-#: apps/core/models.py:10
+#: apps/core/images.py:21
+msgid "The image must not exceed 5 MB."
+msgstr "L'image ne doit pas dépasser 5 Mo."
+
+#: apps/core/models.py:12
 msgid "created at"
 msgstr "créé le"
 
-#: apps/core/models.py:11
+#: apps/core/models.py:13
 msgid "updated at"
 msgstr "modifié le"
 
-#: apps/core/models.py:14
+#: apps/core/models.py:16
 msgid "created by"
 msgstr "créé par"
 
-#: apps/core/models.py:34
+#: apps/core/models.py:36
 msgid "Draft"
 msgstr "Brouillon"
 
-#: apps/core/models.py:35
+#: apps/core/models.py:37
 msgid "Published"
 msgstr "Publiée"
 
-#: apps/core/models.py:37 apps/members/models.py:32 apps/members/models.py:68
-#: apps/members/models.py:118
+#: apps/core/models.py:39 apps/members/models.py:33 apps/members/models.py:102
+#: apps/members/models.py:153
 msgid "slug"
 msgstr "identifiant d'URL"
 
-#: apps/core/models.py:38
+#: apps/core/models.py:40
 msgid "title"
 msgstr "titre"
 
-#: apps/core/models.py:40
+#: apps/core/models.py:42
 msgid "summary"
 msgstr "résumé"
 
-#: apps/core/models.py:40
+#: apps/core/models.py:42
 msgid "One or two sentences."
 msgstr "Une ou deux phrases."
 
-#: apps/core/models.py:42
+#: apps/core/models.py:44
 msgid "body"
 msgstr "corps"
 
-#: apps/core/models.py:42
+#: apps/core/models.py:44
 msgid "Markdown."
 msgstr "Markdown."
 
-#: apps/core/models.py:43 apps/members/models.py:139
+#: apps/core/models.py:45 apps/members/models.py:174
 msgid "status"
 msgstr "statut"
 
 #: apps/core/models.py:47
+msgid "cover image"
+msgstr "image de couverture"
+
+#: apps/core/models.py:53
+msgid "Optional photo shown at the top of the page. Converted to WebP."
+msgstr "Photo facultative affichée en haut de la page. Convertie en WebP."
+
+#: apps/core/models.py:56
+msgid "image description"
+msgstr "description de l'image"
+
+#: apps/core/models.py:59
+msgid "Describe the photo for people who cannot see it."
+msgstr "Décrivez la photo pour les personnes qui ne peuvent pas la voir."
+
+#: apps/core/models.py:68
 msgid "editorial page"
 msgstr "page éditoriale"
 
-#: apps/core/models.py:48
+#: apps/core/models.py:69
 msgid "editorial pages"
 msgstr "pages éditoriales"
 
-#: apps/core/models.py:63
+#: apps/core/models.py:88
 #, python-format
 msgid ""
 "A published page needs a title and a body in every language. Missing: %s."
@@ -95,7 +115,8 @@ msgstr ""
 "Une page publiée doit avoir un titre et un corps dans chaque langue. "
 "Manquant : %s."
 
-#: apps/core/navigation.py:31
+#: apps/core/navigation.py:31 apps/core/urls.py:14 apps/core/views.py:116
+#: apps/core/views.py:127
 msgid "About"
 msgstr "À propos"
 
@@ -107,29 +128,30 @@ msgstr "Mission et axes"
 msgid "Governance"
 msgstr "Gouvernance"
 
-#: apps/core/navigation.py:35
+#: apps/core/navigation.py:35 templates/core/partners.html:6
 msgid "Partners"
 msgstr "Partenaires"
 
-#: apps/core/navigation.py:39
+#: apps/core/navigation.py:39 templates/core/axes.html:7
 msgid "Research"
 msgstr "Recherche"
 
 #: apps/core/navigation.py:41 apps/dashboard/views.py:116
-#: templates/core/axes.html:4 templates/core/axes.html:9
-#: templates/core/home.html:33 templates/members/profile.html:39
+#: templates/core/about.html:7 templates/core/axes.html:4
+#: templates/core/axes.html:8 templates/core/home.html:85
+#: templates/members/profile.html:47
 msgid "Research axes"
 msgstr "Axes de recherche"
 
-#: apps/core/navigation.py:42 apps/core/views.py:30
+#: apps/core/navigation.py:42 apps/core/views.py:38 apps/core/views.py:57
 msgid "Publications"
 msgstr "Publications"
 
-#: apps/core/navigation.py:43 apps/core/views.py:31
+#: apps/core/navigation.py:43 apps/core/views.py:39 apps/core/views.py:63
 msgid "Datasets"
 msgstr "Jeux de données"
 
-#: apps/core/navigation.py:44
+#: apps/core/navigation.py:44 apps/core/views.py:69
 msgid "Models and code"
 msgstr "Modèles et code"
 
@@ -139,7 +161,8 @@ msgstr "Projets"
 
 #: apps/core/navigation.py:48 apps/members/apps.py:7
 #: templates/core/axes.html:28 templates/dashboard/indicators.html:25
-#: templates/members/directory.html:4 templates/members/directory.html:9
+#: templates/members/directory.html:4 templates/members/directory.html:7
+#: templates/members/profile.html:16
 msgid "Members"
 msgstr "Membres"
 
@@ -147,7 +170,7 @@ msgstr "Membres"
 msgid "Training and news"
 msgstr "Formation et actualités"
 
-#: apps/core/navigation.py:52 apps/core/views.py:32
+#: apps/core/navigation.py:52 apps/core/views.py:40
 msgid "Training courses"
 msgstr "Formations"
 
@@ -170,6 +193,51 @@ msgstr "Mentions légales"
 #: apps/core/navigation.py:62
 msgid "Privacy policy"
 msgstr "Politique de confidentialité"
+
+#: apps/core/views.py:42 apps/dashboard/views.py:113
+msgid "Active members"
+msgstr "Membres actifs"
+
+#: apps/core/views.py:58
+msgid "Articles, papers and theses, imported by DOI and exported to BibTeX."
+msgstr ""
+"Articles, communications et thèses, importés par DOI et exportables en "
+"BibTeX."
+
+#: apps/core/views.py:64
+msgid ""
+"African corpora and data deposited on Zenodo, with a DOI and a citation."
+msgstr ""
+"Corpus et données africaines déposés sur Zenodo, avec un DOI et une "
+"citation."
+
+#: apps/core/views.py:70
+msgid "Models and demonstrators synchronised from Hugging Face and GitHub."
+msgstr "Modèles et démonstrateurs synchronisés depuis Hugging Face et GitHub."
+
+#: apps/core/views.py:75 apps/training/apps.py:7
+msgid "Training"
+msgstr "Formation"
+
+#: apps/core/views.py:76
+msgid "Courses, archived webinars and teaching materials with a DOI."
+msgstr "Formations, webinaires archivés et supports de cours avec DOI."
+
+#: apps/core/views.py:82
+msgid "Latest news"
+msgstr "Dernières actualités"
+
+#: apps/core/views.py:82
+msgid "No news yet."
+msgstr "Aucune actualité pour le moment."
+
+#: apps/core/views.py:85
+msgid "Latest research outputs"
+msgstr "Dernières productions"
+
+#: apps/core/views.py:86
+msgid "No research outputs yet."
+msgstr "Aucune production pour le moment."
 
 #: apps/dashboard/apps.py:7
 msgid "Dashboard"
@@ -240,18 +308,13 @@ msgstr "Biographie de membre"
 msgid "Axis description"
 msgstr "Description d'axe"
 
-#: apps/dashboard/views.py:113
-msgid "Active members"
-msgstr "Membres actifs"
-
-#: apps/dashboard/views.py:114 apps/members/models.py:110
+#: apps/dashboard/views.py:114 apps/members/models.py:145
 #: templates/members/_directory_results.html:14
-#: templates/members/profile.html:18
+#: templates/members/profile.html:26
 msgid "Alumni"
 msgstr "Alumni"
 
-#: apps/dashboard/views.py:115 templates/core/home.html:62
-#: templates/core/partners.html:6
+#: apps/dashboard/views.py:115 templates/core/partners.html:7
 msgid "Partner institutions"
 msgstr "Institutions partenaires"
 
@@ -276,224 +339,276 @@ msgstr ""
 msgid "Enter a valid ROR identifier, e.g. 05c3q4c27."
 msgstr "Saisissez un identifiant ROR valide, par exemple 05c3q4c27."
 
-#: apps/members/models.py:30 apps/members/models.py:66
-#: apps/members/models.py:91
+#: apps/members/models.py:31 apps/members/models.py:100
+#: apps/members/models.py:126
 msgid "name"
 msgstr "nom"
 
-#: apps/members/models.py:31
+#: apps/members/models.py:32
 msgid "acronym"
 msgstr "sigle"
 
-#: apps/members/models.py:34
+#: apps/members/models.py:35
 msgid "country"
 msgstr "pays"
 
-#: apps/members/models.py:37
+#: apps/members/models.py:38
 msgid "ISO 3166-1 alpha-2 code, e.g. SN."
 msgstr "Code ISO 3166-1 alpha-2, par exemple SN."
 
-#: apps/members/models.py:40
+#: apps/members/models.py:41
 msgid "ROR identifier"
 msgstr "identifiant ROR"
 
-#: apps/members/models.py:42
+#: apps/members/models.py:43
 msgid "website"
 msgstr "site web"
 
-#: apps/members/models.py:43
+#: apps/members/models.py:44
+msgid "city"
+msgstr "ville"
+
+#: apps/members/models.py:45
 msgid "partner institution"
 msgstr "institution partenaire"
 
-#: apps/members/models.py:47 apps/members/models.py:201
+#: apps/members/models.py:47
+msgid "logo"
+msgstr "logo"
+
+#: apps/members/models.py:54
+msgid ""
+"Official file supplied by the institution, PNG or JPEG with a transparent or"
+" white background. Converted to WebP automatically."
+msgstr ""
+"Fichier officiel fourni par l'institution, en PNG ou JPEG sur fond "
+"transparent ou blanc. Converti automatiquement en WebP."
+
+#: apps/members/models.py:65 apps/members/models.py:236
 msgid "institution"
 msgstr "institution"
 
-#: apps/members/models.py:48 apps/members/models.py:124
+#: apps/members/models.py:66 apps/members/models.py:159
 msgid "institutions"
 msgstr "institutions"
 
-#: apps/members/models.py:67
+#: apps/members/models.py:91
+msgid "Data"
+msgstr "Données"
+
+#: apps/members/models.py:92
+msgid "Languages"
+msgstr "Langues"
+
+#: apps/members/models.py:93
+msgid "Health"
+msgstr "Santé"
+
+#: apps/members/models.py:94
+msgid "Geospatial"
+msgstr "Géospatial"
+
+#: apps/members/models.py:95
+msgid "Computer vision"
+msgstr "Vision par ordinateur"
+
+#: apps/members/models.py:96
+msgid "Agriculture"
+msgstr "Agriculture"
+
+#: apps/members/models.py:97
+msgid "Education"
+msgstr "Éducation"
+
+#: apps/members/models.py:98
+msgid "Climate and environment"
+msgstr "Climat et environnement"
+
+#: apps/members/models.py:101
 msgid "description"
 msgstr "description"
 
-#: apps/members/models.py:69 apps/members/models.py:93
+#: apps/members/models.py:103 apps/members/models.py:128
 msgid "order"
 msgstr "ordre"
 
-#: apps/members/models.py:73 apps/members/models.py:262
+#: apps/members/models.py:104
+msgid "icon"
+msgstr "icône"
+
+#: apps/members/models.py:108 apps/members/models.py:297
 msgid "research axis"
 msgstr "axe de recherche"
 
-#: apps/members/models.py:74 apps/members/models.py:130
+#: apps/members/models.py:109 apps/members/models.py:165
 msgid "research axes"
 msgstr "axes de recherche"
 
-#: apps/members/models.py:93
+#: apps/members/models.py:128
 msgid "Sort order in the directory, most senior first."
 msgstr "Ordre de tri dans l'annuaire, du grade le plus élevé au moins élevé."
 
-#: apps/members/models.py:98 apps/members/models.py:120
+#: apps/members/models.py:133 apps/members/models.py:155
 msgid "grade"
 msgstr "grade"
 
-#: apps/members/models.py:99
+#: apps/members/models.py:134
 msgid "grades"
 msgstr "grades"
 
-#: apps/members/models.py:109
+#: apps/members/models.py:144
 msgid "Active"
 msgstr "Actif"
 
-#: apps/members/models.py:114
+#: apps/members/models.py:149
 msgid "account"
 msgstr "compte"
 
-#: apps/members/models.py:132
+#: apps/members/models.py:167
 msgid "ORCID iD"
 msgstr "identifiant ORCID"
 
-#: apps/members/models.py:133
+#: apps/members/models.py:168
 msgid "biography"
 msgstr "biographie"
 
-#: apps/members/models.py:134
+#: apps/members/models.py:169
 msgid "Google Scholar ID"
 msgstr "identifiant Google Scholar"
 
-#: apps/members/models.py:135
+#: apps/members/models.py:170
 msgid "HAL identifier"
 msgstr "identifiant HAL"
 
-#: apps/members/models.py:136
+#: apps/members/models.py:171
 msgid "GitHub username"
 msgstr "nom d'utilisateur GitHub"
 
-#: apps/members/models.py:137
+#: apps/members/models.py:172
 msgid "Hugging Face username"
 msgstr "nom d'utilisateur Hugging Face"
 
-#: apps/members/models.py:138
+#: apps/members/models.py:173
 msgid "LinkedIn profile"
 msgstr "profil LinkedIn"
 
-#: apps/members/models.py:140
+#: apps/members/models.py:175
 msgid "joined on"
 msgstr "arrivée le"
 
-#: apps/members/models.py:141
+#: apps/members/models.py:176
 msgid "left on"
 msgstr "départ le"
 
-#: apps/members/models.py:145
+#: apps/members/models.py:180
 msgid "member"
 msgstr "membre"
 
-#: apps/members/models.py:146
+#: apps/members/models.py:181
 msgid "members"
 msgstr "membres"
 
-#: apps/members/models.py:194
+#: apps/members/models.py:229
 msgid "An alumni profile needs a departure date."
 msgstr "Un profil alumni doit indiquer une date de départ."
 
-#: apps/members/models.py:205
+#: apps/members/models.py:240
 msgid "primary affiliation"
 msgstr "rattachement principal"
 
-#: apps/members/models.py:208
+#: apps/members/models.py:243
 msgid "affiliation"
 msgstr "rattachement"
 
-#: apps/members/models.py:209
+#: apps/members/models.py:244
 msgid "affiliations"
 msgstr "rattachements"
 
-#: apps/members/models.py:224
+#: apps/members/models.py:259
 msgid "Learner"
 msgstr "Apprenant"
 
-#: apps/members/models.py:225
+#: apps/members/models.py:260
 msgid "PhD student"
 msgstr "Doctorant"
 
-#: apps/members/models.py:226
+#: apps/members/models.py:261
 msgid "Researcher"
 msgstr "Chercheur"
 
-#: apps/members/models.py:227 templates/core/axes.html:23
+#: apps/members/models.py:262 templates/core/axes.html:23
 msgid "Axis lead"
 msgstr "Responsable d'axe"
 
-#: apps/members/models.py:228
+#: apps/members/models.py:263
 msgid "Editor and translator"
 msgstr "Éditeur et traducteur"
 
-#: apps/members/models.py:229
+#: apps/members/models.py:264
 msgid "External collaborator"
 msgstr "Collaborateur externe"
 
-#: apps/members/models.py:230
+#: apps/members/models.py:265
 msgid "Observer"
 msgstr "Observateur"
 
-#: apps/members/models.py:231
+#: apps/members/models.py:266
 msgid "Administrator"
 msgstr "Administrateur"
 
-#: apps/members/models.py:255
+#: apps/members/models.py:290
 msgid "user"
 msgstr "utilisateur"
 
-#: apps/members/models.py:259
+#: apps/members/models.py:294
 msgid "role"
 msgstr "rôle"
 
-#: apps/members/models.py:267
+#: apps/members/models.py:302
 msgid "Required for axis leads, empty for every other role."
 msgstr "Obligatoire pour un responsable d'axe, vide pour tout autre rôle."
 
-#: apps/members/models.py:269
+#: apps/members/models.py:304
 msgid "starts on"
 msgstr "début"
 
-#: apps/members/models.py:271
+#: apps/members/models.py:306
 msgid "expires on"
 msgstr "expiration"
 
-#: apps/members/models.py:274
+#: apps/members/models.py:309
 msgid "Required for observers: 12 months at most, renewable."
 msgstr "Obligatoire pour un observateur : 12 mois au plus, renouvelable."
 
-#: apps/members/models.py:281
+#: apps/members/models.py:316
 msgid "role assignment"
 msgstr "attribution de rôle"
 
-#: apps/members/models.py:282
+#: apps/members/models.py:317
 msgid "role assignments"
 msgstr "attributions de rôle"
 
-#: apps/members/models.py:318
+#: apps/members/models.py:353
 msgid "An axis lead must be assigned to an axis."
 msgstr "Un responsable d'axe doit être rattaché à un axe."
 
-#: apps/members/models.py:320
+#: apps/members/models.py:355
 msgid "Only axis leads are assigned to an axis."
 msgstr "Seul un responsable d'axe est rattaché à un axe."
 
-#: apps/members/models.py:324
+#: apps/members/models.py:359
 msgid "An observer access must have an expiry date."
 msgstr "Un accès observateur doit avoir une date d'expiration."
 
-#: apps/members/models.py:326
+#: apps/members/models.py:361
 msgid "An observer access lasts 12 months at most."
 msgstr "Un accès observateur dure 12 mois au plus."
 
-#: apps/members/models.py:328
+#: apps/members/models.py:363
 msgid "The expiry date cannot precede the start date."
 msgstr "La date d'expiration ne peut pas précéder la date de début."
 
-#: apps/members/models.py:337
+#: apps/members/models.py:372
 msgid "This axis already has an active lead."
 msgstr "Cet axe a déjà un responsable actif."
 
@@ -504,10 +619,6 @@ msgstr "Actualités"
 #: apps/research/apps.py:7
 msgid "Research outputs"
 msgstr "Productions scientifiques"
-
-#: apps/training/apps.py:7
-msgid "Training"
-msgstr "Formation"
 
 #: templates/base.html:19
 msgid "Skip to content"
@@ -522,7 +633,17 @@ msgstr "Se déconnecter"
 msgid "Sign in"
 msgstr "Se connecter"
 
-#: templates/components/footer.html:6
+#: templates/components/footer.html:6 templates/core/home.html:5
+#: templates/core/home.html:15
+msgid ""
+"Publications, datasets, models and training from a team of AI researchers "
+"working with partner universities."
+msgstr ""
+"Publications, jeux de données, modèles et formations d'une équipe de "
+"chercheurs en intelligence artificielle, en partenariat avec des "
+"universités."
+
+#: templates/components/footer.html:7
 msgid ""
 "Editorial content licensed under <a "
 "href=\"https://creativecommons.org/licenses/by/4.0/\" class=\"underline "
@@ -532,15 +653,16 @@ msgstr ""
 "href=\"https://creativecommons.org/licenses/by/4.0/deed.fr\" "
 "class=\"underline underline-offset-4\">CC BY 4.0</a>."
 
-#: templates/components/footer.html:8 templates/components/footer.html:9
+#: templates/components/footer.html:9 templates/components/footer.html:10
+#: templates/core/home.html:68
 msgid "Explore"
 msgstr "Explorer"
 
-#: templates/components/footer.html:17
+#: templates/components/footer.html:18
 msgid "Information"
 msgstr "Informations"
 
-#: templates/components/footer.html:24
+#: templates/components/footer.html:25
 msgid "Pause animations"
 msgstr "Mettre en pause les animations"
 
@@ -561,19 +683,27 @@ msgid "Language"
 msgstr "Langue"
 
 #: templates/components/logo.html:7 templates/core/home.html:4
-#: templates/core/home.html:9
+#: templates/core/home.html:14
 msgid "Data & AI Research Alliance for Africa"
 msgstr "Données, Apprentissage Automatique et Recherche en Afrique"
 
-#: templates/components/nav_link.html:3
+#: templates/components/nav_link.html:3 templates/core/home.html:70
 msgid "soon"
 msgstr "bientôt"
 
-#: templates/core/about.html:7
+#: templates/components/page_header.html:10 templates/members/profile.html:12
+msgid "Breadcrumb"
+msgstr "Fil d'Ariane"
+
+#: templates/components/page_header.html:12 templates/members/profile.html:14
+msgid "Home"
+msgstr "Accueil"
+
+#: templates/core/about.html:8 templates/core/home.html:86
 msgid "Our research axes"
 msgstr "Nos axes de recherche"
 
-#: templates/core/axes.html:10
+#: templates/core/axes.html:9
 msgid ""
 "Each axis brings members together around a research theme. Its lead "
 "validates the contents of the axis."
@@ -581,68 +711,96 @@ msgstr ""
 "Chaque axe réunit des membres autour d'un thème de recherche. Son "
 "responsable valide les contenus de l'axe."
 
-#: templates/core/axes.html:35
-msgid "The research axes will be published soon."
-msgstr "Les axes de recherche seront bientôt publiés."
-
-#: templates/core/home.html:10
-msgid ""
-"Publications, datasets, models and training from a team of AI researchers "
-"working with partner universities."
-msgstr ""
-"Publications, jeux de données, modèles et formations d'une équipe de "
-"chercheurs en intelligence artificielle, en partenariat avec des "
-"universités."
-
-#: templates/core/home.html:12
-msgid "Explore our research axes"
-msgstr "Découvrir nos axes de recherche"
-
-#: templates/core/home.html:13
-msgid "Meet the team"
-msgstr "Rencontrer l'équipe"
-
-#: templates/core/home.html:19
-msgid "Key figures"
-msgstr "Chiffres clés"
-
-#: templates/core/home.html:34
-msgid "All axes"
-msgstr "Tous les axes"
-
-#: templates/core/home.html:41 templates/core/partners.html:15
-#: templates/members/_directory_results.html:2
+#: templates/core/axes.html:29 templates/core/home.html:97
+#: templates/core/partners.html:21 templates/members/_directory_results.html:2
 #, python-format
 msgid "%(counter)s member"
 msgid_plural "%(counter)s members"
 msgstr[0] "%(counter)s membre"
 msgstr[1] "%(counter)s membres"
 
-#: templates/core/home.html:51
-msgid "Latest news"
-msgstr "Dernières actualités"
+#: templates/core/axes.html:36
+msgid "The research axes will be published soon."
+msgstr "Les axes de recherche seront bientôt publiés."
 
-#: templates/core/home.html:52
-msgid "No news yet."
-msgstr "Aucune actualité pour le moment."
+#: templates/core/home.html:13
+msgid "AI research alliance"
+msgstr "Alliance de recherche en IA"
 
-#: templates/core/home.html:55
-msgid "Latest research outputs"
-msgstr "Dernières productions"
+#: templates/core/home.html:18
+msgid "Explore our research axes"
+msgstr "Découvrir nos axes de recherche"
 
-#: templates/core/home.html:56
-msgid "No research outputs yet."
-msgstr "Aucune production pour le moment."
+#: templates/core/home.html:21
+msgid "Meet the team"
+msgstr "Rencontrer l'équipe"
 
-#: templates/core/partners.html:18
-msgid "See the members"
-msgstr "Voir les membres"
+#: templates/core/home.html:25
+#, python-format
+msgid "In partnership with %(counter)s university"
+msgid_plural "In partnership with %(counter)s universities"
+msgstr[0] "En partenariat avec %(counter)s université"
+msgstr[1] "En partenariat avec %(counter)s universités"
 
-#: templates/core/partners.html:19
+#: templates/core/home.html:42
+msgid "Key figures"
+msgstr "Chiffres clés"
+
+#: templates/core/home.html:58
+msgid "What you will find"
+msgstr "Ce que vous trouverez"
+
+#: templates/core/home.html:59
+msgid "The research of the team, open and citable"
+msgstr "Les travaux de l'équipe, ouverts et citables"
+
+#: templates/core/home.html:88
+msgid "All axes"
+msgstr "Tous les axes"
+
+#: templates/core/home.html:124
+msgid "Partner universities"
+msgstr "Universités partenaires"
+
+#: templates/core/home.html:125
+msgid "All partners"
+msgstr "Tous les partenaires"
+
+#: templates/core/home.html:144
+msgid "Join DAARA"
+msgstr "Rejoindre DAARA"
+
+#: templates/core/home.html:145
+msgid ""
+"Researcher, PhD student or institution: help build the catalogue of African "
+"AI research."
+msgstr ""
+"Chercheur, doctorant ou institution : contribuez au catalogue de la "
+"recherche africaine en IA."
+
+#: templates/core/home.html:148 templates/core/page.html:41
+msgid "Contact us"
+msgstr "Nous contacter"
+
+#: templates/core/home.html:149
+msgid "Become a partner"
+msgstr "Devenir partenaire"
+
+#: templates/core/page.html:39
+msgid "A question?"
+msgstr "Une question ?"
+
+#: templates/core/page.html:40
+msgid "Write to the DAARA team about our work, data or training."
+msgstr ""
+"Écrivez à l'équipe DAARA au sujet de nos travaux, de nos données ou de nos "
+"formations."
+
+#: templates/core/partners.html:24
 msgid "Website"
 msgstr "Site web"
 
-#: templates/core/partners.html:25
+#: templates/core/partners.html:31
 msgid "No partner institution yet."
 msgstr "Aucune institution partenaire pour le moment."
 
@@ -706,7 +864,7 @@ msgstr ""
 "Rattachement principal uniquement. Un indicateur d'équilibre entre "
 "institutions partenaires."
 
-#: templates/dashboard/indicators.html:24 templates/members/directory.html:24
+#: templates/dashboard/indicators.html:24 templates/members/directory.html:21
 msgid "Institution"
 msgstr "Institution"
 
@@ -792,7 +950,7 @@ msgstr "Aucun membre ne correspond à ces filtres."
 msgid "All"
 msgstr "Tous"
 
-#: templates/members/directory.html:10
+#: templates/members/directory.html:8
 msgid ""
 "Researchers, PhD students and engineers of DAARA, from every partner "
 "institution."
@@ -800,31 +958,31 @@ msgstr ""
 "Chercheurs, doctorants et ingénieurs de DAARA, de toutes les institutions "
 "partenaires."
 
-#: templates/members/directory.html:21 templates/members/directory.html:30
+#: templates/members/directory.html:18 templates/members/directory.html:27
 msgid "Name"
 msgstr "Nom"
 
-#: templates/members/directory.html:25
+#: templates/members/directory.html:22
 msgid "Research axis"
 msgstr "Axe de recherche"
 
-#: templates/members/directory.html:26 templates/members/directory.html:31
+#: templates/members/directory.html:23 templates/members/directory.html:28
 msgid "Grade"
 msgstr "Grade"
 
-#: templates/members/directory.html:28
+#: templates/members/directory.html:25
 msgid "Sort by"
 msgstr "Trier par"
 
-#: templates/members/directory.html:37
+#: templates/members/directory.html:34
 msgid "Show alumni instead of active members"
 msgstr "Afficher les alumni plutôt que les membres actifs"
 
-#: templates/members/directory.html:39
+#: templates/members/directory.html:36
 msgid "Filter"
 msgstr "Filtrer"
 
-#: templates/members/directory.html:40
+#: templates/members/directory.html:37
 msgid "Reset"
 msgstr "Réinitialiser"
 
@@ -832,22 +990,25 @@ msgstr "Réinitialiser"
 msgid "Access your DAARA space."
 msgstr "Accédez à votre espace DAARA."
 
-#: templates/members/profile.html:27
+#: templates/members/profile.html:35
 msgid "Biography"
 msgstr "Biographie"
 
-#: templates/members/profile.html:32
+#: templates/members/profile.html:40
 msgid "No biography yet."
 msgstr "Pas encore de biographie."
 
-#: templates/members/profile.html:49
+#: templates/members/profile.html:57
 msgid "Institutions"
 msgstr "Institutions"
 
-#: templates/members/profile.html:52
+#: templates/members/profile.html:60
 msgid "primary"
 msgstr "principal"
 
-#: templates/members/profile.html:60
+#: templates/members/profile.html:68
 msgid "Elsewhere"
 msgstr "Ailleurs"
+
+#~ msgid "See the members"
+#~ msgstr "Voir les membres"

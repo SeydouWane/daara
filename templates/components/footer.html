@@ -1,27 +1,31 @@
 {% load i18n %}
-<footer class="mt-16 border-t border-stone-200 bg-stone-50">
-  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm text-stone-600 md:grid-cols-[2fr_1fr_1fr]">
-    <div class="space-y-4">
-      <div class="text-3xl">{% include "components/logo.html" with form="complete" extra="logo--static" %}</div>
+<footer class="bg-brand-900 text-white/80">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 text-sm md:grid-cols-[2fr_1fr_1fr]">
+    <div class="space-y-5">
+      <div class="text-3xl text-white">{% include "components/logo.html" with form="complete" extra="logo--mono logo--static" %}</div>
+      <p class="max-w-sm">{% translate "Publications, datasets, models and training from a team of AI researchers working with partner universities." %}</p>
       <p>{% blocktranslate %}Editorial content licensed under <a href="https://creativecommons.org/licenses/by/4.0/" class="underline underline-offset-4">CC BY 4.0</a>.{% endblocktranslate %}</p>
     </div>
     <nav aria-label="{% translate 'Explore' %}">
-      <p class="font-semibold text-stone-800">{% translate "Explore" %}</p>
-      <ul class="mt-2 space-y-1">
+      <p class="font-semibold text-white">{% translate "Explore" %}</p>
+      <ul class="mt-3 space-y-2">
         {% for menu in nav.menus %}
-          {% with link=menu.links.0 %}{% if link.url %}<li><a href="{{ link.url }}" class="hover:text-brand-800 hover:underline">{% if menu.single %}{{ menu.label }}{% else %}{{ link.label }}{% endif %}</a></li>{% endif %}{% endwith %}
+          {% with link=menu.links.0 %}{% if link.url %}<li><a href="{{ link.url }}" class="hover:text-white hover:underline">{% if menu.single %}{{ menu.label }}{% else %}{{ link.label }}{% endif %}</a></li>{% endif %}{% endwith %}
         {% endfor %}
       </ul>
     </nav>
     <div>
-      <p class="font-semibold text-stone-800">{% translate "Information" %}</p>
-      <ul class="mt-2 space-y-1">
+      <p class="font-semibold text-white">{% translate "Information" %}</p>
+      <ul class="mt-3 space-y-2">
         {% for link in nav.footer %}
-          <li><a href="{{ link.url }}" class="hover:text-brand-800 hover:underline">{{ link.label }}</a></li>
+          <li><a href="{{ link.url }}" class="hover:text-white hover:underline">{{ link.label }}</a></li>
         {% endfor %}
       </ul>
       {# Affiché par static/js/motion.js : sans JavaScript, il n'aurait aucun effet. #}
-      <button type="button" data-motion-toggle aria-pressed="false" hidden class="mt-4 rounded border border-stone-300 px-3 py-1.5 text-stone-700 hover:bg-white">{% translate "Pause animations" %}</button>
+      <button type="button" data-motion-toggle aria-pressed="false" hidden class="mt-5 rounded-lg px-3 py-1.5 text-white ring-1 ring-white/30 hover:bg-white/10">{% translate "Pause animations" %}</button>
     </div>
+  </div>
+  <div class="border-t border-white/10">
+    <p class="mx-auto max-w-6xl px-4 py-5 text-xs text-white/60">© {% now "Y" %} DAARA</p>
   </div>
 </footer>

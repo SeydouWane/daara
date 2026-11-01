@@ -17,6 +17,12 @@ Registre des menus de l'en-tête et du pied de page. Un lien vers un module pas 
 
 Les menus déroulants et le menu mobile sont des éléments `<details>` : ils marchent au clavier et sans JavaScript. `static/js/ui.js` ajoute la fermeture au clic extérieur et avec Échap.
 
+## Images et illustrations
+
+- `images.py` : toute image téléversée (logo d'institution, couverture de page) produit à l'enregistrement des déclinaisons WebP (`renditions/…-<largeur>w.webp`), jamais agrandies. La balise `{% responsive_image %}` les sert avec `srcset`, dimensions explicites et chargement différé (spec §7.5). Taille maximale : 5 Mo.
+- Illustrations dessinées pour DAARA, en SVG intégré (quelques Ko, aucun fichier à télécharger) : `components/illustration_network.html` (accueil), `components/axis_icon.html` (une par type d'axe, choisi dans l'administration), `components/icon.html` (pictogrammes).
+- Motifs de fond en CSS pur dans `assets/css/main.css` : grille de points (`.pattern-dots`) et halo (`.hero-glow`).
+
 ## Autres fichiers
 
 - `views.py` : accueil, pages, axes de recherche, partenaires, planche du logo (développement), `healthz`, `switch_language`.

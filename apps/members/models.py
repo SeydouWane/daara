@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.fields import HttpsURLField
+from apps.core.images import generate_renditions, validate_image_size
 from apps.core.models import TimeStampedModel
 
 from .identifiers import normalize_orcid, normalize_ror, validate_orcid, validate_ror
@@ -40,7 +41,24 @@ class Institution(TimeStampedModel):
         _("ROR identifier"), max_length=9, blank=True, validators=[validate_ror]
     )
     website = HttpsURLField(_("website"), blank=True)
+    city = models.CharField(_("city"), max_length=80, blank=True)
     is_partner = models.BooleanField(_("partner institution"), default=True)
+    logo = models.ImageField(
+        _("logo"),
+        upload_to="institutions/",
+        blank=True,
+        width_field="logo_width",
+        height_field="logo_height",
+        validators=[validate_image_size],
+        help_text=_(
+            "Official file supplied by the institution, PNG or JPEG with a transparent or "
+            "white background. Converted to WebP automatically."
+        ),
+    )
+    logo_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    logo_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
+
+    LOGO_WIDTHS = (160, 320)
 
     class Meta:
         ordering = ["name"]
@@ -59,14 +77,31 @@ class Institution(TimeStampedModel):
         self.ror_id = normalize_ror(self.ror_id)
         super().clean_fields(exclude)
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        generate_renditions(self.logo, self.LOGO_WIDTHS)
+
 
 class Axis(TimeStampedModel):
     """Axe thématique. Son responsable est désigné par un rôle « responsable d'axe »."""
+
+    class Icon(models.TextChoices):
+        """Illustrations SVG de templates/components/axis_icon.html."""
+
+        DATA = "data", _("Data")
+        LANGUAGE = "language", _("Languages")
+        HEALTH = "health", _("Health")
+        GEOSPATIAL = "geospatial", _("Geospatial")
+        VISION = "vision", _("Computer vision")
+        AGRICULTURE = "agriculture", _("Agriculture")
+        EDUCATION = "education", _("Education")
+        CLIMATE = "climate", _("Climate and environment")
 
     name = models.CharField(_("name"), max_length=150)
     description = models.TextField(_("description"), blank=True)
     slug = models.SlugField(_("slug"), unique=True)
     order = models.PositiveSmallIntegerField(_("order"), default=0)
+    icon = models.CharField(_("icon"), max_length=20, choices=Icon, default=Icon.DATA)
 
     class Meta:
         ordering = ["order", "name"]

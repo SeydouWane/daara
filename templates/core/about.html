@@ -3,13 +3,17 @@
 
 {% block after_body %}
 {% if axes %}
-  <section aria-labelledby="axes" class="mt-14">
-    <h2 id="axes" class="font-display text-2xl font-bold text-brand-900">{% translate "Our research axes" %}</h2>
-    <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <section aria-labelledby="axes" class="mt-16 border-t border-stone-200 pt-14">
+    <p class="eyebrow text-brand-700">{% translate "Research axes" %}</p>
+    <h2 id="axes" class="mt-3 font-display text-3xl font-bold text-brand-900">{% translate "Our research axes" %}</h2>
+    <ul class="mt-8 grid gap-5 md:grid-cols-3">
       {% for axis in axes %}
-        <li class="rounded-xl border border-stone-200 p-5">
-          <a href="{% url 'core:axes' %}#{{ axis.slug }}" class="font-semibold text-brand-800 underline-offset-4 hover:underline">{{ axis.name }}</a>
-          {% if axis.description %}<p class="mt-2 text-sm text-stone-600">{{ axis.description|truncatewords:30 }}</p>{% endif %}
+        <li>
+          <a href="{% url 'core:axes' %}#{{ axis.slug }}" class="flex h-full flex-col rounded-2xl border border-stone-200 p-6 transition hover:-translate-y-0.5 hover:border-brand-600 hover:shadow-lg">
+            <span class="text-brand-700">{% include "components/axis_icon.html" with icon=axis.icon class="size-10" %}</span>
+            <span class="mt-4 font-semibold text-stone-900">{{ axis.name }}</span>
+            {% if axis.description %}<span class="mt-2 text-sm text-stone-600">{{ axis.description|truncatewords:24 }}</span>{% endif %}
+          </a>
         </li>
       {% endfor %}
     </ul>

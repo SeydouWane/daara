@@ -1,0 +1,24 @@
+{% comment %}
+Illustration de l'accueil, dessinée pour DAARA : un réseau de points de données, dont un nœud
+central qui émet (anneaux), et en bas le trait « Signal » du logo qui se fixe en point.
+Pensée pour un fond sombre ; couleur des traits : currentColor. Décorative (aria-hidden).
+{% endcomment %}<svg class="{{ class|default:'w-full h-auto' }}" viewBox="0 0 480 400" fill="none" aria-hidden="true" focusable="false">
+  <g stroke="currentColor" stroke-opacity=".28" stroke-width="1.5">
+    <path d="M120 90 220 60l110 50 80-40M120 90l50 90 50-120 60 140 50-90 80-40M170 180l110 20 110-10M170 180l-70 80 130 30 50-90 70 80M230 290l120-10 90-20M280 200l70 80M390 190l50 70M410 70l-20 120"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="120" cy="90" r="5"/><circle cx="220" cy="60" r="6"/><circle cx="410" cy="70" r="5"/>
+    <circle cx="170" cy="180" r="6"/><circle cx="390" cy="190" r="6"/><circle cx="230" cy="290" r="6"/>
+    <circle cx="350" cy="280" r="5"/><circle cx="280" cy="200" r="9"/>
+  </g>
+  <g fill="#d97706">
+    <circle cx="330" cy="110" r="7"/><circle cx="100" cy="260" r="6"/><circle cx="440" cy="260" r="6"/>
+  </g>
+  <g stroke="#d97706" fill="none">
+    <circle cx="280" cy="200" r="22" stroke-opacity=".7" stroke-width="2"/>
+    <circle cx="280" cy="200" r="38" stroke-opacity=".35" stroke-width="1.5"/>
+    <circle cx="280" cy="200" r="56" stroke-opacity=".15" stroke-width="1.5"/>
+  </g>
+  <path d="M70 360h240" stroke="#d97706" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="334" cy="360" r="8" fill="#d97706"/>
+</svg>

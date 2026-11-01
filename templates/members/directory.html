@@ -4,17 +4,14 @@
 {% block title %}{% translate "Members" %} — DAARA{% endblock %}
 
 {% block content %}
-<div class="border-b border-stone-200 bg-brand-50">
-  <div class="mx-auto max-w-6xl px-4 py-12">
-    <h1 class="font-display text-3xl font-bold text-brand-900 sm:text-4xl">{% translate "Members" %}</h1>
-    <p class="mt-4 max-w-2xl text-lg text-stone-700">{% translate "Researchers, PhD students and engineers of DAARA, from every partner institution." %}</p>
-  </div>
-</div>
+{% translate "Members" as title %}
+{% translate "Researchers, PhD students and engineers of DAARA, from every partner institution." as summary %}
+{% include "components/page_header.html" with title=title summary=summary %}
 
 <div class="mx-auto max-w-6xl px-4 py-10">
   {# Sans JavaScript, le bouton « Filtrer » soumet le formulaire ; avec HTMX, la liste se met à jour seule. #}
   <form method="get" action="{% url 'directory:list' %}" role="search"
-        class="grid gap-4 rounded-xl border border-stone-200 p-4 sm:grid-cols-2 lg:grid-cols-6"
+        class="relative -mt-16 grid gap-4 rounded-2xl bg-white p-5 shadow-xl ring-1 ring-stone-200 sm:grid-cols-2 lg:grid-cols-6"
         hx-get="{% url 'directory:list' %}" hx-target="#resultats" hx-push-url="true"
         hx-trigger="change, input from:#id_q delay:300ms">
     <div class="lg:col-span-2">

@@ -100,4 +100,8 @@ def build(current_path):
                     "current": any(link["current"] for link in links),
                 }
             )
-    return {"menus": menus, "footer": _resolve(FOOTER_LINKS, published, current_path)}
+    return {
+        "menus": menus,
+        "footer": _resolve(FOOTER_LINKS, published, current_path),
+        "contact": reverse("core:contact") if "contact" in published else None,
+    }

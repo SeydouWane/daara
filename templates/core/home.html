@@ -2,69 +2,153 @@
 {% load i18n %}
 
 {% block title %}DAARA — {% translate "Data & AI Research Alliance for Africa" %}{% endblock %}
+{% block meta %}<meta name="description" content="{% translate 'Publications, datasets, models and training from a team of AI researchers working with partner universities.' %}">{% endblock %}
 
 {% block content %}
-<section class="bg-brand-50">
-  <div class="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-    <h1 class="max-w-3xl font-display text-3xl font-bold text-brand-900 sm:text-5xl">{% translate "Data & AI Research Alliance for Africa" %}</h1>
-    <p class="mt-6 max-w-2xl text-lg text-stone-700">{% translate "Publications, datasets, models and training from a team of AI researchers working with partner universities." %}</p>
-    <div class="mt-8 flex flex-wrap gap-3">
-      <a href="{% url 'core:axes' %}" class="rounded bg-brand-700 px-5 py-2.5 font-semibold text-white hover:bg-brand-800">{% translate "Explore our research axes" %}</a>
-      <a href="{% url 'directory:list' %}" class="rounded border border-brand-700 px-5 py-2.5 font-semibold text-brand-800 hover:bg-white">{% translate "Meet the team" %}</a>
+{# Accroche #}
+<section class="hero-glow relative overflow-hidden text-white">
+  <div class="pattern-dots absolute inset-0" aria-hidden="true"></div>
+  <div class="relative mx-auto grid max-w-6xl items-center gap-12 px-4 pb-24 pt-16 sm:pt-20 lg:grid-cols-[1.1fr_1fr]">
+    <div>
+      <p class="eyebrow text-ochre-500">{% translate "AI research alliance" %}</p>
+      <h1 class="mt-5 hyphens-auto font-display text-4xl font-bold leading-[1.1] sm:text-5xl">{% translate "Data & AI Research Alliance for Africa" %}</h1>
+      <p class="mt-6 max-w-xl text-lg text-white/85">{% translate "Publications, datasets, models and training from a team of AI researchers working with partner universities." %}</p>
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a href="{% url 'core:axes' %}" class="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 font-semibold text-brand-900 shadow-sm hover:bg-brand-50">
+          {% translate "Explore our research axes" %}
+          {% include "components/icon.html" with name="arrow" class="size-4" %}
+        </a>
+        <a href="{% url 'directory:list' %}" class="inline-flex items-center gap-2 rounded-lg px-5 py-3 font-semibold text-white ring-1 ring-white/40 hover:bg-white/10">{% translate "Meet the team" %}</a>
+      </div>
+      {% if partners %}
+        <p class="mt-10 text-sm text-white/70">
+          {% blocktranslate count counter=partners|length %}In partnership with {{ counter }} university{% plural %}In partnership with {{ counter }} universities{% endblocktranslate %}
+        </p>
+        <ul class="mt-3 flex flex-wrap gap-2">
+          {% for institution in partners|slice:":8" %}
+            <li class="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide ring-1 ring-white/15" title="{{ institution.name }}">{{ institution.acronym|default:institution.name }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+    <div class="hidden text-white/90 lg:block">
+      {% include "components/illustration_network.html" %}
     </div>
   </div>
 </section>
 
-<section aria-labelledby="chiffres" class="mx-auto max-w-6xl px-4 py-12">
+{# Chiffres clés, en surimpression sur l'accroche #}
+<section aria-labelledby="chiffres" class="relative mx-auto -mt-12 max-w-6xl px-4">
   <h2 id="chiffres" class="sr-only">{% translate "Key figures" %}</h2>
-  <dl class="grid gap-4 sm:grid-cols-3">
-    {% for label, value in counters %}
-      <div class="rounded-lg border border-stone-200 p-6">
-        <dt class="text-sm text-stone-600">{{ label }}</dt>
-        <dd class="mt-2 font-display text-4xl font-bold text-brand-700">{{ value }}</dd>
+  <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-stone-200 shadow-xl ring-1 ring-stone-200 lg:grid-cols-4">
+    {% for label, value, icon in counters %}
+      <div class="flex items-center gap-4 bg-white p-5 sm:p-6">
+        <span class="flex size-11 flex-none items-center justify-center rounded-xl bg-brand-50 text-brand-700">{% include "components/icon.html" with name=icon class="size-5" %}</span>
+        <div>
+          <dd class="font-display text-3xl font-bold text-brand-900">{{ value }}</dd>
+          <dt class="text-sm text-stone-600">{{ label }}</dt>
+        </div>
       </div>
     {% endfor %}
   </dl>
 </section>
 
+{# Ce que propose la plateforme #}
+<section aria-labelledby="offre" class="mx-auto max-w-6xl px-4 py-20">
+  <p class="eyebrow text-brand-700">{% translate "What you will find" %}</p>
+  <h2 id="offre" class="mt-3 max-w-2xl font-display text-3xl font-bold text-brand-900 sm:text-4xl">{% translate "The research of the team, open and citable" %}</h2>
+  <ul class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    {% for item in offer %}
+      <li class="group flex flex-col rounded-2xl border border-stone-200 p-6 transition hover:-translate-y-0.5 hover:border-brand-600 hover:shadow-lg">
+        <span class="flex size-12 items-center justify-center rounded-xl bg-brand-700 text-white">{% include "components/icon.html" with name=item.icon class="size-6" %}</span>
+        <h3 class="mt-5 text-lg font-semibold text-stone-900">{{ item.title }}</h3>
+        <p class="mt-2 flex-1 text-sm text-stone-600">{{ item.text }}</p>
+        <p class="mt-5">
+          {% if item.url %}
+            <a href="{{ item.url }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:underline">{% translate "Explore" %}{% include "components/icon.html" with name="arrow" class="size-4" %}</a>
+          {% else %}
+            <span class="rounded-full bg-stone-100 px-2.5 py-1 text-xs font-medium text-stone-600">{% translate "soon" %}</span>
+          {% endif %}
+        </p>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
+{# Axes de recherche #}
 {% if axes %}
-  <section aria-labelledby="axes" class="mx-auto max-w-6xl px-4 pb-12">
-    <div class="flex flex-wrap items-end justify-between gap-2">
-      <h2 id="axes" class="font-display text-2xl font-bold">{% translate "Research axes" %}</h2>
-      <a href="{% url 'core:axes' %}" class="text-sm text-brand-700 underline underline-offset-4">{% translate "All axes" %}</a>
+  <section aria-labelledby="axes" class="relative bg-brand-50">
+    <div class="pattern-dots-light absolute inset-0" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-6xl px-4 py-20">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow text-brand-700">{% translate "Research axes" %}</p>
+          <h2 id="axes" class="mt-3 font-display text-3xl font-bold text-brand-900 sm:text-4xl">{% translate "Our research axes" %}</h2>
+        </div>
+        <a href="{% url 'core:axes' %}" class="inline-flex items-center gap-1.5 font-semibold text-brand-700 hover:underline">{% translate "All axes" %}{% include "components/icon.html" with name="arrow" class="size-4" %}</a>
+      </div>
+      <ul class="mt-10 grid gap-5 md:grid-cols-3">
+        {% for axis in axes %}
+          <li>
+            <a href="{% url 'core:axes' %}#{{ axis.slug }}" class="flex h-full flex-col rounded-2xl bg-white p-6 shadow-sm ring-1 ring-brand-100 transition hover:-translate-y-0.5 hover:shadow-lg">
+              <span class="text-brand-700">{% include "components/axis_icon.html" with icon=axis.icon %}</span>
+              <span class="mt-5 text-lg font-semibold text-stone-900">{{ axis.name }}</span>
+              {% if axis.description %}<span class="mt-2 flex-1 text-sm text-stone-600">{{ axis.description|truncatewords:24 }}</span>{% endif %}
+              <span class="mt-5 text-sm font-medium text-brand-700">{% blocktranslate count counter=axis.member_count %}{{ counter }} member{% plural %}{{ counter }} members{% endblocktranslate %}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
-    <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {% for axis in axes %}
-        <li>
-          <a href="{% url 'core:axes' %}#{{ axis.slug }}" class="block h-full rounded-xl border border-stone-200 p-5 hover:border-brand-600">
-            <span class="font-semibold text-brand-800">{{ axis.name }}</span>
-            <span class="mt-2 block text-sm text-stone-600">{% blocktranslate count counter=axis.member_count %}{{ counter }} member{% plural %}{{ counter }} members{% endblocktranslate %}</span>
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
   </section>
 {% endif %}
 
-<div class="mx-auto grid max-w-6xl gap-8 px-4 md:grid-cols-2">
-  <section aria-labelledby="actualites">
-    <h2 id="actualites" class="font-display text-2xl font-bold">{% translate "Latest news" %}</h2>
-    <p class="mt-4 text-stone-600">{% translate "No news yet." %}</p>
-  </section>
-  <section aria-labelledby="productions">
-    <h2 id="productions" class="font-display text-2xl font-bold">{% translate "Latest research outputs" %}</h2>
-    <p class="mt-4 text-stone-600">{% translate "No research outputs yet." %}</p>
-  </section>
+{# Actualités et productions #}
+<div class="mx-auto grid max-w-6xl gap-6 px-4 py-20 md:grid-cols-2">
+  {% for section_id, title, empty, icon in latest %}
+    <section aria-labelledby="{{ section_id }}" class="rounded-2xl border border-stone-200 p-6">
+      <h2 id="{{ section_id }}" class="font-display text-2xl font-bold text-brand-900">{{ title }}</h2>
+      <div class="mt-6 flex items-center gap-4 rounded-xl bg-stone-50 p-5 text-stone-600">
+        <span class="text-stone-400">{% include "components/icon.html" with name=icon class="size-8" stroke="1.5" %}</span>
+        <p>{{ empty }}</p>
+      </div>
+    </section>
+  {% endfor %}
 </div>
 
+{# Partenaires #}
 {% if partners %}
-  <section aria-labelledby="partenaires" class="mx-auto mt-14 max-w-6xl px-4">
-    <h2 id="partenaires" class="font-display text-2xl font-bold">{% translate "Partner institutions" %}</h2>
-    <ul class="mt-6 flex flex-wrap gap-3">
-      {% for institution in partners %}
-        <li class="rounded-full border border-stone-200 px-4 py-2 text-sm text-stone-700" title="{{ institution.name }}">{{ institution.acronym|default:institution.name }}</li>
-      {% endfor %}
-    </ul>
+  <section aria-labelledby="partenaires" class="border-y border-stone-200 bg-stone-50">
+    <div class="mx-auto max-w-6xl px-4 py-16">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <h2 id="partenaires" class="font-display text-2xl font-bold text-brand-900">{% translate "Partner universities" %}</h2>
+        <a href="{% url 'core:partners' %}" class="inline-flex items-center gap-1.5 font-semibold text-brand-700 hover:underline">{% translate "All partners" %}{% include "components/icon.html" with name="arrow" class="size-4" %}</a>
+      </div>
+      <ul class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {% for institution in partners %}
+          <li class="group flex h-24 items-center justify-center rounded-xl bg-white px-4 ring-1 ring-stone-200" title="{{ institution.name }}">
+            {% include "components/institution_logo.html" with size="sm" %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
   </section>
 {% endif %}
+
+{# Appel à l'action #}
+<section class="mx-auto max-w-6xl px-4 py-20">
+  <div class="hero-glow relative overflow-hidden rounded-3xl px-8 py-12 text-white sm:px-12">
+    <div class="pattern-dots absolute inset-0" aria-hidden="true"></div>
+    <div class="relative flex flex-wrap items-center justify-between gap-8">
+      <div class="max-w-xl">
+        <h2 class="font-display text-3xl font-bold">{% translate "Join DAARA" %}</h2>
+        <p class="mt-3 text-white/85">{% translate "Researcher, PhD student or institution: help build the catalogue of African AI research." %}</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        {% if nav.contact %}<a href="{{ nav.contact }}" class="rounded-lg bg-white px-5 py-3 font-semibold text-brand-900 hover:bg-brand-50">{% translate "Contact us" %}</a>{% endif %}
+        <a href="{% url 'core:partners' %}" class="rounded-lg px-5 py-3 font-semibold text-white ring-1 ring-white/40 hover:bg-white/10">{% translate "Become a partner" %}</a>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

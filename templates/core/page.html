@@ -5,18 +5,44 @@
 {% block meta %}{% if page.summary %}<meta name="description" content="{{ page.summary }}">{% endif %}{% endblock %}
 
 {% block content %}
-<div class="border-b border-stone-200 bg-brand-50">
-  <div class="mx-auto max-w-6xl px-4 py-12">
-    <h1 class="max-w-3xl font-display text-3xl font-bold text-brand-900 sm:text-4xl">{{ page.title }}</h1>
-    {% if page.summary %}<p class="mt-4 max-w-2xl text-lg text-stone-700">{{ page.summary }}</p>{% endif %}
-  </div>
-</div>
+{% include "components/page_header.html" with title=page.title summary=page.summary eyebrow=section image=page.image image_alt=page.image_alt %}
 
-<div class="mx-auto max-w-6xl px-4 py-12">
-  {% if fallback %}
-    <p class="mb-6 inline-block rounded border border-ochre-500/40 bg-amber-50 px-3 py-1.5 text-sm text-stone-800">{{ fallback.message }}</p>
-  {% endif %}
-  <div class="prose"{% if fallback %} lang="{{ fallback.lang }}"{% endif %}>{{ page.body|render_markdown }}</div>
+<div class="mx-auto max-w-6xl px-4 py-14">
+  <div class="grid gap-12 lg:grid-cols-[1fr_17rem]">
+    <div class="min-w-0">
+      {% if fallback %}
+        <p class="mb-8 inline-flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-sm text-stone-800 ring-1 ring-ochre-500/40">
+          {% include "components/icon.html" with name="globe" class="size-4" %}{{ fallback.message }}
+        </p>
+      {% endif %}
+      <div class="prose"{% if fallback %} lang="{{ fallback.lang }}"{% endif %}>{{ page.body|render_markdown }}</div>
+    </div>
+
+    {# Colonne latérale : autres pages de la rubrique et prise de contact. #}
+    <aside class="space-y-6 lg:sticky lg:top-6 lg:self-start">
+      {% for menu in nav.menus %}
+        {% if menu.current and not menu.single %}
+          <nav aria-label="{{ menu.label }}" class="rounded-2xl border border-stone-200 p-5">
+            <p class="text-sm font-semibold text-stone-500">{{ menu.label }}</p>
+            <ul class="mt-3 space-y-1">
+              {% for link in menu.links %}
+                {% if link.url %}
+                  <li><a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %} class="block rounded-lg px-3 py-2 text-sm {% if link.current %}bg-brand-50 font-semibold text-brand-800{% else %}text-stone-700 hover:bg-stone-100{% endif %}">{{ link.label }}</a></li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </nav>
+        {% endif %}
+      {% endfor %}
+      {% if nav.contact and page.slug != "contact" %}
+        <div class="rounded-2xl bg-brand-900 p-5 text-white">
+          <p class="font-semibold">{% translate "A question?" %}</p>
+          <p class="mt-1 text-sm text-white/80">{% translate "Write to the DAARA team about our work, data or training." %}</p>
+          <a href="{{ nav.contact }}" class="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-brand-900 hover:bg-brand-50">{% translate "Contact us" %}{% include "components/icon.html" with name="arrow" class="size-4" %}</a>
+        </div>
+      {% endif %}
+    </aside>
+  </div>
   {% block after_body %}{% endblock %}
 </div>
 {% endblock %}

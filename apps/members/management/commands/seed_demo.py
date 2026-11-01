@@ -19,34 +19,40 @@ from apps.members.models import (
 
 DEMO_PASSWORD = "daara-demo-2026"
 
-# Données fictives pour essayer l'espace. Les vrais axes et institutions se décident au lot 0.
-INSTITUTIONS = [
-    (
-        "unchk",
-        "UNCHK",
-        "SN",
-        "Université numérique Cheikh Hamidou Kane",
-        "Cheikh Hamidou Kane Digital University",
-    ),
-    (
-        "ussein",
-        "USSEIN",
-        "SN",
-        "Université du Sine Saloum El-Hâdj Ibrahima Niass",
-        "Sine Saloum El-Hâdj Ibrahima Niass University",
-    ),
-    (
-        "upd",
-        "UPD",
-        "CI",
-        "Université partenaire de démonstration",
-        "Demonstration partner university",
-    ),
-]
+# Données fictives pour essayer la plateforme. Les institutions sont les universités réelles
+# créées par la migration members/0004 ; les vrais axes se décident au lot 0.
 AXES = [
-    ("langues", "Langues africaines et TAL", "African languages and NLP"),
-    ("sante", "Données de santé", "Health data"),
-    ("geo", "Vision et données géospatiales", "Vision and geospatial data"),
+    (
+        "langues",
+        Axis.Icon.LANGUAGE,
+        ("Langues africaines et TAL", "African languages and NLP"),
+        (
+            "Corpus, reconnaissance de la parole et traduction automatique pour le wolof, le "
+            "pulaar, le sérère et d'autres langues africaines.",
+            "Corpora, speech recognition and machine translation for Wolof, Pulaar, Serer and "
+            "other African languages.",
+        ),
+    ),
+    (
+        "sante",
+        Axis.Icon.HEALTH,
+        ("Données de santé", "Health data"),
+        (
+            "Données cliniques et épidémiologiques, aide au diagnostic et santé publique.",
+            "Clinical and epidemiological data, diagnostic support and public health.",
+        ),
+    ),
+    (
+        "geo",
+        Axis.Icon.GEOSPATIAL,
+        ("Vision et données géospatiales", "Vision and geospatial data"),
+        (
+            "Imagerie satellitaire, cartographie et vision par ordinateur pour l'agriculture, "
+            "le climat et l'aménagement du territoire.",
+            "Satellite imagery, mapping and computer vision for agriculture, climate and "
+            "land planning.",
+        ),
+    ),
 ]
 GRADES = [
     ("Professeur titulaire", "Full professor"),
@@ -55,35 +61,45 @@ GRADES = [
     ("Post-doctorant", "Postdoctoral researcher"),
     ("Doctorant", "PhD student"),
 ]
+# Membres supplémentaires sans compte de démonstration : (identifiant, prénom, nom, grade,
+# institution, axe, rôle, alumni)
+EXTRA_MEMBERS = [
+    ("khady", "Khady", "Diop", 2, "ugb", "sante", Role.RESEARCHER, False),
+    ("ibrahima", "Ibrahima", "Fall", 3, "ucad", "geo", Role.RESEARCHER, False),
+    ("mariama", "Mariama", "Sow", 4, "uasz", "geo", Role.PHD_STUDENT, False),
+    ("cheikh", "Cheikh", "Mbaye", 0, "uidt", "sante", Role.RESEARCHER, False),
+    ("ousmane", "Ousmane", "Gueye", 3, "uadb", "langues", Role.RESEARCHER, True),
+]
 
 
 class Command(BaseCommand):
     help = (
-        "Crée des données de démonstration (développement seulement) : institutions, axes, "
-        "grades et quatre comptes aux rôles combinés."
+        "Crée des données de démonstration (développement seulement) : axes, grades, "
+        "membres et quatre comptes aux rôles combinés."
     )
 
     def handle(self, *args, **options):
         if not settings.DEBUG:
             raise CommandError("seed_demo ne tourne qu'en développement (DEBUG=True).")
+        institutions = Institution.objects.in_bulk(field_name="slug")
+        if "unchk" not in institutions:
+            raise CommandError("Appliquez d'abord les migrations (python manage.py migrate).")
         with transaction.atomic():
-            institutions = {
-                slug: Institution.objects.update_or_create(
-                    slug=slug,
-                    defaults={
-                        "acronym": acronym,
-                        "country": country,
-                        "name_fr": name_fr,
-                        "name_en": name_en,
-                    },
-                )[0]
-                for slug, acronym, country, name_fr, name_en in INSTITUTIONS
-            }
+            # Ancienne institution fictive des premières versions de cette commande.
+            Institution.objects.filter(slug="upd", affiliations__isnull=True).delete()
             axes = {
                 slug: Axis.objects.update_or_create(
-                    slug=slug, defaults={"name_fr": name_fr, "name_en": name_en, "order": order}
+                    slug=slug,
+                    defaults={
+                        "icon": icon,
+                        "order": order,
+                        "name_fr": names[0],
+                        "name_en": names[1],
+                        "description_fr": descriptions[0],
+                        "description_en": descriptions[1],
+                    },
                 )[0]
-                for order, (slug, name_fr, name_en) in enumerate(AXES)
+                for order, (slug, icon, names, descriptions) in enumerate(AXES)
             }
             grades = [
                 Grade.objects.update_or_create(
@@ -101,7 +117,10 @@ class Command(BaseCommand):
             member = self._member(lead, grades[1], institutions["ussein"], [axes["langues"]])
             if not member.bio_fr:
                 # Biographie en français seulement : elle apparaît dans « Traductions ».
-                member.bio_fr = "Chercheur en traitement automatique des langues africaines."
+                member.bio_fr = (
+                    "Chercheur en traitement automatique des langues africaines, Moussa "
+                    "Ndiaye travaille sur la reconnaissance de la parole en wolof."
+                )
                 member.save()
 
             student = self._user("awa", "Awa", "Sarr")
@@ -110,6 +129,18 @@ class Command(BaseCommand):
 
             observer = self._user("fatou", "Fatou", "Ba")
             self._roles(observer, Role.OBSERVER)
+
+            for username, first, last, grade, school, axis, role, alumni in EXTRA_MEMBERS:
+                user = self._user(username, first, last)
+                self._roles(user, role)
+                if username == "cheikh":
+                    self._roles(user, (Role.AXIS_LEAD, axes["sante"]))
+                extra = self._member(user, grades[grade], institutions[school], [axes[axis]])
+                if alumni and extra.status != Member.Status.ALUMNI:
+                    extra.status = Member.Status.ALUMNI
+                    extra.joined_on = datetime.date(2021, 10, 1)
+                    extra.left_on = datetime.date(2025, 7, 31)
+                    extra.save()
 
         self.stdout.write(self.style.SUCCESS("Données de démonstration prêtes."))
         self.stdout.write(f"Mot de passe commun : {DEMO_PASSWORD}")

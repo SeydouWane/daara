@@ -5,7 +5,7 @@ from django.db import connection
 from django.db.models import Count, Q
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.urls import Resolver404, resolve, reverse, translate_url
+from django.urls import NoReverseMatch, Resolver404, resolve, reverse, translate_url
 from django.utils import translation
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext_lazy as _
@@ -20,22 +20,77 @@ from .models import Page
 ACTIVE_MEMBERS = Q(members__status=Member.Status.ACTIVE)
 
 
+def _url_or_none(url_name):
+    """URL d'un module, ou None tant qu'il n'est pas construit."""
+    try:
+        return reverse(url_name)
+    except NoReverseMatch:
+        return None
+
+
 class HomeView(TemplateView):
     template_name = "core/home.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Valeurs fixes jusqu'aux modules M3 (publications), M4 (données) et M7 (formations).
+        # Publications, données et formations restent à 0 jusqu'aux modules M3, M4 et M7.
         context["counters"] = [
-            (_("Publications"), 0),
-            (_("Datasets"), 0),
-            (_("Training courses"), 0),
+            (_("Publications"), 0, "document"),
+            (_("Datasets"), 0, "database"),
+            (_("Training courses"), 0, "cap"),
+            (
+                _("Active members"),
+                Member.objects.filter(status=Member.Status.ACTIVE).count(),
+                "users",
+            ),
+        ]
+        context["offer"] = [
+            {
+                "icon": icon,
+                "title": title,
+                "text": text,
+                "url": _url_or_none(url_name),
+            }
+            for icon, title, text, url_name in [
+                (
+                    "document",
+                    _("Publications"),
+                    _("Articles, papers and theses, imported by DOI and exported to BibTeX."),
+                    "research:publications",
+                ),
+                (
+                    "database",
+                    _("Datasets"),
+                    _("African corpora and data deposited on Zenodo, with a DOI and a citation."),
+                    "research:datasets",
+                ),
+                (
+                    "chip",
+                    _("Models and code"),
+                    _("Models and demonstrators synchronised from Hugging Face and GitHub."),
+                    "research:models",
+                ),
+                (
+                    "cap",
+                    _("Training"),
+                    _("Courses, archived webinars and teaching materials with a DOI."),
+                    "training:list",
+                ),
+            ]
+        ]
+        context["latest"] = [
+            ("actualites", _("Latest news"), _("No news yet."), "document"),
+            (
+                "productions",
+                _("Latest research outputs"),
+                _("No research outputs yet."),
+                "database",
+            ),
         ]
         context["axes"] = Axis.objects.annotate(
             member_count=Count("members", filter=ACTIVE_MEMBERS)
         )
         context["partners"] = Institution.objects.filter(is_partner=True)
-        context["member_count"] = Member.objects.filter(status=Member.Status.ACTIVE).count()
         return context
 
 
@@ -44,11 +99,13 @@ class PageView(TemplateView):
 
     template_name = "core/page.html"
     slug = None
+    section = None  # rubrique du menu, affichée dans le fil d'Ariane
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         page = get_object_or_404(Page, slug=self.slug, status=Page.Status.PUBLISHED)
         context["page"] = page
+        context["section"] = self.section
         context["fallback"] = fallback_notice(page, "body")
         return context
 
@@ -56,6 +113,7 @@ class PageView(TemplateView):
 class AboutView(PageView):
     template_name = "core/about.html"
     slug = "about"
+    section = _("About")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -66,6 +124,7 @@ class AboutView(PageView):
 class PartnersView(PageView):
     template_name = "core/partners.html"
     slug = "partners"
+    section = _("About")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

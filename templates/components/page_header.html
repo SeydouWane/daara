@@ -1,0 +1,25 @@
+{% load i18n daara %}{% comment %}
+En-tête des pages intérieures : bandeau sombre à motif de points, fil d'Ariane, titre.
+  title, summary, eyebrow : textes (eyebrow = rubrique du menu)
+  image : photo de couverture facultative (ImageField avec IMAGE_WIDTHS), image_alt
+{% endcomment %}
+<div class="hero-glow relative overflow-hidden text-white">
+  <div class="pattern-dots absolute inset-0" aria-hidden="true"></div>
+  <div class="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:py-16 {% if image %}md:grid-cols-[3fr_2fr]{% endif %}">
+    <div>
+      <nav aria-label="{% translate 'Breadcrumb' %}" class="text-sm text-white/70">
+        <ol class="flex flex-wrap items-center gap-2">
+          <li><a href="{% url 'core:home' %}" class="hover:text-white hover:underline">{% translate "Home" %}</a></li>
+          {% if eyebrow %}<li aria-hidden="true">/</li><li>{{ eyebrow }}</li>{% endif %}
+        </ol>
+      </nav>
+      <h1 class="mt-5 max-w-3xl font-display text-3xl font-bold leading-tight sm:text-5xl">{{ title }}</h1>
+      {% if summary %}<p class="mt-5 max-w-2xl text-lg text-white/85">{{ summary }}</p>{% endif %}
+    </div>
+    {% if image %}
+      <div class="overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/20">
+        {% responsive_image image image.instance.IMAGE_WIDTHS "(min-width: 768px) 40vw, 100vw" alt=image_alt css_class="aspect-[4/3] w-full object-cover" eager=True %}
+      </div>
+    {% endif %}
+  </div>
+</div>

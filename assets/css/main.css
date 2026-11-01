@@ -69,6 +69,40 @@
   }
 }
 
+/* Motifs de fond en CSS pur (aucun fichier à télécharger) : la grille de points évoque les
+   données, le halo ocre reprend le point du logo. */
+@layer components {
+  .pattern-dots {
+    background-image: radial-gradient(rgb(255 255 255 / 0.13) 1px, transparent 1.5px);
+    background-size: 18px 18px;
+  }
+  .pattern-dots-light {
+    background-image: radial-gradient(rgb(15 92 74 / 0.12) 1px, transparent 1.5px);
+    background-size: 18px 18px;
+  }
+  .hero-glow {
+    background:
+      radial-gradient(60% 80% at 85% 20%, rgb(217 119 6 / 0.22), transparent 60%),
+      radial-gradient(50% 60% at 10% 90%, rgb(21 122 98 / 0.45), transparent 70%),
+      var(--color-brand-900);
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 3px;
+    border-radius: 9999px;
+    background: var(--color-ochre-500);
+  }
+}
+
 /* Texte des pages éditoriales, rendu depuis le Markdown (filtre render_markdown).
    Lignes de 60 à 75 caractères (spec §10.3). */
 @layer components {

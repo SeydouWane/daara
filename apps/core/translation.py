@@ -5,4 +5,4 @@ from .models import Page
 
 @register(Page)
 class PageTranslationOptions(TranslationOptions):
-    fields = ("title", "summary", "body")
+    fields = ("title", "summary", "body", "image_alt")

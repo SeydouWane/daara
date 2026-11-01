@@ -1,0 +1,14 @@
+{% comment %}
+Illustration d'axe (Axis.Icon), deux tons : trait vert de la charte, accent ocre du logo.
+Décorative (aria-hidden). icon : data, language, health, geospatial, vision, agriculture,
+education, climate ; class : classes de taille.
+{% endcomment %}<svg class="{{ class|default:'size-12' }}" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+{% if icon == "language" %}<path d="M8 11h24a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H20l-8 6v-6H8a4 4 0 0 1-4-4V15a4 4 0 0 1 4-4z"/><path d="M11 19h14M11 24h9"/><circle cx="39" cy="11" r="4" fill="#d97706" stroke="none"/>
+{% elif icon == "health" %}<path d="M24 40S6 29.5 6 17.5A9.5 9.5 0 0 1 24 13a9.5 9.5 0 0 1 18 4.5C42 29.5 24 40 24 40z"/><path d="M11 24h7l3-6 4 11 3-5h9" stroke="#d97706"/>
+{% elif icon == "geospatial" %}<path d="M5 12l12-5 14 5 12-5v29l-12 5-14-5-12 5z"/><path d="M17 7v29M31 12v29"/><path d="M24 31s7-5.6 7-10.5a7 7 0 0 0-14 0C17 25.4 24 31 24 31z" fill="#fff"/><circle cx="24" cy="20.5" r="2.5" fill="#d97706" stroke="none"/>
+{% elif icon == "vision" %}<path d="M4 24s7.5-13 20-13 20 13 20 13-7.5 13-20 13S4 24 4 24z"/><circle cx="24" cy="24" r="6"/><circle cx="24" cy="24" r="2.5" fill="#d97706" stroke="none"/><path d="M5 5h6M5 5v6M43 5h-6M43 5v6M5 43h6M5 43v-6M43 43h-6M43 43v-6"/>
+{% elif icon == "agriculture" %}<path d="M24 42V22"/><path d="M24 28c0-7 5-12 13-12 0 8-5 12-13 12zM24 22c0-6-4-10-11-10 0 7 4 10 11 10z"/><path d="M10 42h28"/><circle cx="38" cy="8" r="4" fill="#d97706" stroke="none"/>
+{% elif icon == "education" %}<path d="m4 18 20-10 20 10-20 10z"/><path d="M12 22v9c0 3 5.4 6 12 6s12-3 12-6v-9"/><path d="M44 18v12"/><circle cx="44" cy="33" r="3" fill="#d97706" stroke="none"/>
+{% elif icon == "climate" %}<path d="M14 36h20a8 8 0 0 0 0-16 11 11 0 0 0-21 3 6.5 6.5 0 0 0 1 13z"/><circle cx="35" cy="12" r="5" fill="#d97706" stroke="none"/><path d="M35 3v2M44 12h-2M41.4 5.6 40 7" stroke="#d97706"/>
+{% else %}<ellipse cx="24" cy="11" rx="14" ry="5"/><path d="M10 11v26c0 2.8 6.3 5 14 5s14-2.2 14-5V11M10 24c0 2.8 6.3 5 14 5s14-2.2 14-5"/><circle cx="38" cy="38" r="4" fill="#d97706" stroke="none"/>
+{% endif %}</svg>
