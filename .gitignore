@@ -16,6 +16,9 @@ htmlcov/
 node_modules/
 /static/dist/
 
+# Logos et photos à téléverser avec import_images : du contenu, pas du code
+/a_importer/
+
 # Environnement et secrets
 .env
 

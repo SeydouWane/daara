@@ -132,17 +132,40 @@ def test_profile_page_shows_axes_and_external_links(client, team):
     assert "https://orcid.org/0000-0002-1825-0097" in html
 
 
-def test_senegalese_public_universities_are_partners():
+def test_senegalese_partner_universities():
     acronyms = set(
         Institution.objects.filter(country="SN", is_partner=True).values_list("acronym", flat=True)
     )
-    assert {"UCAD", "UGB", "UASZ", "UIDT", "UADB", "USSEIN", "UNCHK", "UAM"} <= acronyms
+    assert acronyms == {"UCAD", "UGB", "UASZ", "UIDT", "UADB", "USSEIN", "UNCHK"}
+    # L'UAM n'est pas partenaire, mais reste une institution à laquelle se rattacher.
+    assert Institution.objects.filter(slug="uam", is_partner=False).exists()
 
 
 def test_home_announces_the_partner_universities(client):
     html = client.get("/fr/").content.decode()
-    assert "En partenariat avec 8 universités" in html
+    assert "En partenariat avec 7 universités" in html
     assert "UCAD" in html
+    assert ">UAM<" not in html
+
+
+def test_about_page_shows_team_goals_and_standards(client, team):
+    html = client.get("/en/about/").content.decode()
+    assert "Our twelve-month goals" in html
+    assert "0 / 100" in html  # aucune publication encore dans ce test
+    assert "Awa Sarr" in html  # aperçu de l'équipe
+    assert "OAI-PMH" in html
+
+
+def test_partners_page_explains_how_to_join(client):
+    html = client.get("/en/partners/").content.decode()
+    assert "Become a partner" in html
+    assert "An axis lead approves it" in html
+
+
+def test_governance_page_covers_assets_and_licences(client):
+    html = client.get("/fr/governance/").content.decode()
+    assert "Détention des actifs" in html
+    assert "CC BY-NC-SA 4.0" in html
 
 
 def test_institution_logo_gets_webp_renditions(client):
@@ -159,6 +182,16 @@ def test_institution_logo_gets_webp_renditions(client):
     assert 'alt="Université Cheikh Anta Diop de Dakar"' in html
     # Sans logo, le sigle sert de monogramme.
     assert ">UGB</span>" in html
+
+
+def test_import_images_matches_acronyms_and_member_slugs(tmp_path, team):
+    from django.core.management import call_command
+
+    for name in ("UGB.png", "awa.jpg", "inconnu.png"):
+        Image.new("RGB", (300, 300), (15, 92, 74)).save(tmp_path / name)
+    call_command("import_images", str(tmp_path))
+    assert Institution.objects.get(slug="ugb").logo
+    assert Member.objects.get(slug="awa").photo
 
 
 def test_renditions_never_upscale():

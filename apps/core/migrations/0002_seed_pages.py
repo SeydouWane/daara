@@ -63,9 +63,30 @@ GOVERNANCE_FR = """La règle structurante de DAARA est l'équilibre entre parten
 - Un désaccord persistant entre universités partenaires conduit à reporter la décision, jamais à la trancher par un vote majoritaire.
 - L'adhésion d'un nouveau membre ou d'un partenaire est proposée par un chercheur et validée par un responsable d'axe.
 
-## Propriété intellectuelle
+## Détention des actifs
 
-Les droits moraux restent aux auteurs ; DAARA obtient une licence non exclusive de diffusion lors du dépôt. Les contenus éditoriaux du site sont publiés sous licence CC BY 4.0.
+Les plateformes inter-institutionnelles s'éteignent quand une seule personne détient les accès. DAARA s'impose donc quatre règles :
+
+- le nom de domaine, les comptes (GitHub, Zenodo, Hugging Face, ORCID) et l'hébergement sont enregistrés sur une adresse électronique de l'organisation, jamais sur une adresse personnelle ;
+- au moins deux administrateurs, issus d'universités partenaires différentes, détiennent les accès à tout moment ;
+- les identifiants sont conservés dans un gestionnaire de mots de passe partagé, avec un accès de secours documenté ;
+- toute passation de rôle donne lieu à une note écrite, déposée dans la documentation du projet.
+
+## Propriété intellectuelle et licences
+
+Les droits moraux restent aux auteurs ; DAARA obtient une licence non exclusive de diffusion lors du dépôt.
+
+| Contenu | Licence par défaut |
+|---|---|
+| Contenus éditoriaux du site | CC BY 4.0 |
+| Jeux de données | CC BY 4.0 ou CC BY-SA 4.0 ; accès sur demande pour les données sensibles |
+| Modèles publiés | Apache 2.0 ou licence du modèle de base |
+| Supports de formation | CC BY-NC-SA 4.0, sauf accord de l'auteur |
+| Publications scientifiques | Selon l'éditeur ; version auteur déposée en archive ouverte, embargo respecté |
+
+## Données sensibles
+
+Les données sensibles d'un corpus ne sont jamais publiées en accès libre sans une anonymisation validée par les responsables d'axe.
 """
 
 GOVERNANCE_EN = """DAARA's founding rule is balance between partners: no decision, account or asset depends on a single university or a single person.
@@ -86,19 +107,50 @@ GOVERNANCE_EN = """DAARA's founding rule is balance between partners: no decisio
 - A lasting disagreement between partner universities postpones the decision; it is never settled by a majority vote.
 - A new member or partner is proposed by a researcher and approved by an axis lead.
 
-## Intellectual property
+## Ownership of assets
 
-Moral rights remain with the authors; DAARA receives a non-exclusive licence to disseminate on deposit. The site's editorial content is published under the CC BY 4.0 licence.
+Inter-institutional platforms die when a single person holds the access. DAARA therefore follows four rules:
+
+- the domain name, the accounts (GitHub, Zenodo, Hugging Face, ORCID) and the hosting are registered to an organisational email address, never a personal one;
+- at least two administrators, from different partner universities, hold the access at all times;
+- credentials are kept in a shared password manager, with a documented emergency access;
+- every handover of a role comes with a written note, filed in the project documentation.
+
+## Intellectual property and licences
+
+Moral rights remain with the authors; DAARA receives a non-exclusive licence to disseminate on deposit.
+
+| Content | Default licence |
+|---|---|
+| Editorial content of the site | CC BY 4.0 |
+| Datasets | CC BY 4.0 or CC BY-SA 4.0; access on request for sensitive data |
+| Published models | Apache 2.0 or the licence of the base model |
+| Training materials | CC BY-NC-SA 4.0, unless the author agrees otherwise |
+| Scientific publications | According to the publisher; author version deposited in open archives, embargo respected |
+
+## Sensitive data
+
+Sensitive data from a corpus is never published in open access without an anonymisation approved by the axis leads.
 """
 
 PARTNERS_FR = """Les membres de DAARA sont rattachés à des universités et des organismes de recherche partenaires. Chaque institution partenaire est représentée dans les instances de gouvernance, et la plateforme suit l'équilibre des contributions entre institutions.
 
-Votre université ou votre laboratoire souhaite rejoindre DAARA ? Un chercheur membre propose le partenariat, un responsable d'axe le valide.
+## Ce que le partenariat apporte
+
+- **La visibilité internationale des travaux de vos chercheurs.** Chaque publication, jeu de données et modèle est décrit avec ses identifiants pérennes (DOI, ORCID) ; la plateforme est conçue pour être moissonnée par les moteurs académiques comme OpenAIRE et BASE.
+- **Aucune ressaisie.** Les publications s'importent depuis leur DOI ou les bases bibliographiques ouvertes, et restent liées au profil de chaque membre.
+- **Des archives institutionnelles alimentées.** DAARA référence les dépôts dans HAL, DICAMES et Zenodo, sans les remplacer.
+- **Une place dans la gouvernance.** Chaque université partenaire est représentée au comité de pilotage, et aucune décision ne dépend d'une seule institution.
 """
 
 PARTNERS_EN = """DAARA members belong to partner universities and research organisations. Each partner institution is represented in the governance bodies, and the platform monitors the balance of contributions between institutions.
 
-Would your university or laboratory like to join DAARA? A member researcher proposes the partnership and an axis lead approves it.
+## What the partnership brings
+
+- **International visibility for your researchers' work.** Every publication, dataset and model is described with its persistent identifiers (DOI, ORCID); the platform is designed to be harvested by academic search engines such as OpenAIRE and BASE.
+- **No re-entry of data.** Publications are imported from their DOI or from open bibliographic databases, and stay linked to each member's profile.
+- **Institutional archives kept up to date.** DAARA references deposits in HAL, DICAMES and Zenodo, without replacing them.
+- **A seat in the governance.** Each partner university is represented on the steering committee, and no decision depends on a single institution.
 """
 
 CONTACT_FR = """Une question sur nos publications, nos jeux de données, nos formations ou un partenariat ? Écrivez à l'équipe DAARA.

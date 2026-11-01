@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAARA 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-01 02:50+0000\n"
+"POT-Creation-Date: 2026-11-01 03:02+0000\n"
 "PO-Revision-Date: 2026-10-31 21:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: DAARA\n"
@@ -116,8 +116,8 @@ msgstr ""
 "Une page publiée doit avoir un titre et un corps dans chaque langue. "
 "Manquant : %s."
 
-#: apps/core/navigation.py:31 apps/core/urls.py:14 apps/core/views.py:110
-#: apps/core/views.py:121
+#: apps/core/navigation.py:31 apps/core/urls.py:15 apps/core/views.py:110
+#: apps/core/views.py:173
 msgid "About"
 msgstr "À propos"
 
@@ -138,15 +138,16 @@ msgstr "Partenaires"
 msgid "Research"
 msgstr "Recherche"
 
-#: apps/core/navigation.py:41 apps/dashboard/views.py:116
-#: templates/core/about.html:7 templates/core/axes.html:4
-#: templates/core/axes.html:8 templates/core/home.html:85
-#: templates/members/profile.html:65
+#: apps/core/navigation.py:41 apps/core/views.py:133
+#: apps/dashboard/views.py:116 templates/core/about.html:22
+#: templates/core/axes.html:4 templates/core/axes.html:8
+#: templates/core/home.html:85 templates/members/profile.html:65
 msgid "Research axes"
 msgstr "Axes de recherche"
 
 #: apps/core/navigation.py:42 apps/core/views.py:40 apps/core/views.py:59
-#: templates/core/home.html:111 templates/members/profile.html:50
+#: apps/core/views.py:127 templates/core/home.html:111
+#: templates/members/profile.html:50
 #: templates/research/publication_detail.html:14
 #: templates/research/publication_list.html:4
 #: templates/research/publication_list.html:8
@@ -166,9 +167,9 @@ msgid "Projects"
 msgstr "Projets"
 
 #: apps/core/navigation.py:48 apps/members/apps.py:7
-#: templates/core/axes.html:28 templates/dashboard/indicators.html:25
-#: templates/members/directory.html:4 templates/members/directory.html:7
-#: templates/members/profile.html:17
+#: templates/core/about.html:43 templates/core/axes.html:28
+#: templates/dashboard/indicators.html:25 templates/members/directory.html:4
+#: templates/members/directory.html:7 templates/members/profile.html:17
 msgid "Members"
 msgstr "Membres"
 
@@ -200,7 +201,7 @@ msgstr "Mentions légales"
 msgid "Privacy policy"
 msgstr "Politique de confidentialité"
 
-#: apps/core/views.py:44 apps/dashboard/views.py:113
+#: apps/core/views.py:44 apps/core/views.py:126 apps/dashboard/views.py:113
 msgid "Active members"
 msgstr "Membres actifs"
 
@@ -228,6 +229,85 @@ msgstr "Formation"
 #: apps/core/views.py:78
 msgid "Courses, archived webinars and teaching materials with a DOI."
 msgstr "Formations, webinaires archivés et supports de cours avec DOI."
+
+#: apps/core/views.py:129 templates/core/home.html:136
+msgid "Partner universities"
+msgstr "Universités partenaires"
+
+#: apps/core/views.py:149
+msgid "Referenced publications"
+msgstr "Publications référencées"
+
+#: apps/core/views.py:151
+msgid "Complete member profiles"
+msgstr "Profils de membres complets"
+
+#: apps/core/views.py:155
+msgid "Datasets published with a DOI"
+msgstr "Jeux de données publiés avec un DOI"
+
+#: apps/core/views.py:156
+msgid "Webinars archived with a DOI"
+msgstr "Webinaires archivés avec un DOI"
+
+#: apps/core/views.py:160
+msgid "Persistent identifier of every publication and dataset."
+msgstr ""
+"Identifiant pérenne de chaque publication et de chaque jeu de données."
+
+#: apps/core/views.py:161
+msgid "Unique, lasting identifier of every researcher."
+msgstr "Identifiant unique et durable de chaque chercheur."
+
+#: apps/core/views.py:162
+msgid "Open bibliographic database used to import publications."
+msgstr "Base bibliographique ouverte qui sert à importer les publications."
+
+#: apps/core/views.py:163
+msgid "Protocol through which OpenAIRE and BASE will harvest the catalogue."
+msgstr "Protocole par lequel OpenAIRE et BASE moissonneront le catalogue."
+
+#: apps/core/views.py:164
+msgid "Structured data read by Google Dataset Search."
+msgstr "Données structurées lues par Google Dataset Search."
+
+#: apps/core/views.py:165
+msgid "Where datasets and models are deposited."
+msgstr "Là où sont déposés les jeux de données et les modèles."
+
+#: apps/core/views.py:186
+msgid "A member researcher proposes it"
+msgstr "Un chercheur membre le propose"
+
+#: apps/core/views.py:187
+msgid ""
+"A DAARA researcher presents your university or laboratory and its research."
+msgstr ""
+"Un chercheur de DAARA présente votre université ou votre laboratoire et ses "
+"travaux."
+
+#: apps/core/views.py:190
+msgid "An axis lead approves it"
+msgstr "Un responsable d'axe le valide"
+
+#: apps/core/views.py:191
+msgid ""
+"The lead of the axis concerned checks the fit with DAARA's research themes."
+msgstr ""
+"Le responsable de l'axe concerné vérifie l'adéquation avec les thèmes de "
+"recherche de DAARA."
+
+#: apps/core/views.py:194
+msgid "Your institution joins DAARA"
+msgstr "Votre institution rejoint DAARA"
+
+#: apps/core/views.py:196
+msgid ""
+"It is represented on the steering committee and its researchers publish "
+"their work on the platform."
+msgstr ""
+"Elle est représentée au comité de pilotage et ses chercheurs publient leurs "
+"travaux sur la plateforme."
 
 #: apps/dashboard/apps.py:7
 msgid "Dashboard"
@@ -308,7 +388,7 @@ msgstr "Alumni"
 msgid "Partner institutions"
 msgstr "Institutions partenaires"
 
-#: apps/interop/apps.py:7
+#: apps/interop/apps.py:7 templates/core/about.html:85
 msgid "Interoperability"
 msgstr "Interopérabilité"
 
@@ -848,7 +928,7 @@ msgstr "Menu"
 msgid "Language"
 msgstr "Langue"
 
-#: templates/components/logo.html:7 templates/core/home.html:4
+#: templates/components/logo.html:8 templates/core/home.html:4
 #: templates/core/home.html:14
 msgid "Data & AI Research Alliance for Africa"
 msgstr "Données, Apprentissage Automatique et Recherche en Afrique"
@@ -893,9 +973,68 @@ msgstr "Accès ouvert"
 msgid "et al."
 msgstr "et al."
 
-#: templates/core/about.html:8 templates/core/home.html:86
+#: templates/core/_join_cta.html:7 templates/core/home.html:156
+msgid "Join DAARA"
+msgstr "Rejoindre DAARA"
+
+#: templates/core/_join_cta.html:8 templates/core/home.html:157
+msgid ""
+"Researcher, PhD student or institution: help build the catalogue of African "
+"AI research."
+msgstr ""
+"Chercheur, doctorant ou institution : contribuez au catalogue de la "
+"recherche africaine en IA."
+
+#: templates/core/_join_cta.html:11 templates/core/home.html:160
+#: templates/core/page.html:41
+msgid "Contact us"
+msgstr "Nous contacter"
+
+#: templates/core/_join_cta.html:12 templates/core/home.html:161
+#: templates/core/partners.html:38
+msgid "Become a partner"
+msgstr "Devenir partenaire"
+
+#: templates/core/about.html:7 templates/core/home.html:42
+msgid "Key figures"
+msgstr "Chiffres clés"
+
+#: templates/core/about.html:23 templates/core/home.html:86
 msgid "Our research axes"
 msgstr "Nos axes de recherche"
+
+#: templates/core/about.html:44
+msgid "The team"
+msgstr "L'équipe"
+
+#: templates/core/about.html:46
+msgid "All members"
+msgstr "Tous les membres"
+
+#: templates/core/about.html:64
+msgid "Roadmap"
+msgstr "Feuille de route"
+
+#: templates/core/about.html:65
+msgid "Our twelve-month goals"
+msgstr "Nos objectifs à douze mois"
+
+#: templates/core/about.html:66
+msgid "Progress is computed live from the contents published on DAARA."
+msgstr ""
+"L'avancement est calculé en direct à partir des contenus publiés sur DAARA."
+
+#: templates/core/about.html:80
+msgid ""
+"And two further goals: open DAARA's communities in DICAMES, and have the "
+"platform harvested by OpenAIRE and BASE."
+msgstr ""
+"Et deux objectifs de plus : ouvrir les communautés de DAARA dans DICAMES, et"
+" faire moissonner la plateforme par OpenAIRE et BASE."
+
+#: templates/core/about.html:86
+msgid "Built on open standards"
+msgstr "Bâtie sur des standards ouverts"
 
 #: templates/core/axes.html:9
 msgid ""
@@ -936,10 +1075,6 @@ msgid_plural "In partnership with %(counter)s universities"
 msgstr[0] "En partenariat avec %(counter)s université"
 msgstr[1] "En partenariat avec %(counter)s universités"
 
-#: templates/core/home.html:42
-msgid "Key figures"
-msgstr "Chiffres clés"
-
 #: templates/core/home.html:58
 msgid "What you will find"
 msgstr "Ce que vous trouverez"
@@ -973,33 +1108,9 @@ msgstr "Dernières actualités"
 msgid "No news yet."
 msgstr "Aucune actualité pour le moment."
 
-#: templates/core/home.html:136
-msgid "Partner universities"
-msgstr "Universités partenaires"
-
 #: templates/core/home.html:137
 msgid "All partners"
 msgstr "Tous les partenaires"
-
-#: templates/core/home.html:156
-msgid "Join DAARA"
-msgstr "Rejoindre DAARA"
-
-#: templates/core/home.html:157
-msgid ""
-"Researcher, PhD student or institution: help build the catalogue of African "
-"AI research."
-msgstr ""
-"Chercheur, doctorant ou institution : contribuez au catalogue de la "
-"recherche africaine en IA."
-
-#: templates/core/home.html:160 templates/core/page.html:41
-msgid "Contact us"
-msgstr "Nous contacter"
-
-#: templates/core/home.html:161
-msgid "Become a partner"
-msgstr "Devenir partenaire"
 
 #: templates/core/page.html:39
 msgid "A question?"
@@ -1018,6 +1129,14 @@ msgstr "Site web"
 #: templates/core/partners.html:31
 msgid "No partner institution yet."
 msgstr "Aucune institution partenaire pour le moment."
+
+#: templates/core/partners.html:37
+msgid "Partnership"
+msgstr "Partenariat"
+
+#: templates/core/partners.html:49
+msgid "Propose a partnership"
+msgstr "Proposer un partenariat"
 
 #: templates/dashboard/base.html:11 templates/dashboard/base.html:25
 msgid "Dashboard menu"

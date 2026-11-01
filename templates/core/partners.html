@@ -31,4 +31,22 @@
     <p class="mt-4 text-stone-600">{% translate "No partner institution yet." %}</p>
   {% endif %}
 </section>
+
+{# Devenir partenaire : la procédure de la gouvernance (spec §2.2) #}
+<section aria-labelledby="devenir" class="mt-16">
+  <p class="eyebrow text-brand-700">{% translate "Partnership" %}</p>
+  <h2 id="devenir" class="mt-3 font-display text-3xl font-bold text-brand-900">{% translate "Become a partner" %}</h2>
+  <ol class="mt-8 grid gap-5 md:grid-cols-3">
+    {% for title, text in steps %}
+      <li class="relative rounded-2xl border border-stone-200 p-6">
+        <span class="flex size-10 items-center justify-center rounded-full bg-brand-700 font-display font-bold text-white">{{ forloop.counter }}</span>
+        <h3 class="mt-4 font-semibold text-stone-900">{{ title }}</h3>
+        <p class="mt-2 text-sm text-stone-600">{{ text }}</p>
+      </li>
+    {% endfor %}
+  </ol>
+  {% if nav.contact %}
+    <p class="mt-8"><a href="{{ nav.contact }}" class="inline-flex items-center gap-2 rounded-lg bg-brand-700 px-5 py-3 font-semibold text-white hover:bg-brand-800">{% translate "Propose a partnership" %}{% include "components/icon.html" with name="arrow" class="size-4" %}</a></p>
+  {% endif %}
+</section>
 {% endblock %}

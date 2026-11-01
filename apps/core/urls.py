@@ -11,7 +11,9 @@ urlpatterns = [
     path("axes/", views.AxesView.as_view(), name="axes"),
     path(
         "governance/",
-        views.PageView.as_view(slug="governance", section=_("About")),
+        views.PageView.as_view(
+            slug="governance", section=_("About"), template_name="core/governance.html"
+        ),
         name="governance",
     ),
     path("partners/", views.PartnersView.as_view(), name="partners"),

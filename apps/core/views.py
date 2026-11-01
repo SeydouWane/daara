@@ -2,7 +2,7 @@ from urllib.parse import urlsplit
 
 from django.conf import settings
 from django.db import connection
-from django.db.models import Count, Q
+from django.db.models import Count, F, Q
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import NoReverseMatch, Resolver404, resolve, reverse, translate_url
@@ -109,9 +109,61 @@ class AboutView(PageView):
     slug = "about"
     section = _("About")
 
+    # Objectifs à 12 mois de la spec §1.4.
+    TARGETS = {"publications": 100, "profiles": 20, "datasets": 10, "webinars": 6}
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        members = Member.objects.filter(status=Member.Status.ACTIVE)
+        publication_count = published_publications().count()
+        # Profil complet : photo et biographie dans chaque langue éditoriale.
+        complete_profiles = members.exclude(photo="")
+        for code in settings.DAARA_EDITORIAL_LANGUAGES:
+            complete_profiles = complete_profiles.exclude(**{f"bio_{code}": ""})
+
         context["axes"] = Axis.objects.all()
+        context["figures"] = [
+            (_("Active members"), members.count(), "users"),
+            (_("Publications"), publication_count, "document"),
+            (
+                _("Partner universities"),
+                Institution.objects.filter(is_partner=True).count(),
+                "handshake",
+            ),
+            (_("Research axes"), Axis.objects.count(), "pin"),
+        ]
+        # Les profils avec photo d'abord : l'aperçu de l'équipe reste vivant.
+        context["team"] = (
+            members.select_related("user", "grade")
+            .prefetch_related("affiliations__institution")
+            .order_by(F("photo_width").desc(nulls_last=True), "user__last_name")[:8]
+        )
+        context["objectives"] = [
+            {
+                "label": label,
+                "value": value,
+                "target": target,
+                "percent": min(100, round(100 * value / target)),
+            }
+            for label, value, target in [
+                (_("Referenced publications"), publication_count, self.TARGETS["publications"]),
+                (
+                    _("Complete member profiles"),
+                    complete_profiles.count(),
+                    self.TARGETS["profiles"],
+                ),
+                (_("Datasets published with a DOI"), 0, self.TARGETS["datasets"]),
+                (_("Webinars archived with a DOI"), 0, self.TARGETS["webinars"]),
+            ]
+        ]
+        context["standards"] = [
+            ("DOI", _("Persistent identifier of every publication and dataset.")),
+            ("ORCID", _("Unique, lasting identifier of every researcher.")),
+            ("OpenAlex", _("Open bibliographic database used to import publications.")),
+            ("OAI-PMH", _("Protocol through which OpenAIRE and BASE will harvest the catalogue.")),
+            ("JSON-LD", _("Structured data read by Google Dataset Search.")),
+            ("Zenodo · Hugging Face", _("Where datasets and models are deposited.")),
+        ]
         return context
 
 
@@ -128,6 +180,24 @@ class PartnersView(PageView):
                 filter=Q(affiliations__member__status=Member.Status.ACTIVE),
             )
         )
+        # Procédure d'adhésion de la gouvernance (spec §2.2).
+        context["steps"] = [
+            (
+                _("A member researcher proposes it"),
+                _("A DAARA researcher presents your university or laboratory and its research."),
+            ),
+            (
+                _("An axis lead approves it"),
+                _("The lead of the axis concerned checks the fit with DAARA's research themes."),
+            ),
+            (
+                _("Your institution joins DAARA"),
+                _(
+                    "It is represented on the steering committee and its researchers publish "
+                    "their work on the platform."
+                ),
+            ),
+        ]
         return context
 
 

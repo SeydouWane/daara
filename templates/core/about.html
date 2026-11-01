@@ -2,8 +2,23 @@
 {% load i18n %}
 
 {% block after_body %}
+{# Chiffres clés #}
+<section aria-labelledby="chiffres" class="mt-16 border-t border-stone-200 pt-14">
+  <h2 id="chiffres" class="sr-only">{% translate "Key figures" %}</h2>
+  <dl class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    {% for label, value, icon in figures %}
+      <div class="rounded-2xl bg-brand-50 p-5 ring-1 ring-brand-100">
+        <span class="flex size-10 items-center justify-center rounded-xl bg-white text-brand-700">{% include "components/icon.html" with name=icon class="size-5" %}</span>
+        <dd class="mt-4 font-display text-3xl font-bold text-brand-900">{{ value }}</dd>
+        <dt class="text-sm text-stone-600">{{ label }}</dt>
+      </div>
+    {% endfor %}
+  </dl>
+</section>
+
+{# Axes de recherche #}
 {% if axes %}
-  <section aria-labelledby="axes" class="mt-16 border-t border-stone-200 pt-14">
+  <section aria-labelledby="axes" class="mt-16">
     <p class="eyebrow text-brand-700">{% translate "Research axes" %}</p>
     <h2 id="axes" class="mt-3 font-display text-3xl font-bold text-brand-900">{% translate "Our research axes" %}</h2>
     <ul class="mt-8 grid gap-5 md:grid-cols-3">
@@ -19,4 +34,65 @@
     </ul>
   </section>
 {% endif %}
+
+{# L'équipe #}
+{% if team %}
+  <section aria-labelledby="equipe" class="mt-16">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p class="eyebrow text-brand-700">{% translate "Members" %}</p>
+        <h2 id="equipe" class="mt-3 font-display text-3xl font-bold text-brand-900">{% translate "The team" %}</h2>
+      </div>
+      <a href="{% url 'directory:list' %}" class="inline-flex items-center gap-1.5 font-semibold text-brand-700 hover:underline">{% translate "All members" %}{% include "components/icon.html" with name="arrow" class="size-4" %}</a>
+    </div>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {% for member in team %}
+        <li>
+          <a href="{{ member.get_absolute_url }}" class="flex h-full flex-col items-center rounded-2xl border border-stone-200 p-6 text-center transition hover:-translate-y-0.5 hover:border-brand-600 hover:shadow-lg">
+            {% include "components/member_avatar.html" with size="sm" %}
+            <span class="mt-4 font-semibold text-stone-900">{{ member }}</span>
+            {% with institution=member.primary_institution %}{% if institution %}<span class="mt-1 text-sm text-stone-500">{{ institution }}</span>{% endif %}{% endwith %}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
+
+{# Objectifs à douze mois (spec §1.4), avec l'avancement réel #}
+<section aria-labelledby="objectifs" class="mt-16">
+  <p class="eyebrow text-brand-700">{% translate "Roadmap" %}</p>
+  <h2 id="objectifs" class="mt-3 font-display text-3xl font-bold text-brand-900">{% translate "Our twelve-month goals" %}</h2>
+  <p class="mt-3 max-w-2xl text-stone-600">{% translate "Progress is computed live from the contents published on DAARA." %}</p>
+  <ul class="mt-8 grid gap-5 md:grid-cols-2">
+    {% for objective in objectives %}
+      <li class="rounded-2xl border border-stone-200 p-6">
+        <div class="flex items-baseline justify-between gap-4">
+          <span class="font-semibold text-stone-900">{{ objective.label }}</span>
+          <span class="font-display text-lg font-bold text-brand-800">{{ objective.value }} / {{ objective.target }}</span>
+        </div>
+        <div class="mt-4 h-2.5 overflow-hidden rounded-full bg-stone-100" aria-hidden="true">
+          <div class="h-full rounded-full bg-gradient-to-r from-brand-600 to-ochre-500" style="width: {{ objective.percent }}%"></div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  <p class="mt-5 text-sm text-stone-600">{% translate "And two further goals: open DAARA's communities in DICAMES, and have the platform harvested by OpenAIRE and BASE." %}</p>
+</section>
+
+{# Standards ouverts #}
+<section aria-labelledby="standards" class="mt-16">
+  <p class="eyebrow text-brand-700">{% translate "Interoperability" %}</p>
+  <h2 id="standards" class="mt-3 font-display text-3xl font-bold text-brand-900">{% translate "Built on open standards" %}</h2>
+  <dl class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {% for name, description in standards %}
+      <div class="rounded-2xl border border-stone-200 p-5">
+        <dt class="font-display text-lg font-bold text-brand-800">{{ name }}</dt>
+        <dd class="mt-1 text-sm text-stone-600">{{ description }}</dd>
+      </div>
+    {% endfor %}
+  </dl>
+</section>
+
+{% include "core/_join_cta.html" %}
 {% endblock %}

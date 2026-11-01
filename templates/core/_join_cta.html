@@ -1,0 +1,14 @@
+{% load i18n %}{% comment %}Appel à rejoindre DAARA, en bas des pages « À propos ».{% endcomment %}
+<section class="hero-glow relative mt-16 overflow-hidden rounded-3xl px-8 py-12 text-white sm:px-12">
+  <div class="pattern-dots absolute inset-0" aria-hidden="true"></div>
+  <div class="relative flex flex-wrap items-center justify-between gap-8">
+    <div class="max-w-xl">
+      <h2 class="font-display text-3xl font-bold">{% translate "Join DAARA" %}</h2>
+      <p class="mt-3 text-white/85">{% translate "Researcher, PhD student or institution: help build the catalogue of African AI research." %}</p>
+    </div>
+    <div class="flex flex-wrap gap-3">
+      {% if nav.contact %}<a href="{{ nav.contact }}" class="rounded-lg bg-white px-5 py-3 font-semibold text-brand-900 hover:bg-brand-50">{% translate "Contact us" %}</a>{% endif %}
+      <a href="{% url 'core:partners' %}" class="rounded-lg px-5 py-3 font-semibold text-white ring-1 ring-white/40 hover:bg-white/10">{% translate "Become a partner" %}</a>
+    </div>
+  </div>
+</section>
