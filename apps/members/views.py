@@ -71,6 +71,17 @@ class ProfileView(DetailView):
         return _members()
 
     def get_context_data(self, **kwargs):
+        # Import local : le module research dépend déjà de members.
+        from apps.research.views import published_publications
+
         context = super().get_context_data(**kwargs)
         context["fallback"] = fallback_notice(self.object, "bio") if self.object.bio else None
+        publications = (
+            published_publications()
+            .filter(authorships__member=self.object)
+            .distinct()
+            .order_by("-year", "title")
+        )
+        context["publication_count"] = publications.count()
+        context["publications"] = publications[:10]
         return context

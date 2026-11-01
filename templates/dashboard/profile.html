@@ -7,7 +7,7 @@
 <h1 class="font-display text-3xl font-bold text-brand-900">{% translate "My profile" %}</h1>
 <p class="mt-2 max-w-2xl text-stone-600">{% translate "Identifiers are stored without their URL prefix: paste them as you like, DAARA normalises them." %}</p>
 
-<form method="post" class="mt-8 max-w-2xl space-y-5" novalidate>
+<form method="post" enctype="multipart/form-data" class="mt-8 max-w-2xl space-y-5" novalidate>
   {% csrf_token %}
   {% for field in form %}
     <div>

@@ -34,6 +34,24 @@
     current?.querySelector("summary")?.focus();
   });
 
+  // Boutons « Copier » (button[data-copy="#cible"]) : affichés seulement si le presse-papiers
+  // est disponible ; le libellé confirme la copie quelques secondes.
+  if (navigator.clipboard) {
+    for (const button of document.querySelectorAll("button[data-copy]")) {
+      button.hidden = false;
+      const label = button.textContent;
+      button.addEventListener("click", async () => {
+        const target = document.querySelector(button.dataset.copy);
+        if (!target) return;
+        await navigator.clipboard.writeText(target.textContent.trim());
+        button.textContent = button.dataset.copied || label;
+        setTimeout(() => {
+          button.textContent = label;
+        }, 2500);
+      });
+    }
+  }
+
   const sidebar = document.querySelector("details[data-sidebar]");
   if (sidebar) {
     const wide = window.matchMedia("(min-width: 768px)");

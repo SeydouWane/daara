@@ -10,6 +10,8 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Member
         fields = [
+            "photo",
+            *(f"position_{code}" for code in settings.MODELTRANSLATION_LANGUAGES),
             *(f"bio_{code}" for code in settings.MODELTRANSLATION_LANGUAGES),
             "orcid",
             "google_scholar_id",

@@ -164,8 +164,25 @@ class Member(TimeStampedModel):
     axes = models.ManyToManyField(
         Axis, verbose_name=_("research axes"), related_name="members", blank=True
     )
+    position = models.CharField(
+        _("position"),
+        max_length=150,
+        blank=True,
+        help_text=_("Current function, e.g. Vice-Rector of UN-CHK."),
+    )
+    photo = models.ImageField(
+        _("photo"),
+        upload_to="members/",
+        blank=True,
+        width_field="photo_width",
+        height_field="photo_height",
+        validators=[validate_image_size],
+        help_text=_("Portrait, face in the upper third. Converted to WebP automatically."),
+    )
+    photo_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    photo_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
     orcid = models.CharField(_("ORCID iD"), max_length=19, blank=True, validators=[validate_orcid])
-    bio = models.TextField(_("biography"), blank=True)
+    bio = models.TextField(_("biography"), blank=True, help_text=_("Markdown."))
     google_scholar_id = models.CharField(_("Google Scholar ID"), max_length=40, blank=True)
     hal_id = models.CharField(_("HAL identifier"), max_length=60, blank=True)
     github = models.CharField(_("GitHub username"), max_length=39, blank=True)
@@ -174,6 +191,8 @@ class Member(TimeStampedModel):
     status = models.CharField(_("status"), max_length=10, choices=Status, default=Status.ACTIVE)
     joined_on = models.DateField(_("joined on"), null=True, blank=True)
     left_on = models.DateField(_("left on"), null=True, blank=True)
+
+    PHOTO_WIDTHS = (96, 192, 384)
 
     class Meta:
         ordering = ["user__last_name", "user__first_name"]
@@ -190,6 +209,10 @@ class Member(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse("directory:detail", args=[self.slug])
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        generate_renditions(self.photo, self.PHOTO_WIDTHS)
 
     @property
     def initials(self):

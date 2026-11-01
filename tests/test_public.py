@@ -45,9 +45,9 @@ def test_main_menu_shows_sections_and_upcoming_modules(client):
         assert label in html
     assert 'href="/fr/about/"' in html
     assert 'href="/fr/members/"' in html
-    # Les publications n'existent pas encore : libellé « bientôt », sans lien.
+    # Les jeux de données n'existent pas encore : libellé « bientôt », sans lien.
     assert "bientôt" in html
-    assert "/fr/publications/" not in html
+    assert "/fr/datasets/" not in html
 
 
 def test_language_selector_marks_the_current_language(client):

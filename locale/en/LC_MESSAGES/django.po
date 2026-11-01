@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DAARA 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-31 22:35+0000\n"
+"POT-Creation-Date: 2026-11-01 02:25+0000\n"
 "PO-Revision-Date: 2026-10-31 21:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: DAARA\n"
@@ -46,20 +46,20 @@ msgstr ""
 msgid "created by"
 msgstr ""
 
-#: apps/core/models.py:36
+#: apps/core/models.py:36 apps/research/models.py:21
 msgid "Draft"
 msgstr ""
 
-#: apps/core/models.py:37
+#: apps/core/models.py:37 apps/research/models.py:23
 msgid "Published"
 msgstr ""
 
 #: apps/core/models.py:39 apps/members/models.py:33 apps/members/models.py:102
-#: apps/members/models.py:153
+#: apps/members/models.py:153 apps/research/models.py:27
 msgid "slug"
 msgstr ""
 
-#: apps/core/models.py:40
+#: apps/core/models.py:40 apps/research/models.py:26
 msgid "title"
 msgstr ""
 
@@ -75,11 +75,12 @@ msgstr ""
 msgid "body"
 msgstr ""
 
-#: apps/core/models.py:44
+#: apps/core/models.py:44 apps/members/models.py:185
 msgid "Markdown."
 msgstr ""
 
-#: apps/core/models.py:45 apps/members/models.py:174
+#: apps/core/models.py:45 apps/members/models.py:191
+#: apps/research/models.py:43
 msgid "status"
 msgstr ""
 
@@ -113,8 +114,8 @@ msgid ""
 "A published page needs a title and a body in every language. Missing: %s."
 msgstr ""
 
-#: apps/core/navigation.py:31 apps/core/urls.py:14 apps/core/views.py:116
-#: apps/core/views.py:127
+#: apps/core/navigation.py:31 apps/core/urls.py:14 apps/core/views.py:110
+#: apps/core/views.py:121
 msgid "About"
 msgstr ""
 
@@ -131,25 +132,30 @@ msgid "Partners"
 msgstr ""
 
 #: apps/core/navigation.py:39 templates/core/axes.html:7
+#: templates/research/publication_list.html:7
 msgid "Research"
 msgstr ""
 
 #: apps/core/navigation.py:41 apps/dashboard/views.py:116
 #: templates/core/about.html:7 templates/core/axes.html:4
 #: templates/core/axes.html:8 templates/core/home.html:85
-#: templates/members/profile.html:47
+#: templates/members/profile.html:65
 msgid "Research axes"
 msgstr ""
 
-#: apps/core/navigation.py:42 apps/core/views.py:38 apps/core/views.py:57
+#: apps/core/navigation.py:42 apps/core/views.py:40 apps/core/views.py:59
+#: templates/core/home.html:111 templates/members/profile.html:50
+#: templates/research/publication_detail.html:14
+#: templates/research/publication_list.html:4
+#: templates/research/publication_list.html:8
 msgid "Publications"
 msgstr ""
 
-#: apps/core/navigation.py:43 apps/core/views.py:39 apps/core/views.py:63
+#: apps/core/navigation.py:43 apps/core/views.py:41 apps/core/views.py:65
 msgid "Datasets"
 msgstr ""
 
-#: apps/core/navigation.py:44 apps/core/views.py:69
+#: apps/core/navigation.py:44 apps/core/views.py:71
 msgid "Models and code"
 msgstr ""
 
@@ -160,7 +166,7 @@ msgstr ""
 #: apps/core/navigation.py:48 apps/members/apps.py:7
 #: templates/core/axes.html:28 templates/dashboard/indicators.html:25
 #: templates/members/directory.html:4 templates/members/directory.html:7
-#: templates/members/profile.html:16
+#: templates/members/profile.html:17
 msgid "Members"
 msgstr ""
 
@@ -168,7 +174,7 @@ msgstr ""
 msgid "Training and news"
 msgstr ""
 
-#: apps/core/navigation.py:52 apps/core/views.py:40
+#: apps/core/navigation.py:52 apps/core/views.py:42
 msgid "Training courses"
 msgstr ""
 
@@ -192,45 +198,29 @@ msgstr ""
 msgid "Privacy policy"
 msgstr ""
 
-#: apps/core/views.py:42 apps/dashboard/views.py:113
+#: apps/core/views.py:44 apps/dashboard/views.py:113
 msgid "Active members"
 msgstr ""
 
-#: apps/core/views.py:58
+#: apps/core/views.py:60
 msgid "Articles, papers and theses, imported by DOI and exported to BibTeX."
 msgstr ""
 
-#: apps/core/views.py:64
+#: apps/core/views.py:66
 msgid ""
 "African corpora and data deposited on Zenodo, with a DOI and a citation."
 msgstr ""
 
-#: apps/core/views.py:70
+#: apps/core/views.py:72
 msgid "Models and demonstrators synchronised from Hugging Face and GitHub."
 msgstr ""
 
-#: apps/core/views.py:75 apps/training/apps.py:7
+#: apps/core/views.py:77 apps/training/apps.py:7
 msgid "Training"
 msgstr ""
 
-#: apps/core/views.py:76
+#: apps/core/views.py:78
 msgid "Courses, archived webinars and teaching materials with a DOI."
-msgstr ""
-
-#: apps/core/views.py:82
-msgid "Latest news"
-msgstr ""
-
-#: apps/core/views.py:82
-msgid "No news yet."
-msgstr ""
-
-#: apps/core/views.py:85
-msgid "Latest research outputs"
-msgstr ""
-
-#: apps/core/views.py:86
-msgid "No research outputs yet."
 msgstr ""
 
 #: apps/dashboard/apps.py:7
@@ -304,7 +294,7 @@ msgstr ""
 
 #: apps/dashboard/views.py:114 apps/members/models.py:145
 #: templates/members/_directory_results.html:14
-#: templates/members/profile.html:26
+#: templates/members/profile.html:28
 msgid "Alumni"
 msgstr ""
 
@@ -333,7 +323,7 @@ msgid "Enter a valid ROR identifier, e.g. 05c3q4c27."
 msgstr ""
 
 #: apps/members/models.py:31 apps/members/models.py:100
-#: apps/members/models.py:126
+#: apps/members/models.py:126 apps/research/models.py:80
 msgid "name"
 msgstr ""
 
@@ -375,7 +365,7 @@ msgid ""
 " white background. Converted to WebP automatically."
 msgstr ""
 
-#: apps/members/models.py:65 apps/members/models.py:236
+#: apps/members/models.py:65 apps/members/models.py:259
 msgid "institution"
 msgstr ""
 
@@ -427,7 +417,8 @@ msgstr ""
 msgid "icon"
 msgstr ""
 
-#: apps/members/models.py:108 apps/members/models.py:297
+#: apps/members/models.py:108 apps/members/models.py:320
+#: apps/research/models.py:35
 msgid "research axis"
 msgstr ""
 
@@ -455,160 +446,320 @@ msgstr ""
 msgid "account"
 msgstr ""
 
-#: apps/members/models.py:167
-msgid "ORCID iD"
-msgstr ""
-
-#: apps/members/models.py:168
-msgid "biography"
-msgstr ""
-
-#: apps/members/models.py:169
-msgid "Google Scholar ID"
-msgstr ""
-
-#: apps/members/models.py:170
-msgid "HAL identifier"
+#: apps/members/models.py:168 apps/research/models.py:79
+msgid "position"
 msgstr ""
 
 #: apps/members/models.py:171
-msgid "GitHub username"
+msgid "Current function, e.g. Vice-Rector of UN-CHK."
 msgstr ""
 
-#: apps/members/models.py:172
-msgid "Hugging Face username"
-msgstr ""
-
-#: apps/members/models.py:173
-msgid "LinkedIn profile"
-msgstr ""
-
-#: apps/members/models.py:175
-msgid "joined on"
-msgstr ""
-
-#: apps/members/models.py:176
-msgid "left on"
+#: apps/members/models.py:174
+msgid "photo"
 msgstr ""
 
 #: apps/members/models.py:180
+msgid "Portrait, face in the upper third. Converted to WebP automatically."
+msgstr ""
+
+#: apps/members/models.py:184
+msgid "ORCID iD"
+msgstr ""
+
+#: apps/members/models.py:185
+msgid "biography"
+msgstr ""
+
+#: apps/members/models.py:186
+msgid "Google Scholar ID"
+msgstr ""
+
+#: apps/members/models.py:187 apps/research/models.py:128
+msgid "HAL identifier"
+msgstr ""
+
+#: apps/members/models.py:188
+msgid "GitHub username"
+msgstr ""
+
+#: apps/members/models.py:189
+msgid "Hugging Face username"
+msgstr ""
+
+#: apps/members/models.py:190
+msgid "LinkedIn profile"
+msgstr ""
+
+#: apps/members/models.py:192
+msgid "joined on"
+msgstr ""
+
+#: apps/members/models.py:193
+msgid "left on"
+msgstr ""
+
+#: apps/members/models.py:199 apps/research/models.py:83
 msgid "member"
 msgstr ""
 
-#: apps/members/models.py:181
+#: apps/members/models.py:200
 msgid "members"
 msgstr ""
 
-#: apps/members/models.py:229
+#: apps/members/models.py:252
 msgid "An alumni profile needs a departure date."
 msgstr ""
 
-#: apps/members/models.py:240
+#: apps/members/models.py:263
 msgid "primary affiliation"
 msgstr ""
 
-#: apps/members/models.py:243
+#: apps/members/models.py:266
 msgid "affiliation"
 msgstr ""
 
-#: apps/members/models.py:244
+#: apps/members/models.py:267
 msgid "affiliations"
 msgstr ""
 
-#: apps/members/models.py:259
+#: apps/members/models.py:282
 msgid "Learner"
 msgstr ""
 
-#: apps/members/models.py:260
+#: apps/members/models.py:283
 msgid "PhD student"
 msgstr ""
 
-#: apps/members/models.py:261
+#: apps/members/models.py:284
 msgid "Researcher"
 msgstr ""
 
-#: apps/members/models.py:262 templates/core/axes.html:23
+#: apps/members/models.py:285 templates/core/axes.html:23
 msgid "Axis lead"
 msgstr ""
 
-#: apps/members/models.py:263
+#: apps/members/models.py:286
 msgid "Editor and translator"
 msgstr ""
 
-#: apps/members/models.py:264
+#: apps/members/models.py:287
 msgid "External collaborator"
 msgstr ""
 
-#: apps/members/models.py:265
+#: apps/members/models.py:288
 msgid "Observer"
 msgstr ""
 
-#: apps/members/models.py:266
+#: apps/members/models.py:289
 msgid "Administrator"
 msgstr ""
 
-#: apps/members/models.py:290
+#: apps/members/models.py:313
 msgid "user"
 msgstr ""
 
-#: apps/members/models.py:294
+#: apps/members/models.py:317
 msgid "role"
 msgstr ""
 
-#: apps/members/models.py:302
+#: apps/members/models.py:325
 msgid "Required for axis leads, empty for every other role."
 msgstr ""
 
-#: apps/members/models.py:304
+#: apps/members/models.py:327
 msgid "starts on"
 msgstr ""
 
-#: apps/members/models.py:306
+#: apps/members/models.py:329
 msgid "expires on"
 msgstr ""
 
-#: apps/members/models.py:309
+#: apps/members/models.py:332
 msgid "Required for observers: 12 months at most, renewable."
 msgstr ""
 
-#: apps/members/models.py:316
+#: apps/members/models.py:339
 msgid "role assignment"
 msgstr ""
 
-#: apps/members/models.py:317
+#: apps/members/models.py:340
 msgid "role assignments"
 msgstr ""
 
-#: apps/members/models.py:353
+#: apps/members/models.py:376
 msgid "An axis lead must be assigned to an axis."
 msgstr ""
 
-#: apps/members/models.py:355
+#: apps/members/models.py:378
 msgid "Only axis leads are assigned to an axis."
 msgstr ""
 
-#: apps/members/models.py:359
+#: apps/members/models.py:382
 msgid "An observer access must have an expiry date."
 msgstr ""
 
-#: apps/members/models.py:361
+#: apps/members/models.py:384
 msgid "An observer access lasts 12 months at most."
 msgstr ""
 
-#: apps/members/models.py:363
+#: apps/members/models.py:386
 msgid "The expiry date cannot precede the start date."
 msgstr ""
 
-#: apps/members/models.py:372
+#: apps/members/models.py:395
 msgid "This axis already has an active lead."
 msgstr ""
 
-#: apps/news/apps.py:7
+#: apps/news/apps.py:7 templates/core/home.html:125
 msgid "News"
+msgstr ""
+
+#: apps/research/admin.py:27
+msgid "Publication details"
+msgstr ""
+
+#: apps/research/admin.py:30 templates/research/publication_detail.html:33
+msgid "Abstract"
+msgstr ""
+
+#: apps/research/admin.py:32
+msgid "Access and identifiers"
 msgstr ""
 
 #: apps/research/apps.py:7
 msgid "Research outputs"
+msgstr ""
+
+#: apps/research/models.py:22
+msgid "Pending review"
+msgstr ""
+
+#: apps/research/models.py:24
+msgid "Archived"
+msgstr ""
+
+#: apps/research/models.py:29
+msgid "language"
+msgstr ""
+
+#: apps/research/models.py:29
+msgid "Language of the original, e.g. en."
+msgstr ""
+
+#: apps/research/models.py:31
+msgid "year"
+msgstr ""
+
+#: apps/research/models.py:32
+msgid "abstract"
+msgstr ""
+
+#: apps/research/models.py:41
+msgid "licence"
+msgstr ""
+
+#: apps/research/models.py:46 apps/research/models.py:93
+msgid "authors"
+msgstr ""
+
+#: apps/research/models.py:51
+msgid "research output"
+msgstr ""
+
+#: apps/research/models.py:52
+msgid "research outputs"
+msgstr ""
+
+#: apps/research/models.py:92
+msgid "author"
+msgstr ""
+
+#: apps/research/models.py:108
+msgid "Journal article"
+msgstr ""
+
+#: apps/research/models.py:109
+msgid "Conference paper"
+msgstr ""
+
+#: apps/research/models.py:110
+msgid "Book chapter"
+msgstr ""
+
+#: apps/research/models.py:111
+msgid "Book"
+msgstr ""
+
+#: apps/research/models.py:112
+msgid "Doctoral thesis"
+msgstr ""
+
+#: apps/research/models.py:113
+msgid "Master's thesis"
+msgstr ""
+
+#: apps/research/models.py:114
+msgid "Preprint"
+msgstr ""
+
+#: apps/research/models.py:115
+msgid "Technical report"
+msgstr ""
+
+#: apps/research/models.py:117
+msgid "type"
+msgstr ""
+
+#: apps/research/models.py:119
+msgid "DOI"
+msgstr ""
+
+#: apps/research/models.py:119
+msgid "Without URL prefix, e.g. 10.1109/xyz."
+msgstr ""
+
+#: apps/research/models.py:121
+msgid "journal or conference"
+msgstr ""
+
+#: apps/research/models.py:122
+msgid "publisher"
+msgstr ""
+
+#: apps/research/models.py:123
+msgid "volume"
+msgstr ""
+
+#: apps/research/models.py:124
+msgid "issue"
+msgstr ""
+
+#: apps/research/models.py:125
+msgid "pages"
+msgstr ""
+
+#: apps/research/models.py:126
+msgid "web page"
+msgstr ""
+
+#: apps/research/models.py:127
+msgid "open access"
+msgstr ""
+
+#: apps/research/models.py:129
+msgid "DICAMES identifier"
+msgstr ""
+
+#: apps/research/models.py:130
+msgid "OpenAlex identifier"
+msgstr ""
+
+#: apps/research/models.py:133
+msgid "publication"
+msgstr ""
+
+#: apps/research/models.py:134
+msgid "publications"
 msgstr ""
 
 #: templates/base.html:19
@@ -676,12 +827,40 @@ msgstr ""
 msgid "soon"
 msgstr ""
 
-#: templates/components/page_header.html:10 templates/members/profile.html:12
+#: templates/components/page_header.html:10 templates/members/profile.html:13
+#: templates/research/publication_detail.html:10
 msgid "Breadcrumb"
 msgstr ""
 
-#: templates/components/page_header.html:12 templates/members/profile.html:14
+#: templates/components/page_header.html:12 templates/members/profile.html:15
+#: templates/research/publication_detail.html:12
 msgid "Home"
+msgstr ""
+
+#: templates/components/pagination.html:4
+msgid "Pagination"
+msgstr ""
+
+#: templates/components/pagination.html:6
+msgid "Previous"
+msgstr ""
+
+#: templates/components/pagination.html:8
+#, python-format
+msgid "Page %(number)s of %(total)s"
+msgstr ""
+
+#: templates/components/pagination.html:10
+msgid "Next"
+msgstr ""
+
+#: templates/components/publication_item.html:7
+#: templates/research/publication_detail.html:20
+msgid "Open access"
+msgstr ""
+
+#: templates/components/publication_item.html:14
+msgid "et al."
 msgstr ""
 
 #: templates/core/about.html:8 templates/core/home.html:86
@@ -741,29 +920,50 @@ msgstr ""
 msgid "All axes"
 msgstr ""
 
-#: templates/core/home.html:124
+#: templates/core/home.html:112
+msgid "Latest research outputs"
+msgstr ""
+
+#: templates/core/home.html:114 templates/members/profile.html:52
+#: templates/research/publication_detail.html:70
+msgid "All publications"
+msgstr ""
+
+#: templates/core/home.html:121
+msgid "No research outputs yet."
+msgstr ""
+
+#: templates/core/home.html:126
+msgid "Latest news"
+msgstr ""
+
+#: templates/core/home.html:127
+msgid "No news yet."
+msgstr ""
+
+#: templates/core/home.html:136
 msgid "Partner universities"
 msgstr ""
 
-#: templates/core/home.html:125
+#: templates/core/home.html:137
 msgid "All partners"
 msgstr ""
 
-#: templates/core/home.html:144
+#: templates/core/home.html:156
 msgid "Join DAARA"
 msgstr ""
 
-#: templates/core/home.html:145
+#: templates/core/home.html:157
 msgid ""
 "Researcher, PhD student or institution: help build the catalogue of African "
 "AI research."
 msgstr ""
 
-#: templates/core/home.html:148 templates/core/page.html:41
+#: templates/core/home.html:160 templates/core/page.html:41
 msgid "Contact us"
 msgstr ""
 
-#: templates/core/home.html:149
+#: templates/core/home.html:161
 msgid "Become a partner"
 msgstr ""
 
@@ -870,6 +1070,8 @@ msgid "Content"
 msgstr ""
 
 #: templates/dashboard/translations.html:16
+#: templates/research/publication_detail.html:63
+#: templates/research/publication_list.html:29
 msgid "Type"
 msgstr ""
 
@@ -896,27 +1098,13 @@ msgid "Nothing to review for now."
 msgstr ""
 
 #: templates/members/_directory_results.html:22
-msgid "Pagination"
-msgstr ""
-
-#: templates/members/_directory_results.html:24
-msgid "Previous"
-msgstr ""
-
-#: templates/members/_directory_results.html:26
-#, python-format
-msgid "Page %(number)s of %(total)s"
-msgstr ""
-
-#: templates/members/_directory_results.html:28
-msgid "Next"
-msgstr ""
-
-#: templates/members/_directory_results.html:33
 msgid "No member matches these filters."
 msgstr ""
 
 #: templates/members/_filter_select.html:8
+#: templates/research/publication_list.html:24
+#: templates/research/publication_list.html:31
+#: templates/research/publication_list.html:38
 msgid "All"
 msgstr ""
 
@@ -931,6 +1119,8 @@ msgid "Name"
 msgstr ""
 
 #: templates/members/directory.html:22
+#: templates/research/publication_detail.html:68
+#: templates/research/publication_list.html:42
 msgid "Research axis"
 msgstr ""
 
@@ -947,10 +1137,12 @@ msgid "Show alumni instead of active members"
 msgstr ""
 
 #: templates/members/directory.html:36
+#: templates/research/publication_list.html:44
 msgid "Filter"
 msgstr ""
 
 #: templates/members/directory.html:37
+#: templates/research/publication_list.html:45
 msgid "Reset"
 msgstr ""
 
@@ -958,22 +1150,88 @@ msgstr ""
 msgid "Access your DAARA space."
 msgstr ""
 
-#: templates/members/profile.html:35
+#: templates/members/profile.html:38
 msgid "Biography"
 msgstr ""
 
-#: templates/members/profile.html:40
+#: templates/members/profile.html:43
 msgid "No biography yet."
 msgstr ""
 
-#: templates/members/profile.html:57
+#: templates/members/profile.html:75
 msgid "Institutions"
 msgstr ""
 
-#: templates/members/profile.html:60
+#: templates/members/profile.html:80
 msgid "primary"
 msgstr ""
 
-#: templates/members/profile.html:68
+#: templates/members/profile.html:89
 msgid "Elsewhere"
+msgstr ""
+
+#: templates/research/_publication_results.html:2
+#, python-format
+msgid "%(counter)s publication"
+msgid_plural "%(counter)s publications"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/research/_publication_results.html:12
+msgid "No publication matches these filters."
+msgstr ""
+
+#: templates/research/publication_detail.html:38
+msgid "The abstract is not available yet."
+msgstr ""
+
+#: templates/research/publication_detail.html:43
+msgid "Cite this publication"
+msgstr ""
+
+#: templates/research/publication_detail.html:46
+msgid "Copied"
+msgstr ""
+
+#: templates/research/publication_detail.html:46
+msgid "Copy the reference"
+msgstr ""
+
+#: templates/research/publication_detail.html:47
+msgid "Download BibTeX"
+msgstr ""
+
+#: templates/research/publication_detail.html:50
+msgid "Show BibTeX"
+msgstr ""
+
+#: templates/research/publication_detail.html:59
+msgid "Read the publication"
+msgstr ""
+
+#: templates/research/publication_detail.html:64
+#: templates/research/publication_list.html:22
+msgid "Year"
+msgstr ""
+
+#: templates/research/publication_detail.html:65
+msgid "Journal or conference"
+msgstr ""
+
+#: templates/research/publication_detail.html:66
+msgid "Publisher"
+msgstr ""
+
+#: templates/research/publication_list.html:9
+msgid ""
+"Articles, conference papers, chapters and theses by DAARA members, with "
+"their DOI and citation."
+msgstr ""
+
+#: templates/research/publication_list.html:18
+msgid "Title, author or journal"
+msgstr ""
+
+#: templates/research/publication_list.html:36
+msgid "Author"
 msgstr ""

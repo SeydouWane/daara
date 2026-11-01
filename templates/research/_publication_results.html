@@ -1,0 +1,13 @@
+{% load i18n %}
+<p class="text-sm text-stone-600">{% blocktranslate count counter=paginator.count %}{{ counter }} publication{% plural %}{{ counter }} publications{% endblocktranslate %}</p>
+
+{% if publications %}
+  <ul class="mt-4 grid gap-4 lg:grid-cols-2">
+    {% for publication in publications %}
+      <li>{% include "components/publication_item.html" %}</li>
+    {% endfor %}
+  </ul>
+  {% include "components/pagination.html" %}
+{% else %}
+  <p class="mt-4 rounded-xl border border-dashed border-stone-300 p-8 text-center text-stone-600">{% translate "No publication matches these filters." %}</p>
+{% endif %}

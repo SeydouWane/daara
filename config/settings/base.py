@@ -138,6 +138,9 @@ STORAGES = {
 
 X_FRAME_OPTIONS = "DENY"
 
+# OpenAlex : une adresse de contact donne accès au « polite pool », plus rapide et plus stable.
+OPENALEX_MAILTO = env("OPENALEX_MAILTO", default="")
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

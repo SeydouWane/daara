@@ -13,6 +13,7 @@ from django.views.decorators.http import require_GET
 from django.views.generic import TemplateView
 
 from apps.members.models import Axis, Institution, Member
+from apps.research.views import published_publications
 
 from .i18n import fallback_notice
 from .models import Page
@@ -33,9 +34,10 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Publications, données et formations restent à 0 jusqu'aux modules M3, M4 et M7.
+        publications = published_publications()
+        # Données et formations restent à 0 jusqu'aux modules M4 et M7.
         context["counters"] = [
-            (_("Publications"), 0, "document"),
+            (_("Publications"), publications.count(), "document"),
             (_("Datasets"), 0, "database"),
             (_("Training courses"), 0, "cap"),
             (
@@ -78,15 +80,7 @@ class HomeView(TemplateView):
                 ),
             ]
         ]
-        context["latest"] = [
-            ("actualites", _("Latest news"), _("No news yet."), "document"),
-            (
-                "productions",
-                _("Latest research outputs"),
-                _("No research outputs yet."),
-                "database",
-            ),
-        ]
+        context["latest_publications"] = publications.order_by("-year", "-created_at")[:3]
         context["axes"] = Axis.objects.annotate(
             member_count=Count("members", filter=ACTIVE_MEMBERS)
         )

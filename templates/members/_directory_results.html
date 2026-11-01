@@ -6,10 +6,10 @@
     {% for member in members %}
       <li>
         <a href="{{ member.get_absolute_url }}" class="flex h-full gap-4 rounded-2xl border border-stone-200 p-5 transition hover:-translate-y-0.5 hover:border-brand-600 hover:shadow-lg">
-          <span class="flex size-14 flex-none items-center justify-center rounded-full bg-gradient-to-br from-brand-600 to-brand-900 font-display text-lg font-bold text-white" aria-hidden="true">{{ member.initials }}</span>
+          {% include "components/member_avatar.html" with size="sm" %}
           <span class="min-w-0">
             <span class="block font-semibold text-stone-900">{{ member }}</span>
-            {% if member.grade %}<span class="block text-sm text-stone-600">{{ member.grade }}</span>{% endif %}
+            {% if member.position %}<span class="block text-sm text-stone-700">{{ member.position }}</span>{% elif member.grade %}<span class="block text-sm text-stone-600">{{ member.grade }}</span>{% endif %}
             {% with institution=member.primary_institution %}{% if institution %}<span class="block text-sm text-stone-500">{{ institution }}</span>{% endif %}{% endwith %}
             {% if member.status == "alumni" and member.left_on %}<span class="mt-1 inline-block rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-600">{% translate "Alumni" %} · {{ member.left_on|date:"Y" }}</span>{% endif %}
           </span>
@@ -17,18 +17,7 @@
       </li>
     {% endfor %}
   </ul>
-
-  {% if is_paginated %}
-    <nav aria-label="{% translate 'Pagination' %}" class="mt-8 flex items-center justify-between text-sm">
-      {% if page_obj.has_previous %}
-        <a href="?{{ query_string }}{% if query_string %}&amp;{% endif %}page={{ page_obj.previous_page_number }}" class="rounded border border-stone-300 px-3 py-1.5 hover:bg-stone-50">{% translate "Previous" %}</a>
-      {% else %}<span></span>{% endif %}
-      <span class="text-stone-600">{% blocktranslate with number=page_obj.number total=paginator.num_pages %}Page {{ number }} of {{ total }}{% endblocktranslate %}</span>
-      {% if page_obj.has_next %}
-        <a href="?{{ query_string }}{% if query_string %}&amp;{% endif %}page={{ page_obj.next_page_number }}" class="rounded border border-stone-300 px-3 py-1.5 hover:bg-stone-50">{% translate "Next" %}</a>
-      {% else %}<span></span>{% endif %}
-    </nav>
-  {% endif %}
+  {% include "components/pagination.html" %}
 {% else %}
   <p class="mt-4 rounded-xl border border-dashed border-stone-300 p-8 text-center text-stone-600">{% translate "No member matches these filters." %}</p>
 {% endif %}

@@ -1,0 +1,12 @@
+{% load i18n %}{% comment %}Pagination des listes (ListView) ; query_string : filtres en cours, sans « page ».{% endcomment %}
+{% if is_paginated %}
+  <nav aria-label="{% translate 'Pagination' %}" class="mt-8 flex items-center justify-between text-sm">
+    {% if page_obj.has_previous %}
+      <a href="?{{ query_string }}{% if query_string %}&amp;{% endif %}page={{ page_obj.previous_page_number }}" class="rounded-lg border border-stone-300 px-3 py-1.5 hover:bg-stone-50">{% translate "Previous" %}</a>
+    {% else %}<span></span>{% endif %}
+    <span class="text-stone-600">{% blocktranslate with number=page_obj.number total=paginator.num_pages %}Page {{ number }} of {{ total }}{% endblocktranslate %}</span>
+    {% if page_obj.has_next %}
+      <a href="?{{ query_string }}{% if query_string %}&amp;{% endif %}page={{ page_obj.next_page_number }}" class="rounded-lg border border-stone-300 px-3 py-1.5 hover:bg-stone-50">{% translate "Next" %}</a>
+    {% else %}<span></span>{% endif %}
+  </nav>
+{% endif %}

@@ -1,0 +1,4 @@
+{% load daara %}{% comment %}
+Photo du membre en médaillon, ou ses initiales. Décorative : le nom est toujours écrit à côté.
+  member ; size : "sm" (cartes) ou "lg" (profil)
+{% endcomment %}{% if member.photo %}{% if size == "lg" %}{% responsive_image member.photo member.PHOTO_WIDTHS "112px" css_class="size-28 flex-none rounded-full object-cover object-[50%_18%] ring-4 ring-white/30" eager=True %}{% else %}{% responsive_image member.photo member.PHOTO_WIDTHS "56px" css_class="size-14 flex-none rounded-full object-cover object-[50%_18%]" %}{% endif %}{% else %}<span class="flex flex-none items-center justify-center rounded-full font-display font-bold {% if size == 'lg' %}size-28 bg-white text-3xl text-brand-800 ring-4 ring-white/25{% else %}size-14 bg-gradient-to-br from-brand-600 to-brand-900 text-lg text-white{% endif %}" aria-hidden="true">{{ member.initials }}</span>{% endif %}

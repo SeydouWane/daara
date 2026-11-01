@@ -16,6 +16,7 @@ urlpatterns += i18n_patterns(
     path(settings.ADMIN_URL, admin.site.urls),
     path("account/", include("apps.members.urls")),
     path("members/", include("apps.members.directory_urls")),
+    path("", include("apps.research.urls")),
     path("dashboard/", include("apps.dashboard.urls")),
     path("", include("apps.core.urls")),
 )

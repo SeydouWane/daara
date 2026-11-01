@@ -33,6 +33,7 @@ docker compose run --rm --no-deps web ruff check .      # analyse statique
 docker compose run --rm --no-deps web ruff format .     # formatage
 docker compose run --rm web python manage.py createsuperuser
 docker compose run --rm web python manage.py seed_demo  # comptes de démonstration
+docker compose run --rm web python manage.py import_openalex <auteur> --member <slug> --dry-run  # publications
 docker compose run --rm --no-deps web python manage.py makemessages -l fr -l en --ignore=node_modules --ignore=static --ignore=tests
 ```
 

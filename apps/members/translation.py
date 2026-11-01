@@ -23,4 +23,4 @@ class GradeTranslationOptions(TranslationOptions):
 
 @register(Member)
 class MemberTranslationOptions(TranslationOptions):
-    fields = ("bio",)
+    fields = ("position", "bio")
